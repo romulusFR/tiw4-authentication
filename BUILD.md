@@ -30,6 +30,15 @@ Montage du serveur
  
 Login avec `psql -h localhost -U tiw4-auth`
 
+
+postgres://{db_username}:{db_password}@{host}:{port}/{db_name}
+
+
+postgres://tiw4-auth:tiw4-auth@localhost:5432/tiw4-auth
+
+
+```sql
+
 DROP TABLE IF EXISTS users;
 
 CREATE TABLE users (
@@ -43,13 +52,24 @@ INSERT INTO users(username, email, password) VALUES ('superadmin','mevin.kitnick
 INSERT INTO users(username, email, password) VALUES ('sandygeorge','sandy.george@hotmail.com','zuley03');
 INSERT INTO users(username, email, password) VALUES ('griffonpress','griffonpress@gmail.com','Skylar7');
 INSERT INTO users(username, email, password) VALUES ('politis','politis@hotmail.com','derby5');
-
+```
 
 
 
 NodeJS
 ------
 
+
+On scaffold avec <https://expressjs.com/en/starter/generator.html>
+
+```bash
+npm install -g express-generator
+mkdir -p app; cd app/
+
+```
+
  * <https://www.npmjs.com/package/pg> <https://node-postgres.com/>
+ 
+ 
  * alternative <https://www.npmjs.com/package/knex>
 

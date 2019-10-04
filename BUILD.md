@@ -1,5 +1,5 @@
-Doc de construction
-===================
+Documentation de développement
+==============================
 
 
 Références
@@ -92,3 +92,15 @@ npm install --save-dev nodemon
  
  * alternative <https://www.npmjs.com/package/knex>
 
+
+
+
+Montage VM
+----------
+
+
+```bash
+sudo apt update
+sudo apt upgrade
+
+```

@@ -64,9 +64,28 @@ On scaffold avec <https://expressjs.com/en/starter/generator.html>
 
 ```bash
 npm install -g express-generator
-mkdir -p app; cd app/
 
+express --view=pug app
+cd app/
+npm install
+npm audit fix
+
+npm install --save pg
+npm install --save body-parser
+
+npm install --save-dev eslint
+npm install --save-dev eslint-plugin-security
+npm install --save-dev eslint-plugin-node
+npm install --save-dev eslint-config-eslint
+npm install --save-dev eslint-plugin-import
+npm install --save-dev nodemon
+
+# DEBUG=app:* npm start
 ```
+
+
+
+
 
  * <https://www.npmjs.com/package/pg> <https://node-postgres.com/>
  

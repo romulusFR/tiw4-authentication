@@ -1,5 +1,5 @@
-tiw4-authentication
-===================
+TP TIW4 2019-2020 : sécurisation du serveur et de l'application LOGON (tiw4-authentication)
+===========================================================================================
 
 Projet de départ pour le TP TIW4 de conception d'une application d'authentification.
 

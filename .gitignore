@@ -1,6 +1,7 @@
 # backup files
 *~
 *.back
+CORRECTION.md
 
 # Logs
 logs

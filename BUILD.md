@@ -70,6 +70,10 @@ npm run dev
 * <https://www.npmjs.com/package/debug>
 * <https://www.npmjs.com/package/morgan>
 * <https://www.npmjs.com/package/http-errors>
+* <https://www.npmjs.com/package/jsonwebtoken>
+* <https://jwt.io/>
+
+
 
 
 ### Bonnes pratiques 

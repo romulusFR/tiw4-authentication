@@ -11,7 +11,7 @@ Le TP consiste ainsi à sécuriser le serveur et l'application. Il est composé 
 * **[partie A](#Partie-A-:-sécurisation-du-front)** on s'intéresse au système et en particulier aux front Nginx
 * **[partie B](#Partie-B-:-sécurisation-applicative)** on s'intéresse à l'applicatif : le serveur d'application, la base de données et surtout l'application elle même.
 
-Le fichier [`BUILD.md`](./BUILD.md) donne des informations techniques sur le développement de l'application qui vous seront utilie pour déployer en local dans la partie B.
+Le fichier [`BUILD.md`](./BUILD.md) donne des informations techniques sur le développement de l'application qui vous seront utilie pour déployer en local dans la partie B. **Il est important de commencer ce TP par sa lecture**.
 
 
 ### Modalités de rendu

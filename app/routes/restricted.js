@@ -1,11 +1,13 @@
 const express = require('express');
-// const path = require('path');
+const {check_user} = require('./authenticate');
 let router = express.Router();
 
 /* GET home page. */
-router.get('/', function(req, res, _next) {
-  res.render('restricted', { title: 'TIW4 -- LOGON' });
-});
 
+router.get('/', check_user);
+
+router.get('/', function(req, res, _next) {
+  res.render('restricted', { title: 'TIW4 -- LOGON', user : req.user});
+});
 
 module.exports = router;

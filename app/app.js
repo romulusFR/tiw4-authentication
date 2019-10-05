@@ -22,6 +22,7 @@ let usersRouter = require('./routes/users');
 let loginRouter = require('./routes/login');
 let signupRouter = require('./routes/signup');
 let restrictedRouter = require('./routes/restricted');
+
 app.use('/', indexRouter);
 app.use('/login', loginRouter);
 app.use('/users', usersRouter);

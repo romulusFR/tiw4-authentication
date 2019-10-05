@@ -21,10 +21,9 @@ Montage du serveur
  psql -h localhost -U tiw4-auth -d tiw4-auth
 ```
  
-Script de création de la table
+Script de création de la table et quelques comptes d'exemple.
 
 ```sql
-
 DROP TABLE IF EXISTS users;
 
 CREATE TABLE users (
@@ -40,9 +39,11 @@ INSERT INTO users(username, email, password) VALUES ('griffonpress','griffonpres
 INSERT INTO users(username, email, password) VALUES ('politis','politis@hotmail.com','derby5');
 ```
 
+Sur l'applicatif NodeJS
+----------------
 
-NodeJS
-------
+
+### Initialisation
 
 
 On scaffold avec <https://expressjs.com/en/starter/generator.html>, on simplifie un peu l'affaire et on enrichit le `package.json`.
@@ -52,9 +53,39 @@ npm -v
 #6.11.3
 node -v
 #v10.16.3
+
+# dans le dossier /app du dépôt
+npm install
+npm run dev
 ```
 
-On utilise <https://node-postgres.com/> (<https://www.npmjs.com/package/pg>) pour l'accès à postgres
+
+
+### Docs de référence
+
+* <https://nodejs.org/docs/latest-v10.x/api/index.html>
+* <https://expressjs.com/en/api.html>
+* <https://pugjs.org/>
+* <https://node-postgres.com/> (<https://www.npmjs.com/package/pg>)
+* <https://www.npmjs.com/package/debug>
+* <https://www.npmjs.com/package/morgan>
+* <https://www.npmjs.com/package/http-errors>
+
+
+### Bonnes pratiques 
+
+* <https://expressjs.com/en/guide/error-handling.html>
+* <https://expressjs.com/en/advanced/best-practice-performance.html>
+* <https://expressjs.com/en/advanced/best-practice-security.html>
+* <https://github.com/i0natan/nodebestpractices>
+
+### Exemples
+
+* Tuto en 3 parties
+   * <https://www.codementor.io/olawalealadeusi896/building-simple-api-with-es6-krn8xx3k6>
+   * <https://www.codementor.io/olawalealadeusi896/building-a-simple-api-with-nodejs-expressjs-and-postgresql-db-masuu56t7>
+   * <https://www.codementor.io/olawalealadeusi896/building-a-simple-api-with-nodejs-expressjs-postgresql-db-and-jwt-3-mke10c5c5>
+ * Auth minimaliste en express <https://github.com/expressjs/express/tree/master/examples/auth>
 
 
 Montage VM

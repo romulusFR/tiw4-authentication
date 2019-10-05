@@ -4,7 +4,6 @@ const createError = require('http-errors');
 const path = require('path');
 const morgan = require('morgan');
 const cookieParser = require('cookie-parser');
-const db = require('./models/queries');
 
 require('dotenv').config();
 
@@ -23,23 +22,11 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-// (async function(){
-// const check = await db.checkUser('superadmin','iloveu\'');
-// console.log(check);
-// })();
-
 app.use('/', indexRouter);
 app.use('/login', loginRouter);
 app.use('/users', usersRouter);
 app.use('/signup', signupRouter);
 
-
-// custom 404
-// app.use(function(req, res, _next) {
-//   res.status(404).sendFile('error_404.html', {
-//     root: path.join(__dirname, './public')
-//   })
-// });
 
 app.use(function(req, res, next) {
   next(createError(404));

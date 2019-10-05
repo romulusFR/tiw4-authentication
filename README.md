@@ -8,15 +8,15 @@ On donne une application d'authentification simple Node/Express avec un backend 
 
 Le TP consiste ainsi à sécuriser le serveur et l'application. Il est composé de deux parties :
 
-* **partie A** on s'intéresse au système et en particulier aux front Nginx
-* **partie B** on s'intéresse à l'applicatif : le serveur d'application, la base de données et surtout l'application elle même.
+* **[partie A](#Partie-A-:-sécurisation-du-front)** on s'intéresse au système et en particulier aux front Nginx
+* **[partie B](#Partie-B-:-sécurisation-applicative)** on s'intéresse à l'applicatif : le serveur d'application, la base de données et surtout l'application elle même.
 
 Le fichier [`BUILD.md`](./BUILD.md) donne des informations techniques sur le développement de l'application qui vous seront utilie pour déployer en local dans la partie B.
 
 
-### Modalités rendu
+### Modalités de rendu
 
-Un dossier `zip` est à rendre **au plus tard le dimanche 20/10/19 à 23h59** dans la case idoine de Tomuss. Votre serveur **devra être en état de marche à cette date**. Le dossier  `zip` comprendra :
+Un dossier `zip` est à rendre **au plus tard le dimanche 20/10/19 à 23h59** dans la case idoine de Tomuss. Votre serveur **devra être en état de marche à cette date**. Le dossier  `zip` comprendra, voir le [modèle de base](MODELE_RENDU.zip) fourni :
 
 * Un fichier README.md avec toutes les informations administratives
 * Le rapport **d'au plus 2 pages avec au plus 8 pages d'annexe** de la partie A au format pdf **ET** en markdown.

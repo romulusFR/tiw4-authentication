@@ -1,6 +1,4 @@
 const express = require('express');
-// const debug = require('debug')('app:login');
-const createError = require('http-errors');
 const {authenticate_user} = require('./authenticate');
 
 let router = express.Router();

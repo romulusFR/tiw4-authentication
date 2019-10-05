@@ -57,8 +57,8 @@ La partie A du rapport sera composée :
 
  * d'un tableau des mesures de sécurité mises en place, avec renvoi vers l'annexe, c'est l'essentiel du rapport. On donnera pour chaque problème de sécurité identifié
     * une très courte description du problème
-    * la mesure proposée
-    * un renvoi vers l'annexe pour le détails de la mesure technique
+    * la mesure proposée et la justification de son choix
+    * un renvoi vers l'annexe pour le détails de la mesure technique et des de leurs justification
  * une conclusion sous la forme d'une évaluation de la sécurité viz à viz des bonnes pratiques de l'état de l'art avec notamment des outils comme <https://testssl.sh/> ou <https://cipherli.st/>
  * les annexes : tous les scripts (config nginx, scripts bash des commandes openssl) et références utiles
 

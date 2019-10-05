@@ -96,7 +96,24 @@ Montage VM
 ----------
 
 ```bash
+# ça n'a jamais fait de mal
 sudo apt update
 sudo apt upgrade
+
+# on installe nginx
+sudo add-apt-repository ppa:nginx/stable
+sudo apt upgrade
+sudo apt-get install nginx nginx-doc
+
+# puis node 10.x
+curl -sL https://deb.nodesource.com/setup_10.x | sudo -E bash -  
+sudo apt-get install -y nodejs  
+
+# on down l'app
+git clone https://github.com/romulusFR/tiw4-authentication.git
+
+cd tiw4-authentication/app
+npm install
+
 
 ```

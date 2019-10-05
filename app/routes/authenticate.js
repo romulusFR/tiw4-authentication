@@ -13,28 +13,33 @@ async function authenticate_user(req, res, next){
   const pwd = req.body.password;
 
   debug(`authenticate_user(): attempt from "${login}" with password "${pwd}"`);
-  const ok = await db.checkUser(login, pwd);
+  try{
+    const ok = await db.checkUser(login, pwd);
 
-  if(!ok)
-    next(createError(401));
-  else{
-    // inspiration from https://www.sohamkamani.com/blog/javascript/2019-03-29-node-jwt-authentication/
-    const payload ={ 
-      login
-    };
+    if(!ok)
+      next(createError(401));
+    else{
+      // inspiration from https://www.sohamkamani.com/blog/javascript/2019-03-29-node-jwt-authentication/
+      const payload ={ 
+        login
+      };
 
-    const header = {
-      algorithm: 'HS256',
-      expiresIn: jwt_expiry_seconds
+      const header = {
+        algorithm: 'HS256',
+        expiresIn: jwt_expiry_seconds
+      }
+      
+      // Create a new token 
+      const token = jwt.sign(payload, jwt_server_key, header);
+      // Add the jwt into a cookie for further reuse
+      res.cookie('token', token, { maxAge: jwt_expiry_seconds * 1000 });
+
+      debug(`authenticate_user(): "${login}" logged in ("${token}")`);
+      next();
     }
-    
-    // Create a new token 
-    const token = jwt.sign(payload, jwt_server_key, header);
-    // Add the jwt into a cookie for further reuse
-    res.cookie('token', token, { maxAge: jwt_expiry_seconds * 1000 });
-
-    debug(`authenticate_user(): "${login}" logged in ("${token}")`);
-    next();
+  }
+  catch(e){
+    next(e);
   }
 }
 

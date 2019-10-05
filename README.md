@@ -1,5 +1,5 @@
-TP TIW4 2019-2020 : sécurisation d'un application d'authentification
-====================================================================
+TP TIW4 2019-2020 : sécurisation d'une application d'authentification
+=====================================================================
 
 Introduction
 ------------

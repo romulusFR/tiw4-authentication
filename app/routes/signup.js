@@ -3,9 +3,7 @@ const path = require('path');
 let router = express.Router();
 
 router.get('/', function(_req, res, _next) {
-    res.sendFile('signup.html', {
-    root: path.join(__dirname, '../public')
-  })
+  res.render('signup', { title: 'TIW4 -- LOGON' });
 });
 
 

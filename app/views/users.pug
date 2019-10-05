@@ -1,11 +1,10 @@
-//- layout.pug
-doctype html
+extends layout
 
-html(lang='en')
-  include header.pug
-  body
-    block content
-      h1= title
-      p Welcome to #{title}
+block content
+  h2 Current list of users
 
-  include footer.pug
+  ul
+  each user in users
+    li #{user.username} (#{user.email})
+  else
+    li There are no user

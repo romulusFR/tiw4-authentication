@@ -1,50 +1,68 @@
-TP TIW4 2019-2020 : sécurisation du serveur et de l'application LOGON (tiw4-authentication)
-===========================================================================================
+TP TIW4 2019-2020 : sécurisation d'un application d'authentification
+====================================================================
 
-Projet de départ pour le TP TIW4 de conception d'une application d'authentification.
+Introduction
+------------
 
-On donne une application simple Node/Express avec un backend Postgres qui doit gérer des comptes utilisateurs, appellons cette application _LOGON_
-
-
+On donne une application d'authentification simple Node/Express avec un backend Postgres qui doit gérer des comptes utilisateurs, appellons cette application _LOGON_. Le projet de départ vous est fourni.
 Un serveur Ubuntu 18.04 est atrtibué à chaque binome dans Tomuss. L'application _LOGON_ est en place dans la VM.
 
-Partie 0 : prise en main
---------------------------------
+Le TP consiste à sécuriser le serveur et l'application. Il décomposé de deux parties :
+* **partie A** on s'intéresse au système et en particulier aux front Nginx
+* **partie B** on s'intéresse à l'applicatif : le serveur d'application, la base de données et surtout l'application elle même.
 
-TBA
+Le fichier [`BUILD.md`](./BUILD.md) donne des informations techniques sur le développement de l'application qui vous seront utilie pour déployer en local dans la partie B.
+
+
+### Modalités rendu
+
+Un dossier `zip` est à rendre **au plus tard le dimanche 20/10/19 à 23h59** dans la case idoine de Tomuss. Votre serveur **devra être en état de marche à cette date**. Le dossier  `zip` comprendra :
+
+* Un fichier README.md avec toutes les informations administratives
+* Le rapport **d'au plus 2 pages avec au plus 8 pages d'annexe** de la partie A au format pdf **ET** en markdown.
+* Le rapport **d'au plus 2 pages avec au plus 8 pages d'annexe** de la partie B au format pdf **ET** en markdown.
+* Les annexes aux parties A et B
+* La source de votre application modifiée
+
+Aucun autre format que `.zip`, `.md` et `.pdf` ne sera accepté. Le contenu spécifique de chaque partie du rapport sera détaillé dans la partie afférante.
+
+### Modalités d'évaluation
+
+Les critères d'évaluation sont les suivants, ils seront appréciés sur la base des rapports des annexes et **aussi** de tests sur votre serveur :
+
+* [20%] Qualité des documents (clarté, organisation, langue, mise en page)
+* [30%] Exhaustivité des mesures de sécurité
+* [30%] Qualité technique des mesures proposée (configuration ou dévellopement selon le cas)
+* [20%] Qualité de l'expérience utilisateur sur la démonstration
 
 
 Partie A : sécurisation du front
 --------------------------------
 
-Sécurisez le serveur web qui vous est attribué. Regardez en particulier la mise en place de HTTPS/TLS sur nginx.
-Vous utiliserez un certificat auto-signé ou celui fourni
+Sécurisez le serveur web qui vous est attribué. Regardez en particulier la mise en place de HTTPS/TLS sur nginx. Vous utiliserez un certificat auto-signé. TBD
 
 Pour vous guider, consulter :
  
  - La doc Nginx <http://nginx.org/en/docs/http/configuring_https_servers.html> <http://nginx.org/en/docs/http/ngx_http_ssl_module.html>
- - <https://www.linode.com/docs/web-servers/nginx/enable-tls-on-nginx-for-https-connections/> <https://www.linode.com/docs/web-servers/nginx/tls-deployment-best-practices-for-nginx/>
+ - Les tutoriels <https://www.linode.com/docs/web-servers/nginx/enable-tls-on-nginx-for-https-connections/> <https://www.linode.com/docs/web-servers/nginx/tls-deployment-best-practices-for-nginx/>
  - OpenSSL Command-Line HOWTO <https://www.madboa.com/geek/openssl/>
  - les recommandations de l'ANSSI sur TLS : R3, R4, R5, R6, R7, R8, R9, R10 du document <https://www.ssi.gouv.fr/uploads/2016/09/guide_tls_v1.1.pdf>
- - <https://www.ssi.gouv.fr/uploads/IMG/pdf/NP_Linux_NoteTech_1_1.pdf>
- - <https://wiki.mozilla.org/Security/Server_Side_TLS>
- - <https://cipherli.st/>
+  - <https://wiki.mozilla.org/Security/Server_Side_TLS>
 
-Si la configuration du front nginx est au coeur du sujet, plus généralement, toutes les vulnérabilités et leurs contre-mesures sont pertinentes, notamment celles niveau système (mais pas de la bases de données postgres qui sera plutôt traitée en partie B).
+Si la configuration du front nginx est au coeur du sujet, plus généralement, toutes les vulnérabilités et leurs contre-mesures sont pertinentes, notamment celles niveau système (mais pas de la bases de données postgres ou du serveur d'application node qui serons traités en partie B).
 
 ### Rapport
 
-Le rapport est attendu au format pdf généré à partir d'une source markdown. Le pdf **et** les sources sont à rendre.
-Le rapport pour cette partie sera **d'au plus 2 pages avec au plus 8 pages d'annexe**. Il sera composé :
+La partie A du rapport sera composée :
 
  * d'un tableau des mesures de sécurité mises en place, avec renvoi vers l'annexe, c'est l'essentiel du rapport. On donnera pour chaque problème de sécurité identifié
     * une très courte description du problème
     * la mesure proposée
     * un renvoi vers l'annexe pour le détails de la mesure technique
- * une conclusion sous la forme d'une évaluation de la sécurité viz à viz des bonnes pratiques de l'état de l'art avec notamment des outils comme <https://testssl.sh/>.
+ * une conclusion sous la forme d'une évaluation de la sécurité viz à viz des bonnes pratiques de l'état de l'art avec notamment des outils comme <https://testssl.sh/> ou <https://cipherli.st/>
  * les annexes : tous les scripts (config nginx, scripts bash des commandes openssl) et références utiles
 
-/!\ Vous devez toujours pouvoir garantir un accès aux enseignants **total** à l'enseignants : documentez vos modification /!\
+**Vous devez toujours pouvoir garantir un accès aux enseignants *total* aux l'enseignants : documentez *toutes* vos modification !**
 
 
 Partie B : sécurisation applicative
@@ -63,9 +81,12 @@ Identifiez toutes les failles ou mauvaises pratiques de l'application web et pre
 Pour vous guider, consulter
 
  *  <https://cheatsheetseries.owasp.org/>, notamment Password Storage et Authentication.
- * <https://expressjs.com/en/advanced/best-practice-security.html>
  * <https://github.com/goldbergyoni/nodebestpractices#6-security-best-practices>
- * <https://www.npmjs.com/package/cors>
+
+
+Remarque
+
+Pas de serveur mail, donc afficher le contenu d'un email et simuler l'usr qui valide
 
 ### Rapport
 

@@ -24,11 +24,18 @@ async function getUsers() {
   return result.rows;
 };
 
+// the list of all users
+async function addUser(username, email, pwd) {
+  debug(`addUser("${username}", "${email}", "${pwd}") called`);
+  result = await pool.query('INSERT INTO users(username, email, password) VALUES ($1, $2, $3);', [username, email, pwd]);
+  return result;
+};
+
 // Boolean query to check a user/password
-async function checkUser(user, pwd) {
-  debug(`checkUser("${user}", "${pwd}") called`);
-  result = await pool.query('SELECT  FROM users WHERE username=$1 AND password=$2;', [user, pwd]);
+async function checkUser(login, pwd) {
+  debug(`checkUser("${login}", "${pwd}") called`);
+  result = await pool.query('SELECT  FROM users WHERE username=$1 AND password=$2;', [login, pwd]);
   return (result.rowCount === 1);
 };
 
-module.exports = {getUsers, checkUser};
+module.exports = {getUsers, checkUser, addUser};

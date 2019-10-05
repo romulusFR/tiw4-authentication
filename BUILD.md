@@ -2,17 +2,6 @@ Documentation de développement
 ==============================
 
 
-Références
-----------
-
- * <https://www.codementor.io/olawalealadeusi896/building-simple-api-with-es6-krn8xx3k6>
- * <https://www.codementor.io/olawalealadeusi896/building-a-simple-api-with-nodejs-expressjs-and-postgresql-db-masuu56t7>
- * <https://www.codementor.io/olawalealadeusi896/building-a-simple-api-with-nodejs-expressjs-postgresql-db-and-jwt-3-mke10c5c5>
-
-Plus loin
-
- * <http://www.passportjs.org/> <http://www.passportjs.org/docs/username-password/>
-
 Postgres
 ---------
 
@@ -24,21 +13,15 @@ Montage du serveur
  # pass :  tiw4-auth
  
  createdb tiw4-auth -O tiw4-auth -e
+ psql -d tiw4-auth -c "create extension pgcrypto;"
  
  exit
 
  #Login avec 
- psql -h localhost -U tiw4-auth
+ psql -h localhost -U tiw4-auth -d tiw4-auth
 ```
  
-
-
-
-postgres://{db_username}:{db_password}@{host}:{port}/{db_name}
-
-
-postgres://tiw4-auth:tiw4-auth@localhost:5432/tiw4-auth
-
+Script de création de la table
 
 ```sql
 
@@ -58,50 +41,24 @@ INSERT INTO users(username, email, password) VALUES ('politis','politis@hotmail.
 ```
 
 
-
 NodeJS
 ------
 
 
-On scaffold avec <https://expressjs.com/en/starter/generator.html> mais on simplifie un peu l'affaire et on enrichit le `package.json`.
+On scaffold avec <https://expressjs.com/en/starter/generator.html>, on simplifie un peu l'affaire et on enrichit le `package.json`.
 
 ```bash
 npm -v
 #6.11.3
 node -v
 #v10.16.3
-
-
-npm install -g express-generator
-express --no-view  app
-
-cd app/
-npm install
-npm audit fix
-
-npm install --save pg
-npm install --save body-parser
-npm install --save dotenv
-
-npm install --save-dev eslint
-npm install --save-dev nodemon
 ```
 
-
-
-
-
- * <https://www.npmjs.com/package/pg> <https://node-postgres.com/>
- 
- 
- * alternative <https://www.npmjs.com/package/knex>
-
-
+On utilise <https://node-postgres.com/> (<https://www.npmjs.com/package/pg>) pour l'accès à postgres
 
 
 Montage VM
 ----------
-
 
 ```bash
 sudo apt update

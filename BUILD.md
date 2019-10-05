@@ -26,9 +26,12 @@ Montage du serveur
  createdb tiw4-auth -O tiw4-auth -e
  
  exit
+
+ #Login avec 
+ psql -h localhost -U tiw4-auth
 ```
  
-Login avec `psql -h localhost -U tiw4-auth`
+
 
 
 postgres://{db_username}:{db_password}@{host}:{port}/{db_name}

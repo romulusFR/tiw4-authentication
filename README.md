@@ -30,7 +30,7 @@ Pour vous guider, consulter :
  - <https://wiki.mozilla.org/Security/Server_Side_TLS>
  - <https://cipherli.st/>
 
-Si la configuration du front nginx est au coeur du sujet, plus généralement, toutes les vulnérabilités et leurs contre-mesures sont pertinentes, notamment celles niveau système ou bases de donnée.
+Si la configuration du front nginx est au coeur du sujet, plus généralement, toutes les vulnérabilités et leurs contre-mesures sont pertinentes, notamment celles niveau système (mais pas de la bases de données postgres qui sera plutôt traitée en partie B).
 
 ### Rapport
 
@@ -43,6 +43,8 @@ Le rapport pour cette partie sera **d'au plus 2 pages avec au plus 8 pages d'ann
     * un renvoi vers l'annexe pour le détails de la mesure technique
  * une conclusion sous la forme d'une évaluation de la sécurité viz à viz des bonnes pratiques de l'état de l'art avec notamment des outils comme <https://testssl.sh/>.
  * les annexes : tous les scripts (config nginx, scripts bash des commandes openssl) et références utiles
+
+/!\ Vous devez toujours pouvoir garantir un accès aux enseignants **total** à l'enseignants : documentez vos modification /!\
 
 
 Partie B : sécurisation applicative

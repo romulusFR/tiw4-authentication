@@ -4,10 +4,10 @@ TP TIW4 2019-2020 : sécurisation d'un application d'authentification
 Introduction
 ------------
 
-On donne une application d'authentification simple Node/Express avec un backend Postgres qui doit gérer des comptes utilisateurs, appellons cette application _LOGON_. Le projet de départ vous est fourni.
-Un serveur Ubuntu 18.04 est atrtibué à chaque binome dans Tomuss. L'application _LOGON_ est en place dans la VM.
+On donne une application d'authentification simple Node/Express avec un backend Postgres qui doit gérer des comptes utilisateurs, appellons cette application _LOGON_. Le projet de départ vous est fourni ainsi qu'un serveur Ubuntu 18.04 (un atrtibué à chaque binome dans Tomuss) avec l'application _LOGON_ est en place dans la VM. Sur un malentendu le serveur de développement est devenu le serveur de production : on vous confie la patate chaude de sécuriser _LOGON_.
 
-Le TP consiste à sécuriser le serveur et l'application. Il décomposé de deux parties :
+Le TP consiste ainsi à sécuriser le serveur et l'application. Il est composé de deux parties :
+
 * **partie A** on s'intéresse au système et en particulier aux front Nginx
 * **partie B** on s'intéresse à l'applicatif : le serveur d'application, la base de données et surtout l'application elle même.
 
@@ -28,7 +28,7 @@ Aucun autre format que `.zip`, `.md` et `.pdf` ne sera accepté. Le contenu spé
 
 ### Modalités d'évaluation
 
-Les critères d'évaluation sont les suivants, ils seront appréciés sur la base des rapports des annexes et **aussi** de tests sur votre serveur :
+Les critères d'évaluation sont les suivants, ils seront appréciés sur la base des rapports des annexes **et** de tests sur votre serveur :
 
 * [20%] Qualité des documents (clarté, organisation, langue, mise en page)
 * [30%] Exhaustivité des mesures de sécurité

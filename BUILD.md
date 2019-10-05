@@ -63,27 +63,28 @@ NodeJS
 ------
 
 
-On scaffold avec <https://expressjs.com/en/starter/generator.html>
+On scaffold avec <https://expressjs.com/en/starter/generator.html> mais on simplifie un peu l'affaire et on enrichit le `package.json`.
 
 ```bash
-npm install -g express-generator
+npm -v
+#6.11.3
+node -v
+#v10.16.3
 
-express --view=pug app
+
+npm install -g express-generator
+express --no-view  app
+
 cd app/
 npm install
 npm audit fix
 
 npm install --save pg
 npm install --save body-parser
+npm install --save dotenv
 
 npm install --save-dev eslint
-npm install --save-dev eslint-plugin-security
-npm install --save-dev eslint-plugin-node
-npm install --save-dev eslint-config-eslint
-npm install --save-dev eslint-plugin-import
 npm install --save-dev nodemon
-
-# DEBUG=app:* npm start
 ```
 
 

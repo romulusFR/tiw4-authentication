@@ -1,0 +1,12 @@
+#!/usr/bin/env node
+
+// On minimalise le fichier de départ généré par express-generator
+const debug = require('debug')('app:server');
+const app = require('../app');
+require('dotenv').config();
+
+const http_port = process.env.PORT || '3000';
+
+const server = app.listen(http_port, () => {
+  debug(`tiw4-auth server 'LOGON' is up and running on port ${http_port}`);
+});

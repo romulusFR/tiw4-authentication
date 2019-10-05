@@ -15,7 +15,8 @@
     "dotenv": "^8.1.0",
     "express": "~4.16.1",
     "morgan": "~1.9.1",
-    "pg": "^7.12.1"
+    "pg": "^7.12.1",
+    "pug": "^2.0.4"
   },
   "devDependencies": {
     "eslint": "^6.5.1",

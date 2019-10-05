@@ -3,8 +3,11 @@ const path = require('path');
 let router = express.Router();
 
 router.get('/', function(_req, res, _next) {
-    res.render('users', { title: 'TIW4 -- LOGON' })
+  res.sendFile('login.html', {
+  root: path.join(__dirname, '../public')
+})
 });
+
 
 
 module.exports = router;

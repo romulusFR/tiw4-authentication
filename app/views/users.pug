@@ -1,0 +1,11 @@
+//- layout.pug
+doctype html
+
+html(lang='en')
+  include header.pug
+  body
+    block content
+      h1= title
+      p Welcome to #{title}
+
+  include footer.pug

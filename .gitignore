@@ -4,6 +4,9 @@
 CORRECTION.md
 server-gold/
 
+# environment file
+.env
+
 # Logs
 logs
 *.log

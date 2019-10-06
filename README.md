@@ -5,13 +5,9 @@ Introduction
 ------------
 
 On donne une [application d'authentification simple Node.js/Express](https://github.com/romulusFR/tiw4-authentication) avec un backend PostgreSQL qui doit gérer des comptes utilisateurs, appelons cette application _LOGON_.
-Le projet de départ vous est fourni ainsi qu'un serveur Ubuntu 18.04 (un attribué à chaque binôme dans Tomuss) avec l'application _LOGON_ déployée.
-L'application n'est en revanche **pas** lancée.
+Un serveur de développement Ubuntu 18.04 (un attribué à chaque binôme dans Tomuss) avec l'application _LOGON_ déployée (mais l'application n'est en revanche **pas** lancée) vous est fourni. Le TP consiste en la sécurisation du serveur et de l'application _LOGON_, il est ainsi  composé de deux parties :
 
-Sur un malentendu cette VM de développement est devenu un serveur de production : on vous confie la patate chaude de sécuriser le serveur et son application _LOGON_.
-Le TP consiste ainsi à sécuriser le serveur et l'application. Il est composé de deux parties :
-
-* **[partie A](#Partie-A-:-sécurisation-du-front)** on s'intéresse au système et en particulier aux front nginx;
+* **[partie A](#Partie-A-:-sécurisation-du-front)** on s'intéresse au niveau système et en particulier aux front nginx sur lequel il faut mettre en place HTTPS/TLS;
 * **[partie B](#Partie-B-:-sécurisation-applicative)** on s'intéresse à l'applicatif : le serveur d'application Node.js, la base de données PostgreSQL et surtout l'application elle même.
 
 Le fichier [`BUILD.md`](./BUILD.md) donne des informations techniques sur le développement de l'application qui vous seront utiles pour déployer en local pour le développement en la partie B. **Il est important de commencer ce TP en se familiarisant avec l'application**.

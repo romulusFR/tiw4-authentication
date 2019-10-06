@@ -35,7 +35,7 @@ Les critères d'évaluation sont les suivants, ils seront appréciés sur la bas
 * [20%] Qualité des documents (clarté, organisation, langue, mise en page)
 * [30%] Exhaustivité des mesures de sécurité
 * [30%] Qualité technique des mesures proposée (configuration ou dévellopement selon le cas)
-* [20%] Qualité de l'expérience utilisateur sur la démonstration
+* [20%] Qualité de l'expérience utilisateur
 
 
 Partie A : sécurisation du front

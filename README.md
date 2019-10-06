@@ -6,6 +6,7 @@ Introduction
 
 On donne une [application d'authentification simple Node.js/Express](https://github.com/romulusFR/tiw4-authentication) avec un backend PostgreSQL qui doit gérer des comptes utilisateurs, appelons cette application _LOGON_.
 Le projet de départ vous est fourni ainsi qu'un serveur Ubuntu 18.04 (un attribué à chaque binôme dans Tomuss) avec l'application _LOGON_ déployée.
+L'application n'est en revanche **pas** lancée.
 
 Sur un malentendu cette VM de développement est devenu un serveur de production : on vous confie la patate chaude de sécuriser le serveur et son application _LOGON_.
 Le TP consiste ainsi à sécuriser le serveur et l'application. Il est composé de deux parties :
@@ -20,7 +21,7 @@ Le fichier [`BUILD.md`](./BUILD.md) donne des informations techniques sur le dé
 
 Un dossier `zip` est à rendre **au plus tard le dimanche 20/10/19 à 23h59** dans la case idoine de Tomuss.
 Votre serveur **devra être en état de marche à cette date**.
-Le dossier  `zip` comprendra, voir le [modèle de base](MODELE_RENDU.zip) fourni :
+Le  `zip` comprendra, voir le [modèle de base](MODELE_RENDU.zip) fourni :
 
 * Un fichier README.md avec toutes les informations administratives
 * Le rapport **d'au plus 1 page** de la partie A au format pdf **ET** en markdown.

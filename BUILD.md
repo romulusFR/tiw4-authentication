@@ -57,9 +57,7 @@ npm install
 npm run dev
 ```
 
-### Docs de référence
-
-Principales 
+Docs de référence principales :
 
 * <https://nodejs.org/docs/latest-v10.x/api/index.html>
 * <https://expressjs.com/en/api.html>
@@ -117,9 +115,16 @@ sudo mv default default.back
 git clone https://github.com/romulusFR/tiw4-authentication.git
 cd tiw4-authentication/app
 npm install
+cp DEV_ENVIRONMENT .env
+```
 
-# ici on peut lancer l'app sur le port 3000 par défaut
+A partir d'ici, on ici on peut lancer l'app sur le port 3000 par défaut.
+**C'est la seule chose à faire sur la VM qui vous est fournie.**
+
+```bash
+cd ~/tiw4-authentication/app
 pm2 start ./bin/www --name tiw4-auth
+pm2 monit
 ```
 
 ### Configuration nginx

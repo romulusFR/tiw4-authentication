@@ -22,6 +22,7 @@ app.use(morgan('dev'));
 // to decode application/x-www-form-urlencoded
 app.use(express.urlencoded({ extended: false }));
 
+// see https://www.npmjs.com/package/cookie-parser
 app.use(cookieParser());
 
 // serve static content in ./public seen in ./ from the client's point of view

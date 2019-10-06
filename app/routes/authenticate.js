@@ -21,7 +21,7 @@ async function authenticate_user(req, res, next){
     else{
       // inspiration from https://www.sohamkamani.com/blog/javascript/2019-03-29-node-jwt-authentication/
       const payload ={ 
-        login
+        sub:login
       };
 
       const header = {
@@ -32,7 +32,8 @@ async function authenticate_user(req, res, next){
       // Create a new token 
       const token = jwt.sign(payload, jwt_server_key, header);
       // Add the jwt into a cookie for further reuse
-      res.cookie('token', token, { maxAge: jwt_expiry_seconds * 1000});
+      // see https://www.npmjs.com/package/cookie
+      res.cookie('token', token, { maxAge: jwt_expiry_seconds * 1000 });
 
       debug(`authenticate_user(): "${login}" logged in ("${token}")`);
       next();
@@ -56,11 +57,11 @@ function check_user(req, _res, next){
   try {
     let payload = jwt.verify(token, jwt_server_key);
 
-    if(!payload.login)
+    if(!payload.sub)
       next(createError(403, 'User not authorized'));
 
-    debug(`check_user(): "${payload.login}" authorized`);
-    req.user = payload.login;
+    debug(`check_user(): "${payload.sub}" authorized`);
+    req.user = payload.sub;
     next();
   }
   catch (e) {

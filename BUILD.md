@@ -83,13 +83,7 @@ npm run dev
 * <https://expressjs.com/en/advanced/best-practice-security.html>
 * <https://github.com/i0natan/nodebestpractices>
 
-### Exemples
 
-* Tuto en 3 parties
-   * <https://www.codementor.io/olawalealadeusi896/building-simple-api-with-es6-krn8xx3k6>
-   * <https://www.codementor.io/olawalealadeusi896/building-a-simple-api-with-nodejs-expressjs-and-postgresql-db-masuu56t7>
-   * <https://www.codementor.io/olawalealadeusi896/building-a-simple-api-with-nodejs-expressjs-postgresql-db-and-jwt-3-mke10c5c5>
- * Auth minimaliste en express <https://github.com/expressjs/express/tree/master/examples/auth>
 
 
 Montage VM

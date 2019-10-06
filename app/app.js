@@ -1,20 +1,30 @@
-// const debug = require('debug')('app:main');
+const debug = require('debug')('app:main');
 const express = require('express');
 const createError = require('http-errors');
+const cookieParser = require('cookie-parser');
 const path = require('path');
 const morgan = require('morgan');
-const cookieParser = require('cookie-parser');
 
+// read environnement variable in the ./.env file
 require('dotenv').config();
 
 let app = express();
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'pug');
 
+// see https://www.npmjs.com/package/morgan
 app.use(morgan('dev'));
-app.use(express.json());
+
+// see https://expressjs.com/en/api.html#express.json
+// app.use(express.json());
+
+// see https://expressjs.com/en/api.html#express.urlencoded
+// to decode application/x-www-form-urlencoded
 app.use(express.urlencoded({ extended: false }));
+
 app.use(cookieParser());
+
+// serve static content in ./public seen in ./ from the client's point of view
 app.use(express.static(path.join(__dirname, 'public')));
 
 let indexRouter = require('./routes/index');
@@ -31,6 +41,7 @@ app.use('/restricted', restrictedRouter);
 
 
 app.use(function(req, res, next) {
+  debug(`handler 404: ${req.baseUrl}`);
   next(createError(404));
 });
 
@@ -38,10 +49,13 @@ app.use(function(req, res, next) {
 app.use(function(err, req, res, _next) {
   // set locals, only providing error in development
   res.locals.message = err.message;
+  res.locals.status = err.status || 500;
   res.locals.error = process.env.NODE_ENV === 'development' ? err : {};
 
-  // render the error page
-  res.status(err.status || 500);
+  debug(`rendering error: ${err}`);
+
+  // set status (500 is defualt) and renders the error page
+  res.status(res.locals.status);
   res.render('error');
 });
 

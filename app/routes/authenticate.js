@@ -4,7 +4,7 @@ const createError = require('http-errors');
 const db = require('../models/queries');
 
 const jwt_server_key = process.env.SECRET_KEY || 'secretpassword';
-const jwt_expiry_seconds = 120;
+const jwt_expiry_seconds = 60;
 
 // call postgres to verify request's information
 // if OK, creates a jwt and stores it in a cookie, 401 otherwise
@@ -17,7 +17,7 @@ async function authenticate_user(req, res, next){
     const ok = await db.checkUser(login, pwd);
 
     if(!ok)
-      next(createError(401));
+      next(createError(401, 'Invalid login/password'));
     else{
       // inspiration from https://www.sohamkamani.com/blog/javascript/2019-03-29-node-jwt-authentication/
       const payload ={ 
@@ -32,14 +32,14 @@ async function authenticate_user(req, res, next){
       // Create a new token 
       const token = jwt.sign(payload, jwt_server_key, header);
       // Add the jwt into a cookie for further reuse
-      res.cookie('token', token, { maxAge: jwt_expiry_seconds * 1000 });
+      res.cookie('token', token, { maxAge: jwt_expiry_seconds * 1000});
 
       debug(`authenticate_user(): "${login}" logged in ("${token}")`);
       next();
     }
   }
   catch(e){
-    next(e);
+    next(createError(500,e));
   }
 }
 
@@ -49,15 +49,15 @@ function check_user(req, _res, next){
   const token = req.cookies.token;
   debug(`check_user(): checking token "${token}"`);
 
-  if (!token)
-    return next(createError(401));
+  if (!token){
+    return next(createError(401, 'No JWT provided'));
+  }
 
   try {
     let payload = jwt.verify(token, jwt_server_key);
-    
 
     if(!payload.login)
-      next(createError(401));
+      next(createError(403, 'User not authorized'));
 
     debug(`check_user(): "${payload.login}" authorized`);
     req.user = payload.login;
@@ -66,11 +66,11 @@ function check_user(req, _res, next){
   catch (e) {
     if (e instanceof jwt.JsonWebTokenError || e instanceof TokenExpiredError ||  e instanceof NotBeforeError) {
       // if the error thrown is because the JWT is unauthorized, return a 401 error
-      next(createError(401));
+      next(createError(401, e));
     }
-    else{
+    else{ 
       // otherwise, return a bad request error
-      next(createError(400));
+      next(createError(400, e));
     }
   }
 }

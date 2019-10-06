@@ -10,10 +10,8 @@ router.get('/', async function(_req, res, next) {
       res.render('users', { title: 'TIW4 -- LOGON', users : result});
     }
     catch(e){
-      next(e);
+      next(createError(500,e));
     }
-
-    
 });
 
 

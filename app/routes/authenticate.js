@@ -22,6 +22,7 @@ async function authenticate_user(req, res, next){
       // inspiration from https://www.sohamkamani.com/blog/javascript/2019-03-29-node-jwt-authentication/
       const payload ={ 
         sub:login
+        // fiels 'iat' and 'exp' are automatically filled from  the expiresIn parameter
       };
 
       const header = {
@@ -33,7 +34,7 @@ async function authenticate_user(req, res, next){
       const token = jwt.sign(payload, jwt_server_key, header);
       // Add the jwt into a cookie for further reuse
       // see https://www.npmjs.com/package/cookie
-      res.cookie('token', token, { maxAge: jwt_expiry_seconds * 1000 });
+      res.cookie('token', token, { maxAge: jwt_expiry_seconds * 1000 * 2 });
 
       debug(`authenticate_user(): "${login}" logged in ("${token}")`);
       next();

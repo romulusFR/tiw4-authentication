@@ -1,9 +1,11 @@
-Documentation de développement
-==============================
+TP TIW4 2019-2020 "authentification" : documentation de développement
+=====================================================================
+
+On donne ici des informations sur le développement et le déploiement de l'application _LOGON_.
 
 
-Postgres
----------
+PostgreSQL
+----------
 
 Montage du serveur
  
@@ -21,7 +23,7 @@ Montage du serveur
  psql -h localhost -U tiw4-auth -d tiw4-auth
 ```
  
-Script de création de la table et quelques comptes d'exemple.
+Ci-après, le script de création de la table et quelques comptes d'exemple.
 
 ```sql
 DROP TABLE IF EXISTS users;
@@ -42,11 +44,7 @@ INSERT INTO users(username, email, password) VALUES ('politis','politis@hotmail.
 Sur l'applicatif NodeJS
 -----------------------
 
-
-### Initialisation
-
-
-On scaffold avec <https://expressjs.com/en/starter/generator.html>, on simplifie un peu l'affaire et on enrichit le `package.json`.
+On a scaffoldé avec <https://expressjs.com/en/starter/generator.html>, on a simplifié un peu l'affaire et on a enrichi le `package.json`.
 
 ```bash
 npm -v
@@ -59,9 +57,9 @@ npm install
 npm run dev
 ```
 
-
-
 ### Docs de référence
+
+Principales 
 
 * <https://nodejs.org/docs/latest-v10.x/api/index.html>
 * <https://expressjs.com/en/api.html>
@@ -75,49 +73,45 @@ npm run dev
 
 
 
-
-### Bonnes pratiques 
-
-* <https://expressjs.com/en/guide/error-handling.html>
-* <https://expressjs.com/en/advanced/best-practice-performance.html>
-* <https://expressjs.com/en/advanced/best-practice-security.html>
-* <https://github.com/i0natan/nodebestpractices>
-
-
-
-
 Montage VM
 ----------
 
 ```bash
-# ça n'a jamais fait de mal
+# update générale
 sudo apt update
 sudo apt upgrade
 
-# on installe nginx
+# installation nginx
 sudo add-apt-repository ppa:nginx/stable
 sudo apt update
 sudo apt-get install -y nginx nginx-doc
 
-# puis node 10.x
-curl -sL https://deb.nodesource.com/setup_10.x | sudo -E bash -  
-sudo apt-get install -y nodejs  
-
-# Manually change npm’s default directory
-# https://docs.npmjs.com/resolving-eacces-permissions-errors-when-installing-packages-globally
-
+# installation globale du gestionnaire d'exécution node
 npm install pm2@latest -g
 
-
-# et enfin postgres-11
+#  installation postgres-11
 sudo echo "deb http://apt.postgresql.org/pub/repos/apt/ bionic-pgdg main" | sudo tee  /etc/apt/sources.list.d/pgdg.list > /dev/null
 wget --quiet -O - https://www.postgresql.org/media/keys/ACCC4CF8.asc | sudo apt-key add -
 sudo apt-get update
 sudo apt install postgresql-11
 
 #le serveur est monté, on peut exécuté les script + haut en section Postgres
+# [...]
 
+# installation node 10.x
+curl -sL https://deb.nodesource.com/setup_10.x | sudo -E bash -  
+sudo apt-get install -y nodejs  
 
+# Manually change npm’s default directory
+# https://docs.npmjs.com/resolving-eacces-permissions-errors-when-installing-packages-globally
+
+# on va configurer nginx en reverse proxy
+cd /etc/nginx/sites-available/
+sudo mv default default.back
+
+# puis créer les deux fichiers de configuration ci-dessous
+# [...]
+# à ce stade on a une 502 sur le port 80 car l'application n'est pas lancée
 
 # on down l'app
 git clone https://github.com/romulusFR/tiw4-authentication.git
@@ -126,14 +120,9 @@ npm install
 
 # ici on peut lancer l'app sur le port 3000 par défaut
 pm2 start ./bin/www --name tiw4-auth
-
-# on va configurer nginx en reverse proxy
-cd 
-/etc/nginx/sites-available
-sudo mv default default.back
-
-# puis créer les deux fichiers de configuration ci-dessous
 ```
+
+### Configuration nginx
 
 Pour le fichier `/etc/nginx/sites-available/default`
 ```nginx
@@ -155,9 +144,7 @@ server {
 }
 ```
 
-
 Pour le fichier `/etc/nginx/conf.d/proxy_set_header.inc`
-
 ```nginx
 proxy_set_header X-Forwarded-By $server_addr:$server_port;
 proxy_set_header X-Forwarded-For $remote_addr;

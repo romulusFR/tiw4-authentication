@@ -1,15 +1,15 @@
 const express = require('express');
-const { authenticate_user } = require('./authenticate');
+const { authenticateUser } = require('./authenticate');
 
-let router = express.Router();
+const router = express.Router();
 
-router.get('/', function(_req, res, _next) {
+router.get('/', function loginHandler(_req, res, _next) {
   res.render('login', { title: 'TIW4 -- LOGON' });
 });
 
-router.post('/', authenticate_user);
+router.post('/', authenticateUser);
 
-router.post('/', function(_req, res, _next) {
+router.post('/', function loginHandler(_req, res, _next) {
   res.redirect('/restricted');
 });
 

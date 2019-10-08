@@ -13,14 +13,14 @@ const pool = new Pool({
 // the list of all users
 async function getUsers() {
   debug(`getUsers()`);
-  let result = await pool.query('SELECT username, email FROM users;');
+  const result = await pool.query('SELECT username, email FROM users;');
   return result.rows;
 }
 
 // the list of all users
 async function addUser(username, email, pwd) {
   debug(`addUser("${username}", "${email}", "${pwd}")`);
-  let result = await pool.query(
+  const result = await pool.query(
     'INSERT INTO users(username, email, password) VALUES ($1, $2, $3);',
     [username, email, pwd]
   );
@@ -30,7 +30,7 @@ async function addUser(username, email, pwd) {
 // Boolean query to check a user/password
 async function checkUser(login, pwd) {
   debug(`checkUser("${login}", "${pwd}")`);
-  let result = await pool.query(
+  const result = await pool.query(
     'SELECT  FROM users WHERE username=$1 AND password=$2;',
     [login, pwd]
   );

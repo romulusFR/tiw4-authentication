@@ -10,7 +10,7 @@ module.exports = {
       "prettier"
     ],
     "extends": [
-      "eslint:recommended",
+      "airbnb-base",
       "plugin:promise/recommended",
       "plugin:node/recommended",
       "plugin:security/recommended",
@@ -42,6 +42,6 @@ module.exports = {
       "no-unused-vars": [
         "error",
         { "argsIgnorePattern": "^_" }
-      ]
+      ],
     }
 };

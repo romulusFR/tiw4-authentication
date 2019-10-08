@@ -1,10 +1,10 @@
 const express = require('express');
-const db = require('../models/queries');
 const createError = require('http-errors');
+const db = require('../models/queries');
 
-let router = express.Router();
+const router = express.Router();
 
-router.get('/', async function(_req, res, next) {
+router.get('/', async function usersHandler(_req, res, next) {
   try {
     const result = await db.getUsers();
     res.render('users', { title: 'TIW4 -- LOGON', users: result });

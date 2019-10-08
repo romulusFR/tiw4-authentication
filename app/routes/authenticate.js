@@ -3,13 +3,13 @@ const debug = require('debug')('app:authenticate');
 const createError = require('http-errors');
 const db = require('../models/queries');
 
-const jwt_server_key = process.env.SECRET_KEY || 'secretpassword';
-const jwt_expiry_seconds = 60;
+const jwtServerKey = process.env.SECRET_KEY || 'secretpassword';
+const jwtExpirySeconds = 60;
 
 // call postgres to verify request's information
 // if OK, creates a jwt and stores it in a cookie, 401 otherwise
-async function authenticate_user(req, res, next) {
-  const login = req.body.login;
+async function authenticateUser(req, res, next) {
+  const { login } = req.body;
   const pwd = req.body.password;
 
   debug(`authenticate_user(): attempt from "${login}" with password "${pwd}"`);
@@ -26,14 +26,14 @@ async function authenticate_user(req, res, next) {
 
       const header = {
         algorithm: 'HS256',
-        expiresIn: jwt_expiry_seconds
+        expiresIn: jwtExpirySeconds
       };
 
       // Create a new token
-      const token = jwt.sign(payload, jwt_server_key, header);
+      const token = jwt.sign(payload, jwtServerKey, header);
       // Add the jwt into a cookie for further reuse
       // see https://www.npmjs.com/package/cookie
-      res.cookie('token', token, { maxAge: jwt_expiry_seconds * 1000 * 2 });
+      res.cookie('token', token, { maxAge: jwtExpirySeconds * 1000 * 2 });
 
       debug(`authenticate_user(): "${login}" logged in ("${token}")`);
       next();
@@ -45,8 +45,9 @@ async function authenticate_user(req, res, next) {
 
 // checks if jwt is present and pertains to some user.
 // stores the value in req.user
-function check_user(req, _res, next) {
-  const token = req.cookies.token;
+// eslint-disable-next-line consistent-return
+function checkUser(req, _res, next) {
+  const { token } = req.cookies;
   debug(`check_user(): checking token "${token}"`);
 
   if (!token) {
@@ -54,13 +55,13 @@ function check_user(req, _res, next) {
   }
 
   try {
-    let payload = jwt.verify(token, jwt_server_key);
+    const payload = jwt.verify(token, jwtServerKey);
 
     if (!payload.sub) next(createError(403, 'User not authorized'));
 
     debug(`check_user(): "${payload.sub}" authorized`);
     req.user = payload.sub;
-    next();
+    return next();
   } catch (e) {
     if (
       e instanceof jwt.JsonWebTokenError ||
@@ -76,4 +77,4 @@ function check_user(req, _res, next) {
   }
 }
 
-module.exports = { check_user, authenticate_user };
+module.exports = { checkUser, authenticateUser };

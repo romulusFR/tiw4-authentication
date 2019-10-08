@@ -1,4 +1,5 @@
 #!/bin/bash
+# Petit script pour générer les .pdfs des parties et zipper tous le dossier ./contenu
 
 cd rendu
 

@@ -1,8 +1,9 @@
 const express = require('express');
-let router = express.Router();
+
+const router = express.Router();
 
 /* GET home page. */
-router.get('/', function(req, res, _next) {
+router.get('/', function rootHandler(req, res, _next) {
   res.render('index', { title: 'TIW4 -- LOGON' });
 });
 

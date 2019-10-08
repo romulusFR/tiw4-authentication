@@ -8,7 +8,8 @@ const morgan = require('morgan');
 // read environnement variable in the ./.env file
 require('dotenv').config();
 
-let app = express();
+const app = express();
+// use the https://pugjs.org/  view engine.
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'pug');
 
@@ -28,11 +29,11 @@ app.use(cookieParser());
 // serve static content in ./public seen in ./ from the client's point of view
 app.use(express.static(path.join(__dirname, 'public')));
 
-let indexRouter = require('./routes/index');
-let usersRouter = require('./routes/users');
-let loginRouter = require('./routes/login');
-let signupRouter = require('./routes/signup');
-let restrictedRouter = require('./routes/restricted');
+const indexRouter = require('./routes/index');
+const usersRouter = require('./routes/users');
+const loginRouter = require('./routes/login');
+const signupRouter = require('./routes/signup');
+const restrictedRouter = require('./routes/restricted');
 
 app.use('/', indexRouter);
 app.use('/login', loginRouter);
@@ -40,13 +41,13 @@ app.use('/users', usersRouter);
 app.use('/signup', signupRouter);
 app.use('/restricted', restrictedRouter);
 
-app.use(function(req, res, next) {
+app.use(function notFoundHandler(req, res, next) {
   debug(`handler 404: ${req.baseUrl}`);
   next(createError(404));
 });
 
 // error handler
-app.use(function(err, req, res, _next) {
+app.use(function defaultHandler(err, req, res, _next) {
   // set locals, only providing error in development
   res.locals.message = err.message;
   res.locals.status = err.status || 500;

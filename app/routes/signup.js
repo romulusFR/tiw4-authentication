@@ -1,13 +1,14 @@
 const express = require('express');
-const db = require('../models/queries');
 const createError = require('http-errors');
-let router = express.Router();
+const db = require('../models/queries');
 
-router.get('/', function(_req, res, _next) {
+const router = express.Router();
+
+router.get('/', function signupHandler(_req, res, _next) {
   res.render('signup', { title: 'TIW4 -- LOGON' });
 });
 
-router.post('/', async function(req, res, next) {
+router.post('/', async function signupHandler(req, res, next) {
   try {
     await db.addUser(req.body.username, req.body.email, req.body.password);
     res.redirect('/');

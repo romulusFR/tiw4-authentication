@@ -83,16 +83,17 @@ Partie B : sécurisation applicative
 
 Identifiez toutes les failles ou mauvaises pratiques de l'application web et prenez les mesures nécessaires pour sécuriser l'application et les comptes utilisateurs. Les aspects systèmes ayant été traités dans le TP précédent, cette partie est donc consacrée essentiellement à l'application et sa base de données. Votre attention sur la sécurité applicative portera en particulier sur :
 
-  1. le stockage des mots de passes dans PostgreSQL
-  2. le processus d'authentification et de son maintien _stateless_
-  3. le processus de création de compte
-  4. le processus de récupération du mot de passe (optionnel)
+  1. le stockage des mots de passes dans PostgreSQL (choix du hash)
+  2. le processus d'authentification et de son maintien _stateless_ (via JWT)
+  3. le processus de création de compte (dureté du mot de passe, vérification de l'email, validité des saisies utilisateurs, mesures anti bots, limitations du nombre de tentatives)
+  4. le processus de récupération du mot de passe (optionnel, via génération d'un token à validité limitée)
   5. la sécurité générale de l'application NodeJS
   6. la qualité de l'expérience utilisateur au delà de l'esthétique, c'est surtout les enchainements d'écrans et la clarté des retours/erreurs qui compte.
 
 
 Pour vous guider, vous pouvez consulter :
 
+* <https://jwt.io/>
 * <https://cheatsheetseries.owasp.org/> recommandée, notamment les feuilles _Password Storage_ et _Authentication_.
 * <https://github.com/goldbergyoni/nodebestpractices> recommandée, notamment  _6. Security Best Practices_
 * <https://expressjs.com/en/guide/error-handling.html>

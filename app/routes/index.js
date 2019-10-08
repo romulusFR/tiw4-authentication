@@ -6,5 +6,4 @@ router.get('/', function(req, res, _next) {
   res.render('index', { title: 'TIW4 -- LOGON' });
 });
 
-
 module.exports = router;

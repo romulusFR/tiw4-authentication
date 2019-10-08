@@ -1,4 +1,5 @@
 {
   "eslint.alwaysShowStatus": true,
-  "eslint.workingDirectories": ["./app"]
+  "eslint.workingDirectories": ["./app"],
+  "prettier-eslint.eslintIntegration": true
 }

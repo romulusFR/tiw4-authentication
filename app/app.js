@@ -40,7 +40,6 @@ app.use('/users', usersRouter);
 app.use('/signup', signupRouter);
 app.use('/restricted', restrictedRouter);
 
-
 app.use(function(req, res, next) {
   debug(`handler 404: ${req.baseUrl}`);
   next(createError(404));

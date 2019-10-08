@@ -6,13 +6,15 @@ module.exports = {
     "plugins": [
       "security",
       "node",
-      "promise"
+      "promise",
+      "prettier"
     ],
     "extends": [
       "eslint:recommended",
       "plugin:promise/recommended",
       "plugin:node/recommended",
-      "plugin:security/recommended"
+      "plugin:security/recommended",
+      "plugin:prettier/recommended"
     ],
     "globals": {
         "Atomics": "readonly",
@@ -27,6 +29,13 @@ module.exports = {
         }
     },
     "rules": {
+      "prettier/prettier": [
+        "warn",
+        {
+          "arrowParens" : "always",
+          "singleQuote": true 
+        }
+      ],
       "no-var": [
         "error"
       ],

@@ -1,5 +1,5 @@
 const express = require('express');
-const {authenticate_user} = require('./authenticate');
+const { authenticate_user } = require('./authenticate');
 
 let router = express.Router();
 
@@ -10,8 +10,7 @@ router.get('/', function(_req, res, _next) {
 router.post('/', authenticate_user);
 
 router.post('/', function(_req, res, _next) {
-    res.redirect('/restricted');
+  res.redirect('/restricted');
 });
-
 
 module.exports = router;

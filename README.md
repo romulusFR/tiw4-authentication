@@ -43,17 +43,24 @@ Partie A : sécurisation du front
 
 Sécurisez le serveur web qui vous est attribué.
 Regardez en particulier la mise en place de HTTPS/TLS sur nginx.
-Vous utiliserez *a minima* un certificat auto-signé généré avec OpenSSL et *de préférence*
+Vous utiliserez *a minima* un certificat auto-signé généré avec OpenSSL et *de préférence* un certificat signé par l'autorité de certification nommé _TIW4-SSI-CAW Certificate Authority_ dont le matériel cryptographique est donné dans le dossier [./ca-tiw4](./ca-tiw4). Pour cela, vous générez un paire RSA, une demande CSR et un certificat signé de l'autorité pour **votre IP**.
 
 Pour vous guider, consulter :
- 
- - La doc Nginx <http://nginx.org/en/docs/http/configuring_https_servers.html> <http://nginx.org/en/docs/http/ngx_http_ssl_module.html>
- - Les tutoriels <https://www.linode.com/docs/web-servers/nginx/enable-tls-on-nginx-for-https-connections/> <https://www.linode.com/docs/web-servers/nginx/tls-deployment-best-practices-for-nginx/>
- - OpenSSL Command-Line HOWTO <https://www.madboa.com/geek/openssl/>
- - les recommandations de l'ANSSI sur TLS : R3, R4, R5, R6, R7, R8, R9, R10 du document <https://www.ssi.gouv.fr/uploads/2016/09/guide_tls_v1.1.pdf>
-  - <https://wiki.mozilla.org/Security/Server_Side_TLS>
-  - <https://testssl.sh/> <https://github.com/drwetter/testssl.sh> **une référence**
-  - <https://cipherli.st/>
+
+* Pour nginx
+     - La doc Nginx <http://nginx.org/en/docs/http/configuring_https_servers.html> <http://nginx.org/en/docs/http/ngx_http_ssl_module.html>
+     - Les tutoriels <https://www.linode.com/docs/web-servers/nginx/enable-tls-on-nginx-for-https-connections/> <https://www.linode.com/docs/web-servers/nginx/tls-deployment-best-practices-for-nginx/>
+     - <https://cipherli.st/>
+* Pour OpenSSL
+     - Setup très complet de CA,  avec autorité intermédiaire <https://jamielinux.com/docs/openssl-certificate-authority/>
+     - Gestion des passwords dans openssl <https://stackoverflow.com/questions/4294689/how-to-generate-an-openssl-key-using-a-passphrase-from-the-command-line>
+     - OpenSSL Command-Line HOWTO <https://www.madboa.com/geek/openssl/> ou https://www.digitalocean.com/community/tutorials/openssl-essentials-working-with-ssl-certificates-private-keys-and-csrs> 
+* Pour les recommandations sur HTTPS/TLS
+    - <https://testssl.sh/>  **une référence**
+    - [ANSSI sur TLS, en particulier R3, R4, R5, R6, R7, R8, R9, R10](https://www.ssi.gouv.fr/uploads/2016/09/guide_tls_v1.1.pdf)
+    - <https://wiki.mozilla.org/Security/Server_Side_TLS>
+    - Explications sur TLS <http://www.moserware.com/2009/06/first-few-milliseconds-of-https.html>
+
 
 Si la configuration du front nginx est au cœur du sujet, plus généralement, toutes les vulnérabilités  niveau système et leurs contre-mesures sont pertinentes, à l'exclusion de la bases de données PostgreSQL et du serveur d'application Node.js qui seront traités en partie B.
 

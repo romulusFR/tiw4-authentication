@@ -5,7 +5,11 @@ Introduction
 ------------
 
 On donne une [application d'authentification simple Node.js/Express](https://github.com/romulusFR/tiw4-authentication) avec un backend PostgreSQL qui doit gérer des comptes utilisateurs, appelons cette application _LOGON_.
-Un serveur de développement Ubuntu 18.04 (une VM attribuée à chaque binôme dans Tomuss, le .pem vous sera communiqué) avec l'application _LOGON_ déployée (mais l'application n'est en revanche **pas** lancée) vous est fourni. Le TP consiste en la sécurisation du serveur et de l'application _LOGON_, il est ainsi  composé de deux parties :
+Un serveur de développement Ubuntu 18.04 vous est fourni (une VM attribuée à chaque binôme dans Tomuss, le .pem vous sera communiqué) avec l'application _LOGON_ déployée (mais l'application n'est en revanche **pas** lancée, voir la section [lancement de l'application](./BUILD.md#Lancement-de-l'application)). 
+
+### Réalisation attendue
+
+Le TP consiste en la sécurisation du serveur et de l'application _LOGON_, il est ainsi  composé de deux parties :
 
 * **[partie A](#Partie-A-:-sécurisation-du-front)** on s'intéresse au niveau système et en particulier aux front nginx sur lequel il faut mettre en place HTTPS/TLS;
 * **[partie B](#Partie-B-:-sécurisation-applicative)** on s'intéresse à l'applicatif : le serveur d'application Node.js, la base de données PostgreSQL et surtout l'application elle même.
@@ -87,13 +91,13 @@ Identifiez toutes les failles ou mauvaises pratiques de l'application web et pre
   2. le processus d'authentification et de son maintien _stateless_ (via JWT)
   3. le processus de création de compte (dureté du mot de passe, vérification de l'email, validité des saisies utilisateurs, mesures anti bots, limitations du nombre de tentatives)
   4. le processus de récupération du mot de passe (optionnel, via génération d'un token à validité limitée)
-  5. la sécurité générale de l'application NodeJS
+  5. la sécurité générale de l'application et les bonnes pratiques de développement NodeJS.
   6. la qualité de l'expérience utilisateur au delà de l'esthétique, c'est surtout les enchainements d'écrans et la clarté des retours/erreurs qui compte.
 
 
 Pour vous guider, vous pouvez consulter :
 
-* <https://jwt.io/>
+* <https://jwt.io/> la référence sur JSON Web Token
 * <https://cheatsheetseries.owasp.org/> recommandée, notamment les feuilles _Password Storage_ et _Authentication_.
 * <https://github.com/goldbergyoni/nodebestpractices> recommandée, notamment  _6. Security Best Practices_
 * <https://expressjs.com/en/guide/error-handling.html>
@@ -101,7 +105,7 @@ Pour vous guider, vous pouvez consulter :
 * <https://expressjs.com/en/advanced/best-practice-security.html>
 
 
-**Remarque, si vous pouvez envoyer des emails  via smtp.univ-lyon1.fr il est _aussi_ demandé de _simuler_ leur envoi, par exemple en affichant le contenu du mail supposé envoyé dans une page web**.
+**Remarque, si vous pouvez envoyer des emails via smtp.univ-lyon1.fr:25 avec par exemple [nodemailer](https://nodemailer.com/about/) il est _aussi_ demandé de _simuler_ leur envoi, par exemple en affichant le contenu du mail supposé envoyé dans une page web**.
 
 ### Rapport
 

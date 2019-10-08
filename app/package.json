@@ -9,6 +9,9 @@
     "start": "node ./bin/www",
     "dev": "DEBUG=app:* nodemon ./bin/www"
   },
+  "engines": {
+    "node": ">=10.0.0"
+  },
   "dependencies": {
     "cookie-parser": "~1.4.4",
     "debug": "~2.6.9",
@@ -21,6 +24,9 @@
   },
   "devDependencies": {
     "eslint": "^6.5.1",
+    "eslint-plugin-node": "^10.0.0",
+    "eslint-plugin-promise": "^4.1.1",
+    "eslint-plugin-security": "^1.4.0",
     "nodemon": "^1.19.3"
   }
 }

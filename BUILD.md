@@ -74,6 +74,8 @@ Docs de référence principales :
 Montage VM
 ----------
 
+### Installation générale
+
 ```bash
 # update générale
 sudo apt update
@@ -117,6 +119,8 @@ cd tiw4-authentication/app
 npm install
 cp DEV_ENVIRONMENT .env
 ```
+
+### Lancement de l'application
 
 A partir d'ici, on ici on peut lancer l'app sur le port 3000 par défaut.
 **C'est la seule chose à faire sur la VM qui vous est fournie.**

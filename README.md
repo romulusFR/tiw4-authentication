@@ -43,7 +43,7 @@ Partie A : sécurisation du front
 
 Sécurisez le serveur web qui vous est attribué.
 Regardez en particulier la mise en place de HTTPS/TLS sur nginx.
-Vous utiliserez un certificat auto-signé généré avec OpenSSL.
+Vous utiliserez *a minima* un certificat auto-signé généré avec OpenSSL et *de préférence*
 
 Pour vous guider, consulter :
  
@@ -52,6 +52,8 @@ Pour vous guider, consulter :
  - OpenSSL Command-Line HOWTO <https://www.madboa.com/geek/openssl/>
  - les recommandations de l'ANSSI sur TLS : R3, R4, R5, R6, R7, R8, R9, R10 du document <https://www.ssi.gouv.fr/uploads/2016/09/guide_tls_v1.1.pdf>
   - <https://wiki.mozilla.org/Security/Server_Side_TLS>
+  - <https://testssl.sh/> <https://github.com/drwetter/testssl.sh> **une référence**
+  - <https://cipherli.st/>
 
 Si la configuration du front nginx est au cœur du sujet, plus généralement, toutes les vulnérabilités  niveau système et leurs contre-mesures sont pertinentes, à l'exclusion de la bases de données PostgreSQL et du serveur d'application Node.js qui seront traités en partie B.
 
@@ -63,7 +65,7 @@ La partie A du rapport sera composée comme suit :
     * une description du problème
     * la mesure proposée et la justification de son choix
     * un renvoi vers l'annexe pour les détails de la mesure technique et des de leurs justifications détaillée
- * une conclusion sous la forme d'une évaluation de la sécurité vis-à-vis des bonnes pratiques de l'état de l'art avec notamment des outils comme <https://testssl.sh/> ou <https://cipherli.st/>
+ * une conclusion sous la forme d'une évaluation de la sécurité vis-à-vis des bonnes pratiques de l'état de l'art
  * les annexes : tous les scripts (config nginx, scripts bash des commandes OpenSSL) et références utiles à la description des mesures et leurs justifications.
 
 **Vous devez toujours pouvoir garantir un accès aux enseignants *total* aux enseignants : documentez *toutes* vos modifications et assurez vous de l'exhaustivité des informations !**

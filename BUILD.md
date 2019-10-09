@@ -4,8 +4,78 @@ TP TIW4 2019-2020 "authentification" : documentation de développement
 On donne ici des informations sur le développement et le déploiement de l'application _LOGON_.
 
 
-PostgreSQL
-----------
+
+Installation générale
+---------------------
+
+Pour des versions à jour de Node.js, PostgresSQL et nginx.
+
+```bash
+# update générale
+sudo apt update
+sudo apt upgrade
+
+# installation nginx
+sudo add-apt-repository ppa:nginx/stable
+sudo apt update
+sudo apt-get install -y nginx nginx-doc
+
+#  installation postgres-11
+sudo echo "deb http://apt.postgresql.org/pub/repos/apt/ bionic-pgdg main" | sudo tee  /etc/apt/sources.list.d/pgdg.list > /dev/null
+wget --quiet -O - https://www.postgresql.org/media/keys/ACCC4CF8.asc | sudo apt-key add -
+sudo apt-get update
+sudo apt install postgresql-11
+
+# installation node 10.x
+curl -sL https://deb.nodesource.com/setup_10.x | sudo -E bash -  
+sudo apt-get install -y nodejs  
+```
+
+Configuration nginx
+-------------------
+
+```bash
+# on va configurer nginx en reverse proxy
+cd /etc/nginx/sites-available/
+sudo mv default default.back
+
+
+# puis créer les deux fichiers de configuration ci-dessous
+# [...]
+```
+
+Pour le fichier `/etc/nginx/sites-available/default`
+```nginx
+# Load balancing / server declaration
+upstream nodejs {
+    zone nodejs 64k;
+    server localhost:3000;
+}
+
+# HTTP front for node
+server {
+    listen       80;
+    server_name  _;
+
+    location / {
+       include /etc/nginx/conf.d/proxy_set_header.inc;
+       proxy_pass http://nodejs;
+    }
+}
+```
+
+Pour le fichier `/etc/nginx/conf.d/proxy_set_header.inc`
+```nginx
+proxy_set_header X-Forwarded-By $server_addr:$server_port;
+proxy_set_header X-Forwarded-For $remote_addr;
+proxy_set_header X-Forwarded-Proto $scheme;
+proxy_set_header Host $host;
+```
+
+A ce stade on a une 502 sur le port 80 car l'application n'est pas lancée
+
+Configuration PostgreSQL
+------------------------
 
 Montage du serveur
  
@@ -41,10 +111,8 @@ INSERT INTO users(username, email, password) VALUES ('griffonpress','griffonpres
 INSERT INTO users(username, email, password) VALUES ('politis','politis@hotmail.com','derby5');
 ```
 
-Sur l'applicatif NodeJS
------------------------
-
-On a scaffoldé avec <https://expressjs.com/en/starter/generator.html>, on a simplifié un peu l'affaire et on a enrichi le `package.json`.
+Configration Node.js
+--------------------
 
 ```bash
 npm -v
@@ -52,12 +120,39 @@ npm -v
 node -v
 #v10.16.3
 
-# dans le dossier /app du dépôt
+# Manually change npm’s default directory : TRES RECOMMAND2
+# https://docs.npmjs.com/resolving-eacces-permissions-errors-when-installing-packages-globally
+
+# installation globale du gestionnaire d'exécution node
+npm install pm2@latest -g
+
+# on clone l'app
+git clone https://github.com/romulusFR/tiw4-authentication.git
+cd tiw4-authentication/app
+
+# On a scaffoldé avec <https://expressjs.com/en/starter/generator.html>
+# on a simplifié un peu l'affaire et on a enrichi le `package.json`.
+# tout est prêt 
 npm install
-npm run dev
+
+# on copie le fichier d'environnement
+cp DEV_ENVIRONMENT .env
 ```
 
-Docs de référence principales :
+A partir d'ici, on ici on peut lancer l'app sur le port 3000 par défaut.
+**C'est la seule chose à faire sur la VM qui vous est fournie.**
+
+```bash
+cd ~/tiw4-authentication/app
+# si on veut lancer l'app en mode développement
+npm run dev 
+
+# en mode production
+pm2 start ./bin/www --name tiw4-auth
+pm2 monit
+```
+
+Docs de référence principales Node.js :
 
 * <https://nodejs.org/docs/latest-v10.x/api/index.html>
 * <https://expressjs.com/en/api.html>
@@ -70,93 +165,3 @@ Docs de référence principales :
 * <https://jwt.io/>
 
 
-
-Montage VM
-----------
-
-### Installation générale
-
-```bash
-# update générale
-sudo apt update
-sudo apt upgrade
-
-# installation nginx
-sudo add-apt-repository ppa:nginx/stable
-sudo apt update
-sudo apt-get install -y nginx nginx-doc
-
-# installation globale du gestionnaire d'exécution node
-npm install pm2@latest -g
-
-#  installation postgres-11
-sudo echo "deb http://apt.postgresql.org/pub/repos/apt/ bionic-pgdg main" | sudo tee  /etc/apt/sources.list.d/pgdg.list > /dev/null
-wget --quiet -O - https://www.postgresql.org/media/keys/ACCC4CF8.asc | sudo apt-key add -
-sudo apt-get update
-sudo apt install postgresql-11
-
-#le serveur est monté, on peut exécuté les script + haut en section Postgres
-# [...]
-
-# installation node 10.x
-curl -sL https://deb.nodesource.com/setup_10.x | sudo -E bash -  
-sudo apt-get install -y nodejs  
-
-# Manually change npm’s default directory
-# https://docs.npmjs.com/resolving-eacces-permissions-errors-when-installing-packages-globally
-
-# on va configurer nginx en reverse proxy
-cd /etc/nginx/sites-available/
-sudo mv default default.back
-
-# puis créer les deux fichiers de configuration ci-dessous
-# [...]
-# à ce stade on a une 502 sur le port 80 car l'application n'est pas lancée
-
-# on down l'app
-git clone https://github.com/romulusFR/tiw4-authentication.git
-cd tiw4-authentication/app
-npm install
-cp DEV_ENVIRONMENT .env
-```
-
-### Lancement de l'application
-
-A partir d'ici, on ici on peut lancer l'app sur le port 3000 par défaut.
-**C'est la seule chose à faire sur la VM qui vous est fournie.**
-
-```bash
-cd ~/tiw4-authentication/app
-pm2 start ./bin/www --name tiw4-auth
-pm2 monit
-```
-
-### Configuration nginx
-
-Pour le fichier `/etc/nginx/sites-available/default`
-```nginx
-# Load balancing / server declaration
-upstream nodejs {
-    zone nodejs 64k;
-    server localhost:3000;
-}
-
-# HTTP front for node
-server {
-    listen       80;
-    server_name  _;
-
-    location / {
-       include /etc/nginx/conf.d/proxy_set_header.inc;
-       proxy_pass http://nodejs;
-    }
-}
-```
-
-Pour le fichier `/etc/nginx/conf.d/proxy_set_header.inc`
-```nginx
-proxy_set_header X-Forwarded-By $server_addr:$server_port;
-proxy_set_header X-Forwarded-For $remote_addr;
-proxy_set_header X-Forwarded-Proto $scheme;
-proxy_set_header Host $host;
-```

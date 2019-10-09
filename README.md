@@ -58,7 +58,7 @@ Pour vous guider, consulter :
 * Pour OpenSSL
      - Setup très complet de CA,  avec autorité intermédiaire <https://jamielinux.com/docs/openssl-certificate-authority/>
      - Gestion des passwords dans openssl <https://stackoverflow.com/questions/4294689/how-to-generate-an-openssl-key-using-a-passphrase-from-the-command-line>
-     - OpenSSL Command-Line HOWTO <https://www.madboa.com/geek/openssl/> ou https://www.digitalocean.com/community/tutorials/openssl-essentials-working-with-ssl-certificates-private-keys-and-csrs> 
+     - OpenSSL Command-Line HOWTO <https://www.madboa.com/geek/openssl/> ou <https://www.digitalocean.com/community/tutorials/openssl-essentials-working-with-ssl-certificates-private-keys-and-csrs> 
 * Pour les recommandations sur HTTPS/TLS
     - <https://testssl.sh/>  **une référence**
     - [ANSSI sur TLS, en particulier R3, R4, R5, R6, R7, R8, R9, R10](https://www.ssi.gouv.fr/uploads/2016/09/guide_tls_v1.1.pdf)

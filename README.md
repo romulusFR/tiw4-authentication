@@ -47,7 +47,7 @@ Partie A : sécurisation du front
 
 Sécurisez le serveur web qui vous est attribué.
 Regardez en particulier la mise en place de HTTPS/TLS sur nginx.
-Vous utiliserez *a minima* un certificat auto-signé généré avec OpenSSL et *de préférence* un certificat signé par l'autorité de certification nommé _TIW4-SSI-CAW Certificate Authority_ dont le matériel cryptographique est donné dans le dossier [./ca-tiw4](./ca-tiw4). Pour cela, vous générez un paire RSA, une demande CSR et un certificat signé de l'autorité pour **votre IP**.
+Vous utiliserez *a minima* un certificat auto-signé généré avec OpenSSL et *de préférence* un certificat signé par l'autorité de certification nommé _TIW4-SSI-CAW Certificate Authority_ dont le matériel cryptographique est donné dans le dossier [./ca-tiw4](./ca-tiw4). Pour cela, vous générez un paire RSA, une demande CSR et un certificat signé de l'autorité pour **votre IP**. Voir quelques éléments sur OpenSSL et HTTPS/TLS dans [la partie 2 du nouveau TP1 MIF03-CAW](https://perso.liris.cnrs.fr/lionel.medini/enseignement/M1IF03/TP/TP_serveur.html).
 
 Pour vous guider, consulter :
 

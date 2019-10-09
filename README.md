@@ -5,7 +5,7 @@ Introduction
 ------------
 
 On donne une [application d'authentification simple Node.js/Express](https://github.com/romulusFR/tiw4-authentication) avec un backend PostgreSQL qui doit gérer des comptes utilisateurs, appelons cette application _LOGON_.
-Un serveur de développement Ubuntu 18.04 vous est fourni (une VM attribuée à chaque binôme dans Tomuss, le .pem vous sera communiqué) avec l'application _LOGON_ déployée (mais l'application n'est en revanche **pas** lancée, voir la section [lancement de l'application](./BUILD.md#Lancement-de-l'application)). 
+Un serveur de développement Ubuntu 18.04 vous est fourni (une VM attribuée à chaque binôme dans Tomuss, le .pem vous sera communiqué) avec l'application _LOGON_ déployée (mais l'application n'est en revanche **pas** lancée, voir la section [lancement de l'application](./BUILD.md#Lancement-de-l'application)). Pour vous connecter sur par exemple *192.168.76.218*, la commande ssh est `ssh -i TIW4-VM-authentif.pem ubuntu@192.168.76.218`.
 
 ### Réalisation attendue
 

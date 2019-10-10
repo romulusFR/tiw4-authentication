@@ -139,6 +139,9 @@ npm install
 cp DEV_ENVIRONMENT .env
 ```
 
+Lancement de l'application Node.js
+----------------------------------
+
 A partir d'ici, on ici on peut lancer l'app sur le port 3000 par défaut.
 **C'est la seule chose à faire sur la VM qui vous est fournie.**
 
@@ -152,7 +155,9 @@ pm2 start ./bin/www --name tiw4-auth
 pm2 monit
 ```
 
-Docs de référence principales Node.js :
+Documentation Node.js
+---------------------
+
 
 * <https://nodejs.org/docs/latest-v10.x/api/index.html>
 * <https://expressjs.com/en/api.html>

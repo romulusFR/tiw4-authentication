@@ -5,7 +5,7 @@ Ici on donne le matériel cryptographique qui **appartient à l'autorité de cer
 Ce matériel servira à générer un certificat à partir d'un CSR que vous aurez produit vous-même.
 Il y a donc un "jeu de rôles" : 
 
- * en tant qu'utilisateur vous créez une paire RSA et un CSR pour votre serveur;
+ * en tant qu'**utilisateur** vous créez une paire RSA et un CSR pour votre serveur;
  * en tant que **CA** vous répondez à l'utilisateur en générant son certificat.
 
 On a utilisé le script suivant pour générer le matériel présent dans ce dossier.

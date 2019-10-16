@@ -19,7 +19,7 @@ Le fichier [`BUILD.md`](./BUILD.md) donne des informations techniques sur le dé
 
 ### Modalités de rendu
 
-Un dossier `zip` est à rendre **au plus tard le dimanche 20/10/19 à 23h59** dans la case idoine de Tomuss.
+Un dossier `zip` est à rendre **au plus tard le dimanche ~~20/10/19 à 23h59~~ 10/11/19 à 23h59** dans la case idoine de Tomuss.
 Votre serveur **devra être en état de marche à cette date**.
 Le  `zip` comprendra, voir le [modèle de base](MODELE_RENDU.zip) fourni :
 

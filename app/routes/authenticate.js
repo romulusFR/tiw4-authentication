@@ -1,10 +1,15 @@
-const jwt = require('jsonwebtoken');
+const { JWT, JWK } = require('jose');
 const debug = require('debug')('app:authenticate');
 const createError = require('http-errors');
 const db = require('../models/queries');
 
-const jwtServerKey = process.env.SECRET_KEY || 'secretpassword';
+const jwtServerKey = JWK.asKey({
+  kty: 'oct',
+  k: process.env.SECRET_KEY || 'secretpassword'
+});
+
 const jwtExpirySeconds = 60;
+const issuerID = 'TIW4-SSI CA';
 
 // call postgres to verify request's information
 // if OK, creates a jwt and stores it in a cookie, 401 otherwise
@@ -21,16 +26,21 @@ async function authenticateUser(req, res, next) {
       // inspiration from https://www.sohamkamani.com/blog/javascript/2019-03-29-node-jwt-authentication/
       const payload = {
         sub: login
-        // fiels 'iat' and 'exp' are automatically filled from  the expiresIn parameter
+        // fields 'iat' and 'exp' are automatically filled from  the expiresIn parameter
       };
 
-      const header = {
+      const options = {
         algorithm: 'HS256',
-        expiresIn: jwtExpirySeconds
+        issuer: issuerID,
+        expiresIn: `${jwtExpirySeconds} s`,
+        header: {
+          typ: 'JWT'
+        }
       };
 
       // Create a new token
-      const token = jwt.sign(payload, jwtServerKey, header);
+      // https://github.com/panva/jose/blob/master/docs/README.md#jwtsignpayload-key-options
+      const token = JWT.sign(payload, jwtServerKey, options);
       // Add the jwt into a cookie for further reuse
       // see https://www.npmjs.com/package/cookie
       res.cookie('token', token, { maxAge: jwtExpirySeconds * 1000 * 2 });
@@ -55,24 +65,27 @@ function checkUser(req, _res, next) {
   }
 
   try {
-    const payload = jwt.verify(token, jwtServerKey);
+    const payload = JWT.verify(token, jwtServerKey, {
+      algorithms: ['HS256'],
+      issuer: issuerID
+    });
 
     if (!payload.sub) next(createError(403, 'User not authorized'));
 
     debug(`check_user(): "${payload.sub}" authorized`);
     req.user = payload.sub;
     return next();
-  } catch (e) {
+  } catch (err) {
     if (
-      e instanceof jwt.JsonWebTokenError ||
-      e instanceof jwt.TokenExpiredError ||
-      e instanceof jwt.NotBeforeError
+      err.code === 'ERR_JWT_CLAIM_INVALID' ||
+      err.code === 'ERR_JWT_MALFORMED' ||
+      err.code === 'ERR_JWS_VERIFICATION_FAILED'
     ) {
       // if the error thrown is because the JWT is unauthorized, return a 401 error
-      next(createError(401, e));
+      next(createError(401, err));
     } else {
       // otherwise, return a bad request error
-      next(createError(400, e));
+      next(createError(400, err));
     }
   }
 }

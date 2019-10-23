@@ -1,13 +1,13 @@
-const { JWT, JWK } = require('jose');
+// eslint-disable-next-line prettier/prettier
+const { JWT, JWK : { asKey } } = require('jose');
 const debug = require('debug')('app:authenticate');
 const createError = require('http-errors');
+const crypto = require('crypto');
 const db = require('../models/queries');
 
-const jwtServerKey = JWK.asKey({
-  kty: 'oct',
-  k: process.env.SECRET_KEY || 'secretpassword'
-});
-
+// JWK var faire un encodage base64 du secret
+// const jwtServerKey = asKey(Buffer.from(process.env.SECRET_KEY || 'secret'));
+const jwtServerKey = asKey(crypto.randomBytes(16));
 const jwtExpirySeconds = 60;
 const issuerID = 'TIW4-SSI CA';
 

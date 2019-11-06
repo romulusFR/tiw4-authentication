@@ -4,11 +4,15 @@ const createError = require('http-errors');
 const cookieParser = require('cookie-parser');
 const path = require('path');
 const morgan = require('morgan');
+const bodyParser = require('body-parser');
 
 // read environnement variable in the ./.env file
 require('dotenv').config();
 
 const app = express();
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.json());
+
 // use the https://pugjs.org/  view engine.
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'pug');

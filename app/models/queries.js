@@ -37,4 +37,25 @@ async function checkUser(login, pwd) {
   return result.rowCount === 1;
 }
 
-module.exports = { getUsers, checkUser, addUser };
+async function checkUserNameExistance(login) {
+  debug(`checkUsername("${login}"`);
+  const result = await pool.query(
+    'SELECT  FROM users WHERE username=$1;',
+    login
+  );
+  return result.rowCount === 1;
+}
+
+async function checkMailExistance(email) {
+  debug(`checkMail("${email}"`);
+  const result = await pool.query('SELECT  FROM users WHERE email=$1; ', email);
+  return result.rowCount === 1;
+}
+
+module.exports = {
+  getUsers,
+  checkUser,
+  addUser,
+  checkUserNameExistance,
+  checkMailExistance
+};

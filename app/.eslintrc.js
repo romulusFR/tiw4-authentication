@@ -18,8 +18,8 @@ module.exports = {
     ],
     "globals": {
         "Atomics": "readonly",
-        "SharedArrayBuffer": "readonly"
-        
+        "SharedArrayBuffer": "readonly",
+        "fetch": false
     },
     "parserOptions": {
         "ecmaVersion": 2018,
@@ -29,6 +29,7 @@ module.exports = {
         }
     },
     "rules": {
+      'no-console': 'off',
       "prettier/prettier": [
         "warn",
         {

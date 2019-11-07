@@ -16,45 +16,23 @@ block content
           div.form-group
             label(for='username') Username:
             input#username.form-control(type='text', placeholder='your_login' name='username')
+            span#usernameError.text-danger
           div.form-group
             label(for='email') Email:
             input#email.form-control(type='email', placeholder='name@email.com'  name='email')
+            span#emailError.text-danger
           div.form-group
             label(for='pw') Password:
             input#pw.form-control(type='password'  name='password')
+            span#passwordError.text-danger
           div.form-group
             label(for='pw2') Confirm Password:
             input#pw2.form-control(type='password' name='confirmPassword')
+            span#confirmPasswordError.text-danger
           div.form-group
-            div.g-recaptcha(data-sitekey='6Lc-C8EUAAAAAFDsErO5K5-Wxs-5xAPlTDuwm7XU')
+            div#captcha.g-recaptcha(data-sitekey='6Lc-C8EUAAAAAFDsErO5K5-Wxs-5xAPlTDuwm7XU')
+            span#captchaError.text-danger
           input.btn.btn-primary(type='submit' value='Submit')
           
-  script.
-    document.getElementById('subscribeForm').addEventListener('submit', e => {
-      e.preventDefault();
-      const username = document.querySelector('#username').value;
-      const email = document.querySelector('#email').value;
-      const pw = document.querySelector('#pw').value;
-      const pw2 = document.querySelector('#pw2').value;
-      const captcha = document.querySelector('#g-recaptcha-response').value;
-      const body = JSON.stringify({ username, email, pw,pw2,captcha});
-      
-      const options = {
-        method: 'POST',
-        headers: {
-        'Content-type': 'application/json' 
-        },
-        body: body
-      }
-
-
-      return fetch('/signup',options)
-      .then(res => res.json())
-      .then(data => {
-        alert(data.msg);
-        if (data.success) 
-          return location.reload();
-        }
-      );
-    });
+    include ./includes/singup_handler.pug
           

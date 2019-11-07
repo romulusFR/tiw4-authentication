@@ -41,14 +41,16 @@ async function checkUserNameExistance(login) {
   debug(`checkUsername("${login}"`);
   const result = await pool.query(
     'SELECT  FROM users WHERE username=$1;',
-    login
+    // eslint-disable-next-line prettier/prettier
+    [login]
   );
   return result.rowCount === 1;
 }
 
 async function checkMailExistance(email) {
   debug(`checkMail("${email}"`);
-  const result = await pool.query('SELECT  FROM users WHERE email=$1; ', email);
+  // eslint-disable-next-line prettier/prettier
+  const result = await pool.query('SELECT  FROM users WHERE email=$1; ', [email]);
   return result.rowCount === 1;
 }
 

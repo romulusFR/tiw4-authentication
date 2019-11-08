@@ -5,9 +5,8 @@
 const express = require('express');
 const fetch = require('node-fetch');
 const sha512 = require('js-sha512');
-const bcrypt = require('bcrypt');
-const createError = require('http-errors');
-const stringify = require('nodemon');
+const bcrypt = require('bcryptjs');
+
 const db = require('../models/queries');
 
 const router = express.Router();
@@ -16,7 +15,7 @@ router.get('/', function signupHandler(_req, res, _next) {
   res.render('signup', { title: 'TIW4 -- LOGON' });
 });
 
-router.post('/', async function signupHandler(req, res, next) {
+router.post('/', async function signupHandler(req, res) {
   const errors = [];
   saltRounds = 10;
   const maillower = req.body.email.toLowerCase();
@@ -117,10 +116,10 @@ router.post('/', async function signupHandler(req, res, next) {
 
   // If successful
   // utiser le hashage SHA512
-  const passSha256 = sha512(req.body.password);
+  const passSha512 = sha512(req.body.password);
 
   // utiliser bcrypt
-  const hashpass = bcrypt.hashSync(passSha256, saltRounds);
+  const hashpass = bcrypt.hashSync(passSha512, saltRounds);
   console.log(hashpass);
   await db.addUser(req.body.username, req.body.email, hashpass);
   return res.json({ success: true, errors: JSON.stringify('') });

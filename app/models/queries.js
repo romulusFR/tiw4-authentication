@@ -54,10 +54,19 @@ async function checkMailExistance(email) {
   return result.rowCount === 1;
 }
 
+async function getPasswordByUsername(username) {
+  const result = await pool.query(
+    'SELECT password FROM users WHERE Username=$1; ',
+    [username]
+  );
+  return result.rows[0];
+}
+
 module.exports = {
   getUsers,
   checkUser,
   addUser,
   checkUserNameExistance,
-  checkMailExistance
+  checkMailExistance,
+  getPasswordByUsername
 };

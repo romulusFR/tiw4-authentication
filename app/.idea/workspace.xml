@@ -2,13 +2,11 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="0e50dc9f-24b2-4a35-850d-f28a4190a300" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/models/queries.js" beforeDir="false" afterPath="$PROJECT_DIR$/models/queries.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/routes/authenticate.js" beforeDir="false" afterPath="$PROJECT_DIR$/routes/authenticate.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/routes/signup.js" beforeDir="false" afterPath="$PROJECT_DIR$/routes/signup.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/views/includes/footer.pug" beforeDir="false" afterPath="$PROJECT_DIR$/views/includes/footer.pug" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/views/signup.pug" beforeDir="false" afterPath="$PROJECT_DIR$/views/signup.pug" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/views/includes/singup_handler.pug" beforeDir="false" afterPath="$PROJECT_DIR$/views/includes/singup_handler.pug" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/views/login.pug" beforeDir="false" afterPath="$PROJECT_DIR$/views/login.pug" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -25,7 +23,7 @@
     <property name="ASKED_SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="javascript.nodejs.core.library.configured.version" value="10.16.3" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../../../../../TIW8-react/Tp2/tiw8-tp2" />
     <property name="node.js.detected.package.eslint" value="true" />
     <property name="node.js.detected.package.standard" value="true" />
     <property name="node.js.path.for.package.eslint" value="project" />
@@ -91,6 +89,7 @@
       <workItem from="1572891833758" duration="1708000" />
       <workItem from="1572910700127" duration="587000" />
       <workItem from="1572948874516" duration="2000" />
+      <workItem from="1573207776407" duration="133000" />
     </task>
     <servers />
   </component>

@@ -14,10 +14,12 @@ block content
         form(method='POST' action='/login')
           div.form-group
             label(for='login') Login:
-            input#login.form-control(type='text', placeholder='login' name='login')
+            input#login.form-control(type='text', placeholder='login' name='username')
           div.form-group
             label(for='pwd') Password:
             input#pwd.form-control(type='password' name='password')
           button.btn.btn-primary(type='submit') Sign In
 
         p Not registered yet? <a href="/signup">Sign up</a> now !
+        unless loginError == undefined
+          span#loginError.alert.alert-danger  Nom d'utilsateur ou passe incorrect.

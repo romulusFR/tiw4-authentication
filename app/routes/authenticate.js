@@ -97,4 +97,31 @@ function checkUser(req, _res, next) {
   }
 }
 
-module.exports = { checkUser, authenticateUser };
+// check if user email exists
+// if it is, generate password reset token and send it to user
+function checkEmail(req, _res, next) {
+  // recuperer le mail
+  const { email } = req.body;
+  debug(`user email ${email}`);
+
+  // verify that email exists
+  // generate 24h token for password reset
+  req.token = jwt.sign({ ident: email }, jwtServerKey, {
+    expiresIn: 24 * 60 * 60
+  });
+  // send page by email
+  next();
+}
+
+// check reset Token
+function checkToken(req, _res, next) {
+  const { token } = req.query;
+
+  // verify token
+  const payload = jwt.verify(token, jwtServerKey);
+  debug(`email : ${payload.ident}`);
+
+  next();
+}
+
+module.exports = { checkUser, authenticateUser, checkEmail, checkToken };

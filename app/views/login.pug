@@ -20,6 +20,6 @@ block content
             input#pwd.form-control(type='password' name='password')
           button.btn.btn-primary(type='submit') Sign In
 
-        p Not registered yet? <a href="/signup">Sign up</a> now !
+        p Forget password? <a href="/forget">forget password</a>  or register <a href="/signup">Sign up</a> now !
         unless loginError == undefined
           span#loginError.alert.alert-danger  Nom d'utilsateur ou passe incorrect.

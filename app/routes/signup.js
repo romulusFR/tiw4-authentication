@@ -116,12 +116,11 @@ router.post('/', async function signupHandler(req, res) {
 
   // If successful
   // utiser le hashage SHA512
-  const passSha512 = sha512(req.body.password);
+  const hashedPassword = sha512(req.body.password);
 
   // utiliser bcrypt
-  const hashpass = bcrypt.hashSync(passSha512, saltRounds);
-  console.log(hashpass);
-  await db.addUser(req.body.username, req.body.email, hashpass);
+  const encryptedPassword = bcrypt.hashSync(hashedPassword, saltRounds);
+  await db.addUser(req.body.username, req.body.email, encryptedPassword);
   return res.json({ success: true, errors: JSON.stringify('') });
 });
 

@@ -62,11 +62,20 @@ async function getPasswordByUsername(username) {
   return result.rows[0];
 }
 
+async function UpdatePasswordBymail(email) {
+  const result = await pool.query(
+    'SELECT password FROM users WHERE email=$1; ',
+    [email]
+  );
+  return result.rows[0];
+}
+
 module.exports = {
   getUsers,
   checkUser,
   addUser,
   checkUserNameExistance,
   checkMailExistance,
-  getPasswordByUsername
+  getPasswordByUsername,
+  UpdatePasswordBymail
 };

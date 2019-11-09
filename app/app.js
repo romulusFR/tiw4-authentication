@@ -45,6 +45,7 @@ const signupRouter = require('./routes/signup');
 const restrictedRouter = require('./routes/restricted');
 const forgetRouter = require('./routes/forget');
 const resetRouter = require('./routes/reset');
+const refreshRouter = require('./routes/renew');
 
 app.use('/', indexRouter);
 app.use('/login', loginRouter);
@@ -53,6 +54,7 @@ app.use('/signup', signupRouter);
 app.use('/restricted', restrictedRouter);
 app.use('/forget', forgetRouter);
 app.use('/reset', resetRouter);
+app.use('/refresh', refreshRouter);
 
 app.use(function notFoundHandler(req, res, next) {
   debug(`handler 404: ${req.baseUrl}`);

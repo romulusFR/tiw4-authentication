@@ -10,9 +10,9 @@ const db = require('../models/queries');
 bluebird.promisifyAll(redis);
 
 // client for redis database
-const host = process.env.REDIS_HOST || '192.168.76.222';
+const host = process.env.REDIS_HOST || '127.0.0.1';
 const port = process.env.REDIS_PASS || 6379;
-const client = redis.createClient(port, host);
+//const client = redis.createClient(port, host);
 
 // jwt and refresh token secret keys
 // the keys must have a size > used algorithm size
@@ -139,47 +139,6 @@ function renewToken(req, res, next) {
 
   // check if refresh token is blacklisted
   // if it is, we don't generate new token
-  client.get(refreshToken, (err, ret) => {
-    if (ret) {
-      debug(`renew_token(): refresh token ${ret} is blacklisted `);
-    } else {
-      debug(
-        `renew_token(): generate new token with the provided refresh token ${refreshToken}`
-      );
-      // verify integrity of refresh token
-      const refreshPayload = jwt.verify(refreshToken, refreshTokenSecret);
-
-      // verify user agent
-      if (refreshPayload.agent !== req.headers['user-agent']) {
-        debug(
-          `renew_token(): user ${refreshPayload.sub} is not using the same machine, you should notify him`
-        );
-      }
-
-      // verify that the token expires soon or already expired before generating new one*
-      // if not, no token is generated
-      const payload = jwt.verify(refreshToken, refreshTokenSecret, {
-        ignoreExpiration: true
-      });
-      const nowUnixSeconds = Math.round(Number(new Date()) / 1000);
-
-      if (payload && payload.exp && payload.exp - nowUnixSeconds > 30) {
-        // generate new acces token
-        const newToken = jwt.sign({ sub: refreshPayload.sub }, jwtTokenSecret, {
-          algorithm: 'HS256',
-          expiresIn: jwtExpirySeconds
-        });
-
-        // update cookie
-        res.cookie('token', newToken, {
-          sameSite: true,
-          httpOnly: true,
-          maxAge: jwtExpirySeconds * 1000 * 2
-        });
-      }
-    }
-    next();
-  });
 }
 
 // logout the user and add refresh token to blacklist
@@ -200,7 +159,7 @@ function blacklistToken(req, res, next) {
   const expiration = refreshPayload.exp - nowUnixSeconds;
 
   // add refresh token to blacklist
-  client.set(refreshToken, refreshToken, 'EX', expiration);
+  //= =========>client.set(refreshToken, refreshToken, 'EX', expiration);
 
   // destroy the token and the cookie
   // https://stackoverflow.com/questions/27978868/destroy-cookie-nodejs

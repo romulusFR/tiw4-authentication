@@ -71,13 +71,13 @@ function checkUser(req, _res, next) {
   debug(`check_user(): checking token "${token}"`);
 
   if (!token) {
-    return next(createError(401, 'No JWT provided'));
+    return _res.redirect('/login');
   }
 
   try {
     const payload = jwt.verify(token, jwtServerKey);
 
-    if (!payload.sub) next(createError(403, 'User not authorized'));
+    if (!payload.sub) return _res.redirect('/login');
 
     debug(`check_user(): "${payload.sub}" authorized`);
     req.user = payload.sub;

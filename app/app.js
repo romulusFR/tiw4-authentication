@@ -10,8 +10,13 @@ const bodyParser = require('body-parser');
 require('dotenv').config();
 
 const app = express();
+
+// utiliser body parser pour parser JSON
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
+
+// Désactiver x-powered-by
+app.disable('x-powered-by');
 
 // use the https://pugjs.org/  view engine.
 app.set('views', path.join(__dirname, 'views'));

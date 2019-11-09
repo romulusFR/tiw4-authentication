@@ -15,7 +15,7 @@ const app = express();
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
-// Désactiver x-powered-by
+// Desactiver x-powered-by
 app.disable('x-powered-by');
 
 // use the https://pugjs.org/  view engine.

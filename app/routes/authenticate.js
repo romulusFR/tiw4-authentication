@@ -10,7 +10,7 @@ const db = require('../models/queries');
 bluebird.promisifyAll(redis);
 
 // client for redis database
-const host = process.env.REDIS_HOST || '127.0.0.1';
+const host = process.env.REDIS_HOST || '192.168.76.222';
 const port = process.env.REDIS_PASS || 6379;
 const client = redis.createClient(port, host);
 
@@ -29,59 +29,58 @@ const refreshTokenLifetime = 24 * 60 * 60; // 24h
 async function authenticateUser(req, res, next) {
   const login = req.body.username;
   const pwd = sha(req.body.password);
-  const userAgent = req.headers['user-agent'];
+  const response = { title: 'TIW4 -- LOGON' };
 
   debug(`authenticate_user(): attempt from "${login}" with password "${pwd}"`);
-  debug(`user agent is : ${userAgent}`);
   try {
     const passwordJsonFromDB = JSON.stringify(
       await db.getPasswordByUsername(login)
     );
     if (!passwordJsonFromDB) {
-      next(createError(401, 'Invalid login/password'));
+      response.loginError = true;
+      res.render('login', response);
       return;
     }
 
     const passwordFromDB = JSON.parse(passwordJsonFromDB).password;
     const ok = bcrypt.compareSync(pwd, passwordFromDB);
-    debug(`password from db : ${passwordFromDB}`);
-    debug(`pwd : ${pwd}`);
-    debug(` ok : ${ok}`);
+
     // const ok = await db.checkUser(login, pwd);
 
-    if (!ok) next(createError(401, 'Invalid login/password'));
-    else {
-      // Create a new token
-      const token = jwt.sign({ sub: login }, jwtTokenSecret, {
-        algorithm: 'HS256',
-        expiresIn: jwtExpirySeconds
-      });
-      // Create a new refreshToken
-      const refreshToken = jwt.sign(
-        { sub: login, agent: userAgent },
-        refreshTokenSecret,
-        { algorithm: 'HS256', expiresIn: refreshTokenLifetime }
-      );
-
-      // Add the jwt into a cookie for further reuse
-      // see https://www.npmjs.com/package/cookie
-      res.cookie('token', token, {
-        // secure: true,
-        sameSite: true,
-        httpOnly: true,
-        maxAge: jwtExpirySeconds * 1000 * 2
-      });
-
-      // Add refresh token to the cookie
-      res.cookie('refreshToken', refreshToken, {
-        // secure: true,
-        sameSite: true,
-        httpOnly: true,
-        maxAge: refreshTokenLifetime * 1000 * 2
-      });
-      debug(`authenticate_user(): "${login}" logged in ("${token}")`);
-      next();
+    if (!ok) {
+      response.loginError = true;
+      res.render('login', response);
+      return;
     }
+    // Create a new token
+    const token = jwt.sign({ sub: login }, jwtTokenSecret, {
+      algorithm: 'HS256',
+      expiresIn: jwtExpirySeconds
+    });
+    // Create a new refreshToken
+    const refreshToken = jwt.sign({ sub: login }, refreshTokenSecret, {
+      algorithm: 'HS256',
+      expiresIn: refreshTokenLifetime
+    });
+
+    // Add the jwt into a cookie for further reuse
+    // see https://www.npmjs.com/package/cookie
+    res.cookie('token', token, {
+      // secure: true,
+      sameSite: true,
+      httpOnly: true,
+      maxAge: jwtExpirySeconds * 1000 * 2
+    });
+
+    // Add refresh token to the cookie
+    res.cookie('refreshToken', refreshToken, {
+      // secure: true,
+      sameSite: true,
+      httpOnly: true,
+      maxAge: refreshTokenLifetime * 1000 * 2
+    });
+    debug(`authenticate_user(): "${login}" logged in ("${token}")`);
+    next();
   } catch (e) {
     next(createError(500, e));
   }

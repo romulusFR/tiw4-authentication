@@ -1,8 +1,11 @@
 const express = require('express');
 const createError = require('http-errors');
 const db = require('../models/queries');
+const { checkUser } = require('./authenticate');
 
 const router = express.Router();
+
+router.get('/', checkUser);
 
 router.get('/', async function usersHandler(_req, res, next) {
   try {

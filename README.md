@@ -10,14 +10,14 @@ Le TP consiste en la sécurisation du serveur et de l'application _LOGON_, il es
 * **[partie A](#Partie-A-:-sécurisation-système)** on s'intéresse au niveau système (Linux, serveur _nginx_, serveur PostgreSQL) et surtout la mise en place de TLS;
 * **[partie B](#Partie-B-:-sécurisation-applicative)** on s'intéresse au serveur d'application Node.js, à la base de données hébergée dans PostgreSQL et l'application elle même.
 
-Le fichier [`BUILD.md`](./BUILD.md) donne des informations utiles sur le déploiement et le développement.
+Le fichier [`DEPLOY.md`](./DEPLOY.md) donne des informations utiles sur le déploiement et le développement.
 Un serveur Ubuntu 20.04 vous sera fourni pour vos tests, il devra être _up and running_ pour l'évaluation.
 
 **Il est important de commencer ce TP en se familiarisant avec l'environnement et l'application**.
 
 ### Remarques
 
-* l'application _LOGON_ n'est **pas** lancée sur la VM fournie, voir la section [`BUILD.md`](./BUILD.md);
+* l'application _LOGON_ n'est **pas** lancée sur la VM fournie, voir la fin de [`DEPLOY.md`](./DEPLOY.md);
 * l'IP de la VM attribuée à chaque binôme sera dans Tomuss;
 * les secrets (le `.pem` d'accès à la VM et la _passphrase_ de la CA) vous sont communiqués sur le Discord.
 
@@ -83,7 +83,7 @@ Conseils
 Références
 ----------
 
-Configuration HTTPS/TLS :
+### Configuration HTTPS/TLS
 
 * La documentation `nginx` <http://nginx.org/en/docs/http/configuring_https_servers.html> <http://nginx.org/en/docs/http/ngx_http_ssl_module.html>
 * Les tutoriels <https://www.linode.com/docs/web-servers/nginx/enable-tls-on-nginx-for-https-connections/> <https://www.linode.com/docs/*eb-servers/nginx/tls-deployment-best-practices-for-nginx/>
@@ -92,7 +92,7 @@ Configuration HTTPS/TLS :
 * L'outil de référence pour tester votre configuration <https://testssl.sh/>
 * Le tutoriel suivi par l'auteur pour la mise en place de la CA dans ce TP et en M1IF03 <https://jamielinux.com/docs/openssl-certificate-authority/sign-server-and-client-certificates.html>
 
-Programmation Node.js :
+### Sécurité Node.js
 
 * <https://jwt.io/> la référence sur JSON Web Token
 * <https://cheatsheetseries.owasp.org/> recommandée, notamment les feuilles _Password Storage_ et _Authentication_.
@@ -100,3 +100,15 @@ Programmation Node.js :
 * <https://expressjs.com/en/guide/error-handling.html>
 * <https://expressjs.com/en/advanced/best-practice-performance.html>
 * <https://expressjs.com/en/advanced/best-practice-security.html>
+
+### Développement Node.js
+
+* <https://nodejs.org/docs/latest-v10.x/api/index.html>
+* <https://expressjs.com/en/api.html>
+* <https://pugjs.org/>
+* <https://node-postgres.com/> (<https://www.npmjs.com/package/pg>)
+* <https://www.npmjs.com/package/debug>
+* <https://www.npmjs.com/package/morgan>
+* <https://www.npmjs.com/package/http-errors>
+* <https://www.npmjs.com/package/jsonwebtoken>
+* <https://jwt.io/>

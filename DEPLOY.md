@@ -1,20 +1,18 @@
-TIW4 2020-2021 "TP authentification" : documentation de déploiement et développement
-=====================================================================================
+TIW4 2020-2021 "TP authentification" : documentation de déploiement
+===================================================================
 
 <!-- markdownlint-disable MD004-->
-- [TIW4 2020-2021 "TP authentification" : documentation de déploiement et développement](#tiw4-2020-2021-tp-authentification--documentation-de-déploiement-et-développement)
+- [TIW4 2020-2021 "TP authentification" : documentation de déploiement](#tiw4-2020-2021-tp-authentification--documentation-de-déploiement)
   - [Installation générale](#installation-générale)
   - [Configuration nginx](#configuration-nginx)
     - [Fichier `/etc/nginx/snippets/proxy_set_header.conf`](#fichier-etcnginxsnippetsproxy_set_headerconf)
     - [Fichier `/etc/nginx/snippets/ssl_params.conf`](#fichier-etcnginxsnippetsssl_paramsconf)
     - [Fichier `/etc/nginx/sites-available/default`](#fichier-etcnginxsites-availabledefault)
   - [Configuration PostgreSQL](#configuration-postgresql)
-  - [Configration Node.js](#configration-nodejs)
   - [Lancement de l'application Node.js](#lancement-de-lapplication-nodejs)
-  - [Documentation Node.js](#documentation-nodejs)
 <!-- markdownlint-enable MD004-->
 
-On donne ici des informations sur le déploiement et le développement de l'application _LOGON_ pour ceux qui souhaitent reproduire l'environnement en local.
+On donne ici des informations sur le déploiement de l'application _LOGON_ pour ceux qui souhaitent reproduire l'environnement en local.
 
 Installation générale
 ---------------------
@@ -167,28 +165,20 @@ FROM users;
 -- (1 row)
 ```
 
-Configration Node.js
---------------------
-
-```bash
-# installation globale du gestionnaire d'exécution node
-npm install -g pm2@latest
-
-# on clone l'app
-git clone https://github.com/romulusFR/tiw4-authentication.git
-cd tiw4-authentication/app
-
-# On a scaffoldé avec <https://expressjs.com/en/starter/generator.html>
-# on a simplifié un peu l'affaire et on a enrichi le `package.json`.
-# tout est prêt
-npm install
-
-# on copie le fichier d'environnement
-cp DEV_ENVIRONMENT .env
-```
-
 Lancement de l'application Node.js
 ----------------------------------
+
+```bash
+# on clone le repo
+git clone https://github.com/romulusFR/tiw4-authentication.git
+# on copie le fichier d'environnement
+cp tiw4-authentication/app/DEV_ENVIRONMENT tiw4-authentication/app/.env
+
+cd ~/tiw4-authentication/app
+# si on veut lancer l'app en mode développement
+npm run dev
+# là on doit pouvoir accéder à la VM sur le port 443 sans erreur et voir une page
+```
 
 A partir d'ici, on ici on peut lancer l'app sur le port 3000 par défaut.
 **C'est la seule chose à faire sur la VM qui vous est fournie.**
@@ -198,20 +188,9 @@ cd ~/tiw4-authentication/app
 # si on veut lancer l'app en mode développement
 npm run dev
 
+# installation globale du gestionnaire d'exécution node
+npm install -g pm2@latest
 # en mode production
 pm2 start ./bin/www --name tiw4-auth
 pm2 monit
 ```
-
-Documentation Node.js
----------------------
-
-- <https://nodejs.org/docs/latest-v10.x/api/index.html>
-- <https://expressjs.com/en/api.html>
-- <https://pugjs.org/>
-- <https://node-postgres.com/> (<https://www.npmjs.com/package/pg>)
-- <https://www.npmjs.com/package/debug>
-- <https://www.npmjs.com/package/morgan>
-- <https://www.npmjs.com/package/http-errors>
-- <https://www.npmjs.com/package/jsonwebtoken>
-- <https://jwt.io/>

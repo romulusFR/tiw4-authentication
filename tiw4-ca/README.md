@@ -40,8 +40,12 @@ Il faudra par contre définir **vous mêmes** les variables suivantes :
 - `CLIENT_CN` : le _Common Name_ de votre VM
 - `CLIENT_SAN` : le _Subject Alternative Name_, ici l'IP de votre VM
 
+**Remarque** : au final vous n'avez que trois commandes OpenSSL à exécuter pour générer la clef, le CSR et le certificat.
+
 Questions de compréhension
 --------------------------
+
+Ces questions sont là pour vous aider. Elles sont assez représentative de ce qu'on peut demander à un examen.
 
 - pourquoi dit-on que `tiw4-ca` est une autorité _intermédiaire_ ?
 - quel est le CN de l’émetteur du certificat (issuer) dans `tiw4-ca.cert` ?

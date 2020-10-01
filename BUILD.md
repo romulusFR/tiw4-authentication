@@ -1,9 +1,17 @@
 TP TIW4 2019-2020 "authentification" : documentation de développement
 =====================================================================
 
+<!-- markdownlint-disable MD004-->
+- [TP TIW4 2019-2020 "authentification" : documentation de développement](#tp-tiw4-2019-2020-authentification--documentation-de-développement)
+  - [Installation générale](#installation-générale)
+  - [Configuration nginx](#configuration-nginx)
+  - [Configuration PostgreSQL](#configuration-postgresql)
+  - [Configration Node.js](#configration-nodejs)
+  - [Lancement de l'application Node.js](#lancement-de-lapplication-nodejs)
+  - [Documentation Node.js](#documentation-nodejs)
+<!-- markdownlint-enable MD004-->
+
 On donne ici des informations sur le développement et le déploiement de l'application _LOGON_.
-
-
 
 Installation générale
 ---------------------
@@ -45,6 +53,7 @@ sudo mv default default.back
 ```
 
 Pour le fichier `/etc/nginx/sites-available/default`
+
 ```nginx
 # Load balancing / server declaration
 upstream nodejs {
@@ -65,6 +74,7 @@ server {
 ```
 
 Pour le fichier `/etc/nginx/conf.d/proxy_set_header.inc`
+
 ```nginx
 proxy_set_header X-Forwarded-By $server_addr:$server_port;
 proxy_set_header X-Forwarded-For $remote_addr;
@@ -78,21 +88,21 @@ Configuration PostgreSQL
 ------------------------
 
 Montage du serveur
- 
+
 ```bash
  sudo -u postgres -s
  createuser -D -e -P tiw4-auth
  # pass :  tiw4-auth
- 
+
  createdb tiw4-auth -O tiw4-auth -e
  psql -d tiw4-auth -c "create extension pgcrypto;"
- 
+
  exit
 
- #Login avec 
+ #Login avec
  psql -h localhost -U tiw4-auth -d tiw4-auth
 ```
- 
+
 Ci-après, le script de création de la table et quelques comptes d'exemple.
 
 ```sql
@@ -132,7 +142,7 @@ cd tiw4-authentication/app
 
 # On a scaffoldé avec <https://expressjs.com/en/starter/generator.html>
 # on a simplifié un peu l'affaire et on a enrichi le `package.json`.
-# tout est prêt 
+# tout est prêt
 npm install
 
 # on copie le fichier d'environnement
@@ -148,7 +158,7 @@ A partir d'ici, on ici on peut lancer l'app sur le port 3000 par défaut.
 ```bash
 cd ~/tiw4-authentication/app
 # si on veut lancer l'app en mode développement
-npm run dev 
+npm run dev
 
 # en mode production
 pm2 start ./bin/www --name tiw4-auth
@@ -157,7 +167,6 @@ pm2 monit
 
 Documentation Node.js
 ---------------------
-
 
 * <https://nodejs.org/docs/latest-v10.x/api/index.html>
 * <https://expressjs.com/en/api.html>
@@ -168,5 +177,3 @@ Documentation Node.js
 * <https://www.npmjs.com/package/http-errors>
 * <https://www.npmjs.com/package/jsonwebtoken>
 * <https://jwt.io/>
-
-

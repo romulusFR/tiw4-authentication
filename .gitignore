@@ -1,8 +1,7 @@
 # backup files
 *~
 *.back
-CORRECTION.md
-server-gold/
+.private/
 
 # environment file
 .env

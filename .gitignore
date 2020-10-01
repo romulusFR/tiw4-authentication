@@ -2,6 +2,7 @@
 *~
 *.back
 .private/
+.vscode/
 
 # environment file
 .env

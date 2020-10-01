@@ -1,8 +1,8 @@
-TP TIW4 2019-2020 "authentification" : documentation de développement
-=====================================================================
+TIW4 2020-2021 "TP authentification" : documentation de déploiement et développement
+=====================================================================================
 
 <!-- markdownlint-disable MD004-->
-- [TP TIW4 2019-2020 "authentification" : documentation de développement](#tp-tiw4-2019-2020-authentification--documentation-de-développement)
+- [TIW4 2020-2021 "TP authentification" : documentation de déploiement et développement](#tiw4-2020-2021-tp-authentification--documentation-de-déploiement-et-développement)
   - [Installation générale](#installation-générale)
   - [Configuration nginx](#configuration-nginx)
   - [Configuration PostgreSQL](#configuration-postgresql)

@@ -7,7 +7,7 @@ Introduction
 On donne une [application d'authentification simple Node.js/Express](https://github.com/romulusFR/tiw4-authentication) avec un backend PostgreSQL qui doit gérer des comptes utilisateurs, appelons cette application _LOGON_.
 Le TP consiste en la sécurisation du serveur et de l'application _LOGON_, il est ainsi  composé de deux parties :
 
-* **[partie A](#Partie-A-:-sécurisation-système)** on s'intéresse au niveau système (Linux, serveur _nginx_, serveur PostgreSQL) dont la mise en place de TLS;
+* **[partie A](#Partie-A-:-sécurisation-système)** on s'intéresse au niveau système (Linux, serveur _nginx_, serveur PostgreSQL) et surtout la mise en place de TLS;
 * **[partie B](#Partie-B-:-sécurisation-applicative)** on s'intéresse au serveur d'application Node.js, à la base de données hébergée dans PostgreSQL et l'application elle même.
 
 Le fichier [`BUILD.md`](./BUILD.md) donne des informations utiles sur le déploiement et le développement.
@@ -17,9 +17,9 @@ Un serveur Ubuntu 20.04 vous sera fourni pour vos tests, il devra être _up and 
 
 ### Remarques
 
-* l'application _LOGON_ n'est **pas** lancée, voir la section [`BUILD.md`](./BUILD.md)
-* l'IP de la VM attribuée à chaque binôme sera dans Tomuss
-* les secrets (le `.pem` d'accès à la VM et la _passphrase_ de la CA) vous sont communiqués sur le Discord
+* l'application _LOGON_ n'est **pas** lancée sur la VM fournie, voir la section [`BUILD.md`](./BUILD.md);
+* l'IP de la VM attribuée à chaque binôme sera dans Tomuss;
+* les secrets (le `.pem` d'accès à la VM et la _passphrase_ de la CA) vous sont communiqués sur le Discord.
 
 ### Modalités de rendu
 
@@ -48,7 +48,12 @@ Partie A : sécurisation système
 Il s'agit de sécuriser le serveur web qui vous est attribué et de mettre en place de HTTPS/TLS sur `nginx`.
 Pour cela, nous fournissons le matériel cryptographique de l'autorité de certification nommée _tiw4-ca_ ainsi que des configurations OpenSSL dans le dossier [./tiw4-ca](./tiw4-ca). Le fichier [`tiw4-ca/README.md`](tiw4-ca/README.md) détaille a marche à suivre (tirage de clef, génération CSR, génération certificat).
 
-Si la configuration du front `nginx` est au cœur du sujet, plus généralement, toutes les vulnérabilités  niveau système et leurs contre-mesures sont pertinentes, à l'exclusion de la bases de données PostgreSQL et du serveur d'application Node.js qui seront traités en partie B.
+Si la configuration du front `nginx` est au cœur du sujet, plus généralement, toutes les vulnérabilités niveau système et leurs contre-mesures sont pertinentes, virtuellement tout ce qui ne relève pas du code de l'application _LOGON_ :
+
+* création d'utilisateurs Linux, leurs droits:
+* firewall, fail2ban;
+* paramétrage  du _rate limiter_ `nginx`;
+* durcissement de la configuration du serveur PostgreSQL.
 
 Partie B : sécurisation applicative
 -----------------------------------
@@ -63,6 +68,16 @@ Identifiez toutes les failles ou mauvaises pratiques de l'application web et pre
   6. la qualité de l'expérience utilisateur au delà de l'esthétique, c'est surtout les enchainements d'écrans et la clarté des retours/erreurs qui compte.
 
 **Remarque, si vous pouvez envoyer des emails via smtp.univ-lyon1.fr:25 avec par exemple [nodemailer](https://nodemailer.com/about/) il est _aussi_ demandé de _simuler_ leur envoi, par exemple en affichant le contenu du mail supposé envoyé dans une page web**.
+
+Conseils
+--------
+
+* La cryptographie, ça ne pardonne pas : soyez donc très rigoureux, allez y progressivement et vérifiez puis revérifiez que ça marche;
+* Utilisez un multiplexeur de terminal comme [`tmux`](https://github.com/tmux/tmux/wiki) ou [`byobu`](https://www.byobu.org/) (mon choix) pour accéder à la VM;
+* Configurez votre environnement de travail pour être productifs : l'IDE bien sûr (VSCode/Codium pour moi) mais aussi `.ssh/config`, des scripts bash pour automatiser le déploiement, des clefs sur votre dépôt GitLab etc.;
+* Soyez clairs, concis et rigoureux dans vos rapport et votre développement, je veux **de la qualité** :
+  - des sources d'autorité
+  - du code _parfaitement clean_ : `prettier`, `eslint` et des commentaires obligatoires
 
 Références
 ----------

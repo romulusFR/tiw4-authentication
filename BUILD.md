@@ -5,13 +5,16 @@ TIW4 2020-2021 "TP authentification" : documentation de déploiement et dévelop
 - [TIW4 2020-2021 "TP authentification" : documentation de déploiement et développement](#tiw4-2020-2021-tp-authentification--documentation-de-déploiement-et-développement)
   - [Installation générale](#installation-générale)
   - [Configuration nginx](#configuration-nginx)
+    - [Fichier `/etc/nginx/snippets/proxy_set_header.conf`](#fichier-etcnginxsnippetsproxy_set_headerconf)
+    - [Fichier `/etc/nginx/snippets/ssl_params.conf`](#fichier-etcnginxsnippetsssl_paramsconf)
+    - [Fichier `/etc/nginx/sites-available/default`](#fichier-etcnginxsites-availabledefault)
   - [Configuration PostgreSQL](#configuration-postgresql)
   - [Configration Node.js](#configration-nodejs)
   - [Lancement de l'application Node.js](#lancement-de-lapplication-nodejs)
   - [Documentation Node.js](#documentation-nodejs)
 <!-- markdownlint-enable MD004-->
 
-On donne ici des informations sur le développement et le déploiement de l'application _LOGON_.
+On donne ici des informations sur le déploiement et le développement de l'application _LOGON_ pour ceux qui souhaitent reproduire l'environnement en local.
 
 Installation générale
 ---------------------
@@ -24,56 +27,52 @@ sudo apt update
 sudo apt upgrade
 
 # installation nginx
-sudo add-apt-repository ppa:nginx/stable
-sudo apt update
-sudo apt-get install -y nginx nginx-doc
+sudo apt-get install -y nginx ssl-cert
+
+# test
+sudo nginx -v
+#nginx version: nginx/1.18.0 (Ubuntu)
+
+# installation node 14.x
+# https://github.com/nodesource/distributions#debinstall
+curl -sL https://deb.nodesource.com/setup_14.x | sudo -E bash -
+sudo apt-get update
+sudo apt-get install -y nodejs
+
+# puis suivre https://docs.npmjs.com/resolving-eacces-permissions-errors-when-installing-packages-globally
+
+# test
+node -v
+# v14.13.0
+npm -v
+# 6.14.8
+
 
 #  installation postgres-13
-sudo echo "deb http://apt.postgresql.org/pub/repos/apt/ bionic-pgdg main" | sudo tee  /etc/apt/sources.list.d/pgdg.list > /dev/null
+sudo sh -c 'echo "deb http://apt.postgresql.org/pub/repos/apt $(lsb_release -cs)-pgdg main" > /etc/apt/sources.list.d/pgdg.list'
 wget --quiet -O - https://www.postgresql.org/media/keys/ACCC4CF8.asc | sudo apt-key add -
 sudo apt-get update
-sudo apt install postgresql-13
+sudo apt-get -y install postgresql-13
 
-# installation node 10.x
-curl -sL https://deb.nodesource.com/setup_10.x | sudo -E bash -  
-sudo apt-get install -y nodejs  
+# test
+sudo -u postgres psql -c "SELECT version();"
+#                                                           version
+# ----------------------------------------------------------------------------------------------------------------------------
+#  PostgreSQL 13.0 (Ubuntu 13.0-1.pgdg20.04+1) on x86_64-pc-linux-gnu, compiled by gcc (Ubuntu 9.3.0-10ubuntu2) 9.3.0, 64-bit
+
 ```
 
 Configuration nginx
 -------------------
 
+On va configurer nginx en _reverse proxy_ avec les configurations ci-dessous :
+
 ```bash
-# on va configurer nginx en reverse proxy
 cd /etc/nginx/sites-available/
 sudo mv default default.back
-
-
-# puis créer les deux fichiers de configuration ci-dessous
-# [...]
 ```
 
-Pour le fichier `/etc/nginx/sites-available/default`
-
-```nginx
-# Load balancing / server declaration
-upstream nodejs {
-    zone nodejs 64k;
-    server localhost:3000;
-}
-
-# HTTP front for node
-server {
-    listen       80;
-    server_name  _;
-
-    location / {
-       include /etc/nginx/conf.d/proxy_set_header.inc;
-       proxy_pass http://nodejs;
-    }
-}
-```
-
-Pour le fichier `/etc/nginx/conf.d/proxy_set_header.inc`
+### Fichier `/etc/nginx/snippets/proxy_set_header.conf`
 
 ```nginx
 proxy_set_header X-Forwarded-By $server_addr:$server_port;
@@ -82,7 +81,48 @@ proxy_set_header X-Forwarded-Proto $scheme;
 proxy_set_header Host $host;
 ```
 
-A ce stade on a une 502 sur le port 80 car l'application n'est pas lancée
+### Fichier `/etc/nginx/snippets/ssl_params.conf`
+
+```nginx
+# configuration à durcir
+ssl_prefer_server_ciphers on;
+```
+
+### Fichier `/etc/nginx/sites-available/default`
+
+```nginx
+upstream nodejs {
+    zone nodejs 64k;
+    server localhost:3000;
+}
+
+server {
+    listen 443 ssl http2;
+    listen [::]:443 ssl http2 ipv6only=on;
+
+    include snippets/snakeoil.conf;
+    include snippets/ssl_params.conf;
+
+    location / {
+       include /etc/nginx/snippets/proxy_set_header.conf;
+       proxy_pass http://nodejs;
+    }
+}
+
+server {
+    listen 80;
+    listen [::]:80;
+    location / {
+         return 308 https://192.168.74.142/$request_uri;
+    }
+}
+```
+
+A ce stade on a :
+
+- un certificat auto-signé;
+- le port 80 redirigé vers 443;
+- une 502 sur car l'application Node.js n'est pas lancée.
 
 Configuration PostgreSQL
 ------------------------
@@ -90,51 +130,49 @@ Configuration PostgreSQL
 Montage du serveur
 
 ```bash
- sudo -u postgres -s
- createuser -D -e -P tiw4-auth
- # pass :  tiw4-auth
+sudo -u postgres -s
+createuser -D -e -P tiw4_auth
+# pass :  tiw4_auth
 
- createdb tiw4-auth -O tiw4-auth -e
- psql -d tiw4-auth -c "create extension pgcrypto;"
-
- exit
-
- #Login avec
- psql -h localhost -U tiw4-auth -d tiw4-auth
+createdb tiw4_auth -O tiw4_auth -e
+psql -d tiw4_auth -c "create extension pgcrypto;"
+exit
 ```
+
+Ensuite, pour se logguer avec `PGPASSWORD=tiw4_auth psql -h localhost -U tiw4_auth -d tiw4_auth`.
 
 Ci-après, le script de création de la table et quelques comptes d'exemple.
 
 ```sql
-DROP TABLE IF EXISTS users;
+CREATE SCHEMA IF NOT EXISTS tiw4_auth;
+DROP TABLE IF EXISTS tiw4_auth.users;
 
-CREATE TABLE users (
-  userid integer PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
+CREATE TABLE IF NOT EXISTS tiw4_auth.users (
+  userid INTEGER PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
   username TEXT NOT NULL,
   email TEXT UNIQUE NOT NULL,
-  password varchar(8) NOT NULL
+  password VARCHAR(8) NOT NULL
 );
 
 INSERT INTO users(username, email, password) VALUES ('superadmin','mevin.kitnick@hotmail.com','iloveu');
 INSERT INTO users(username, email, password) VALUES ('sandygeorge','sandy.george@hotmail.com','zuley03');
 INSERT INTO users(username, email, password) VALUES ('griffonpress','griffonpress@gmail.com','Skylar7');
 INSERT INTO users(username, email, password) VALUES ('politis','politis@hotmail.com','derby5');
+
+SELECT COUNT(*)
+FROM users;
+--  count
+-- -------
+--      4
+-- (1 row)
 ```
 
 Configration Node.js
 --------------------
 
 ```bash
-npm -v
-#6.11.3
-node -v
-#v10.16.3
-
-# Manually change npm’s default directory : TRES RECOMMAND2
-# https://docs.npmjs.com/resolving-eacces-permissions-errors-when-installing-packages-globally
-
 # installation globale du gestionnaire d'exécution node
-npm install pm2@latest -g
+npm install -g pm2@latest
 
 # on clone l'app
 git clone https://github.com/romulusFR/tiw4-authentication.git

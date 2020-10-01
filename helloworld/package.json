@@ -1,0 +1,14 @@
+{
+  "name": "helloworld",
+  "version": "1.0.0",
+  "description": "Sample Node.js app",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "see https://expressjs.com/en/starter/hello-world.html",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.17.1"
+  }
+}

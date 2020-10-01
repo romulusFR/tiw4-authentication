@@ -72,9 +72,10 @@ Identifiez toutes les failles ou mauvaises pratiques de l'application web et pre
 Conseils
 --------
 
+* Votre travail doit être **reproductible** : votre dépôt doit donc impérativement contenir les configurations `nginx` modifiées, les scripts SQL etc.
 * La cryptographie, ça ne pardonne pas : soyez donc très rigoureux, allez y progressivement et vérifiez puis revérifiez que ça marche;
 * Utilisez un multiplexeur de terminal comme [`tmux`](https://github.com/tmux/tmux/wiki) ou [`byobu`](https://www.byobu.org/) (mon choix) pour accéder à la VM;
-* Configurez votre environnement de travail pour être productifs : l'IDE bien sûr (VSCode/Codium pour moi) mais aussi `.ssh/config`, des scripts bash pour automatiser le déploiement, des clefs sur votre dépôt GitLab etc.;
+* Configurez votre environnement de travail pour être productifs : l'IDE bien sûr (VSCode/Codium pour moi) mais aussi `.ssh/config`, la config de `psql` (e.g., [voir ici](https://forge.univ-lyon1.fr/bd-pedago/bd-pedago#ligne-de-commande-psql))des scripts bash pour automatiser le déploiement, des clefs sur votre dépôt GitLab etc.;
 * Soyez clairs, concis et rigoureux dans vos rapport et votre développement, je veux **de la qualité** :
   - des sources d'autorité
   - du code _parfaitement clean_ : `prettier`, `eslint` et des commentaires obligatoires

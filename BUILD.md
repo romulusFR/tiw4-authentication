@@ -28,11 +28,11 @@ sudo add-apt-repository ppa:nginx/stable
 sudo apt update
 sudo apt-get install -y nginx nginx-doc
 
-#  installation postgres-11
+#  installation postgres-13
 sudo echo "deb http://apt.postgresql.org/pub/repos/apt/ bionic-pgdg main" | sudo tee  /etc/apt/sources.list.d/pgdg.list > /dev/null
 wget --quiet -O - https://www.postgresql.org/media/keys/ACCC4CF8.asc | sudo apt-key add -
 sudo apt-get update
-sudo apt install postgresql-11
+sudo apt install postgresql-13
 
 # installation node 10.x
 curl -sL https://deb.nodesource.com/setup_10.x | sudo -E bash -  
@@ -168,12 +168,12 @@ pm2 monit
 Documentation Node.js
 ---------------------
 
-* <https://nodejs.org/docs/latest-v10.x/api/index.html>
-* <https://expressjs.com/en/api.html>
-* <https://pugjs.org/>
-* <https://node-postgres.com/> (<https://www.npmjs.com/package/pg>)
-* <https://www.npmjs.com/package/debug>
-* <https://www.npmjs.com/package/morgan>
-* <https://www.npmjs.com/package/http-errors>
-* <https://www.npmjs.com/package/jsonwebtoken>
-* <https://jwt.io/>
+- <https://nodejs.org/docs/latest-v10.x/api/index.html>
+- <https://expressjs.com/en/api.html>
+- <https://pugjs.org/>
+- <https://node-postgres.com/> (<https://www.npmjs.com/package/pg>)
+- <https://www.npmjs.com/package/debug>
+- <https://www.npmjs.com/package/morgan>
+- <https://www.npmjs.com/package/http-errors>
+- <https://www.npmjs.com/package/jsonwebtoken>
+- <https://jwt.io/>

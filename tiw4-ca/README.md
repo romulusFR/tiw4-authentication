@@ -9,11 +9,8 @@ Il y a donc un _jeu de rôles_ où vous utiliserez OpenSSL :
 - en tant que **CA**, pour générer le certificat TLS.
 
 Il faut qu'à la fin, chaque VM ait un certificat signé de l'autorité.
-Si le certificat de l'autorité est dans la liste du navigateur, alors le site sera reconnu en HTTPS sans erreur.
-
-**IMPORTANT** : la référence principale utilisée pour la génération est <https://jamielinux.com/docs/openssl-certificate-authority/sign-server-and-client-certificates.html>, consultez la.
-
-openssl x509 -noout -text -in ./root-ca-tiw4.cert
+Si le certificat de l'autorité est dans la liste du navigateur, alors le site sera reconnu en HTTPS sans erreur : **c'est le but de cette étape**.
+Pour ceux qui ont suivit M1IF03 _Conception d'Application Web_ en M1, ce que vous faites ici est ce que les enseignants font quand ils vous fournissent vos certificats à déployer dans _nginx_.
 
 Matériel fourni
 ---------------
@@ -24,8 +21,9 @@ Matériel fourni
 - `certs/tiw4-ca-chain.cert` : certificat de l'autorité concaténé au certificat de la racine
 - `private/tiw4-ca.key` : clef privé de l'autorité protégée par une _passphrase_;
 
-Les fichiers de configuration `.conf` sont à utiliser avec l'option `-config` de OpenSSL.
-Ils s'appuient sur le svariables d'environnement suivantes à charger avant l'exécution d'OpenSSL :
+Les fichiers de configuration `conf/*.conf` sont à utiliser avec l'option `-config` de OpenSSL.
+Pour charger une extension particulière, utiliser `-extensions server_cert` ici pour `[ server_cert ]`
+les configurations s'appuient sur les variables d'environnement suivantes à charger avant l'exécution d'OpenSSL :
 
 ```bash
 export BASE_COUNTRY="FR"
@@ -40,7 +38,7 @@ export BASE_SAN="email:romuald.thion@univ-lyon1.fr"
 Il faudra par contre définir **vous mêmes** les variables suivantes :
 
 - `CLIENT_CN` : le _Common Name_ de votre VM
-- `CLIENT_SAN` : le subject alternative name, ici l'IP de votre VM
+- `CLIENT_SAN` : le _Subject Alternative Name_, ici l'IP de votre VM
 
 Questions de compréhension
 --------------------------
@@ -51,14 +49,27 @@ Questions de compréhension
 - avec la configuration donnée, peut-on utiliser le certificat que vous allez générer pour en signer d'autres ? Pourquoi ?
 - que se passe-t'il si vous utilisez un autre _organizationName_ pour votre serveur ?
 - pourquoi demander pour le serveur une clef RSA 2048 bits et pas 1024 ou 4096 ?
+- après génération d'un certificat, que contient le fichier `index` ?
+- quelle est la durée maximum que vous pouvez raisonnablement donner au certificat que vous allez générer pour votre VM ?
 
 Exemples
 --------
 
+**IMPORTANT** : la référence principale utilisée pour la génération est <https://jamielinux.com/docs/openssl-certificate-authority/sign-server-and-client-certificates.html>, consultez la.
+
 ```bash
 # pour vérifier le contenu de la clef de la CA
-openssl rsa -passin pass:"LeMotDePasseSecretDeLaCA" -in ./tiw4-ca.key -noout -text
+# l'option passin pass:"" permet d'éviter de taper le mot de passe
+openssl rsa -passin pass:"LeMotDePasseSecretDeLaCA" -in private/tiw4-ca.key -noout -text
 
 # pour afficher le certificat la CA
-openssl x509 -in tiw4-ca.cert -noout -text
+openssl x509 -in certs/tiw4-ca.cert -noout -text
+
+# pour générer une CSR, voir
+# https://www.openssl.org/docs/man1.1.1/man1/openssl-req.html
+
+# pour vérifier la CSR
+openssl req -in  mon_fichier.csr -noout -text -verify
+# pour produire un certificat à partir de la CSR
+# https://www.openssl.org/docs/man1.1.1/man1/openssl-ca.html
 ```

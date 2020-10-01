@@ -1,5 +1,5 @@
-Autorité de certification (CA) intermédiaire `tiw4-ca`
-======================================================
+TIW4 2020-2021 "TP authentification" : l'autorité de certification (CA) intermédiaire `tiw4-ca`
+===============================================================================================
 
 Ici on donne le matériel cryptographique d'une autorité de certification intermédiaire appellée `tiw4-ca`.
 Ce matériel sert à générer le certificat TLS de votre serveur.
@@ -8,9 +8,9 @@ Il y a donc un _jeu de rôles_ où vous utiliserez OpenSSL :
 - en tant qu'**utilisateur**, pour créer une paire RSA puis un CSR pour votre VM;
 - en tant que **CA**, pour générer le certificat TLS.
 
-Il faut qu'à la fin, chaque VM ait un certificat signé de l'autorité.
+Il faut qu'à la fin du TP _chaque VM ait un certificat signé de l'autorité_.
 Si le certificat de l'autorité est dans la liste du navigateur, alors le site sera reconnu en HTTPS sans erreur : **c'est le but de cette étape**.
-Pour ceux qui ont suivit M1IF03 _Conception d'Application Web_ en M1, ce que vous faites ici est ce que les enseignants font quand ils vous fournissent vos certificats à déployer dans _nginx_.
+Pour ceux qui ont suivit M1IF03 _Conception d'Application Web_ en M1, ce que vous faites ici est ce que les enseignants font quand ils vous ont fourni vos certificats à déployer dans _nginx_.
 
 Matériel fourni
 ---------------
@@ -70,6 +70,7 @@ openssl x509 -in certs/tiw4-ca.cert -noout -text
 
 # pour vérifier la CSR
 openssl req -in  mon_fichier.csr -noout -text -verify
+
 # pour produire un certificat à partir de la CSR
 # https://www.openssl.org/docs/man1.1.1/man1/openssl-ca.html
 ```

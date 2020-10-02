@@ -1,0 +1,25 @@
+upstream nodejs {
+    zone nodejs 64k;
+    server localhost:3000;
+}
+
+server {
+    listen 443 ssl http2;
+    listen [::]:443 ssl http2 ipv6only=on;
+
+    include snippets/snakeoil.conf;
+    include snippets/ssl_params.conf;
+
+    location / {
+       include /etc/nginx/snippets/proxy_set_header.conf;
+       proxy_pass http://nodejs;
+    }
+}
+
+server {
+    listen 80;
+    listen [::]:80;
+    location / {
+         return 308 https://192.168.74.142/$request_uri;
+    }
+}

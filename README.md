@@ -13,13 +13,11 @@ Le TP consiste en la sécurisation du serveur et de l'application _LOGON_, il es
 Le fichier [`DEPLOY.md`](./DEPLOY.md) donne des informations utiles sur le déploiement et le développement.
 Un serveur Ubuntu 20.04 vous sera fourni pour vos tests, il devra être _up and running_ pour l'évaluation.
 
-**Il est important de commencer ce TP en se familiarisant avec l'environnement et l'application**.
+### Important
 
-### Remarques
+* Familiarisez vous avec l'environnement et l'application avant la séance.
 
-* l'application _LOGON_ n'est **pas** lancée sur la VM fournie, voir la fin de [`DEPLOY.md`](./DEPLOY.md);
-* l'IP de la VM attribuée à chaque binôme sera dans Tomuss;
-* les secrets (le `.pem` d'accès à la VM et la _passphrase_ de la CA) vous sont communiqués sur le Discord.
+* Créez un dépôt **privé** sur <https://forge.univ-lyon1.fr> et _forkez_ le projet de départ GitHub [en y ajoutant un nouveau _remote_](https://stackoverflow.com/questions/50973048/forking-git-repository-from-github-to-gitlab).
 
 ### Modalités de rendu
 
@@ -41,6 +39,13 @@ Poids indicatifs susceptibles de modification
 * [30%] Rapport partie A
 * [30%] Rapport partie B
 * [40%] Tests sur la VM
+
+### Remarques
+
+* l'application _LOGON_ n'est **pas** lancée sur la VM fournie, voir la fin de [`DEPLOY.md`](./DEPLOY.md);
+* l'IP de la VM attribuée à chaque binôme sera dans Tomuss;
+* les secrets (le `.pem` d'accès à la VM et la _passphrase_ de la CA) vous sont communiqués sur le Discord;
+* il est **absolument interdit** de maintenir _un dépôt public_ pour ce TP.
 
 ### Changelog
 
@@ -65,12 +70,11 @@ Partie B : sécurisation applicative
 
 Identifiez toutes les failles ou mauvaises pratiques de l'application web et prenez les mesures nécessaires pour sécuriser l'application et les comptes utilisateurs. Les aspects systèmes ayant été traités dans le TP précédent, cette partie est donc consacrée essentiellement à l'application et sa base de données. Votre attention sur la sécurité applicative portera en particulier sur :
 
-  1. le stockage des mots de passes dans PostgreSQL (choix du hash)
-  2. le processus d'authentification et de son maintien _stateless_ (via JWT)
-  3. le processus de création de compte (dureté du mot de passe, vérification de l'email, validité des saisies utilisateurs, mesures anti bots, limitations du nombre de tentatives)
-  4. le processus de récupération du mot de passe (optionnel, via génération d'un token à validité limitée)
-  5. la sécurité générale de l'application et les bonnes pratiques de développement NodeJS.
-  6. la qualité de l'expérience utilisateur au delà de l'esthétique, c'est surtout les enchainements d'écrans et la clarté des retours/erreurs qui compte.
+* le stockage des mots de passes dans PostgreSQL (choix du hash)
+* le processus de création de compte (dureté du mot de passe, vérification de l'email, validité des saisies utilisateurs, mesures anti bots, limitations du nombre de tentatives)
+* le processus de récupération du mot de passe (optionnel, via génération d'un token à validité limitée)
+* la sécurité générale de l'application et les bonnes pratiques de développement NodeJS.
+* la qualité de l'expérience utilisateur au delà de l'esthétique, c'est surtout les enchainements d'écrans et la clarté des retours/erreurs qui compte.
 
 **Remarque, si vous pouvez envoyer des emails via smtp.univ-lyon1.fr:25 avec par exemple [nodemailer](https://nodemailer.com/about/) il est _aussi_ demandé de _simuler_ leur envoi, par exemple en affichant le contenu du mail supposé envoyé dans une page web**.
 

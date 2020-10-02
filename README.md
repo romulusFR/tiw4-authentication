@@ -42,6 +42,11 @@ Poids indicatifs susceptibles de modification
 * [30%] Rapport partie B
 * [40%] Tests sur la VM
 
+### Changelog
+
+* 2020-10-02 : remplacement de <https://pugjs.org> par <https://ejs.co/>
+* 2020-10-01 : mise à jour générale
+
 Partie A : sécurisation système
 --------------------------------
 
@@ -93,9 +98,8 @@ Références
 * L'outil de référence pour tester votre configuration <https://testssl.sh/>
 * Le tutoriel suivi par l'auteur pour la mise en place de la CA dans ce TP et en M1IF03 <https://jamielinux.com/docs/openssl-certificate-authority/sign-server-and-client-certificates.html>
 
-### Sécurité Node.js
+### Sécurité Node.js et bonnes pratiques de production
 
-* <https://jwt.io/> la référence sur JSON Web Token
 * <https://cheatsheetseries.owasp.org/> recommandée, notamment les feuilles _Password Storage_ et _Authentication_.
 * <https://github.com/goldbergyoni/nodebestpractices> recommandée, notamment  _6. Security Best Practices_
 * <https://expressjs.com/en/guide/error-handling.html>
@@ -104,9 +108,9 @@ Références
 
 ### Développement Node.js
 
-* <https://nodejs.org/docs/latest-v10.x/api/index.html>
+* <https://ejs.co/>
+* <https://nodejs.org/dist/latest-v14.x/docs/api/>
 * <https://expressjs.com/en/api.html>
-* <https://pugjs.org/>
 * <https://node-postgres.com/> (<https://www.npmjs.com/package/pg>)
 * <https://www.npmjs.com/package/debug>
 * <https://www.npmjs.com/package/morgan>

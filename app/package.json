@@ -1,13 +1,13 @@
 {
-  "name": "app",
-  "version": "0.0.2",
+  "name": "tiw4-logon",
+  "version": "0.0.5",
   "homepage": "https://github.com/romulusFR/tiw4-authentication",
   "description": "TP TIW4 de conception/sécurisation d'une application d'authentification.",
   "private": true,
   "author": "Romuald THION",
   "scripts": {
     "start": "node ./bin/www",
-    "dev": "DEBUG=app:* nodemon ./bin/www"
+    "dev": "DEBUG=app:* nodemon -e js,ejs,json ./bin/www"
   },
   "os": [
     "linux"

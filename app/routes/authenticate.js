@@ -5,8 +5,7 @@ const createError = require('http-errors');
 const crypto = require('crypto');
 const db = require('../models/queries');
 
-// JWK var faire un encodage base64 du secret
-// const jwtServerKey = asKey(Buffer.from(process.env.SECRET_KEY || 'secret'));
+// JWK va faire un encodage base64 du secret
 const jwtServerKey = asKey(crypto.randomBytes(16));
 const jwtExpirySeconds = 60;
 const issuerID = 'TIW4-SSI CA';

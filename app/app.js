@@ -14,11 +14,14 @@ const app = express();
 app.locals.title = 'TIW4 -- LOGON';
 
 // use the https://ejs.co view engine.
+// Embedded JavaScript templating.
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
 
 // see https://www.npmjs.com/package/morgan
-app.use(morgan('dev'));
+// HTTP request logger middleware for node.js
+if (process.env.NODE_ENV === 'development') app.use(morgan('dev'));
+else app.use(morgan('combined'));
 
 // see https://expressjs.com/en/api.html#express.urlencoded
 // to decode application/x-www-form-urlencoded
@@ -42,6 +45,7 @@ app.use('/users', usersRouter);
 app.use('/signup', signupRouter);
 app.use('/restricted', restrictedRouter);
 
+// not found handler
 app.use(function notFoundHandler(req, res, next) {
   debug(`handler 404: ${req.baseUrl}`);
   next(createError(404));

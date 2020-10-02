@@ -5,10 +5,13 @@ const createError = require('http-errors');
 const crypto = require('crypto');
 const db = require('../models/queries');
 
-// JWK va faire un encodage base64 du secret
-const jwtServerKey = asKey(crypto.randomBytes(16));
+// JWK will base64 encode the secret
+const jwtServerKey = asKey(
+  process.env.NODE_ENV === 'development' ? Buffer.from(process.env.SECRET_KEY || 'secret') : crypto.randomBytes(16)
+);
+// tokenn duration
 const jwtExpirySeconds = 60;
-const issuerID = 'TIW4-SSI CA';
+const issuerID = 'TIW4-SSI -- LOGON App';
 
 // call postgres to verify request's information
 // if OK, creates a jwt and stores it in a cookie, 401 otherwise

@@ -11,7 +11,7 @@ Identification
   - NOM Prenom numéro_etu
 * IP fournie :
   - 192.168.X.Y
-* Dépôt git de votre fork sur la forge UCBL
+* Dépôt git de votre fork _privé_ sur la forge UCBL
   - <https://forge.univ-lyon1.fr/COMPTE/PROJET.git>
 
 Listes des fichiers contenus dans l'archive
@@ -21,6 +21,11 @@ Listes des fichiers contenus dans l'archive
 * `PARTIE-B.md` : CR de la partie B
 * `README.md`   : informations administratives (ce fichier)
 * les autres fichiers utiles ajoutés
+
+Suggestions d'améliorations
+---------------------------
+
+Pour les étudiant-e-s des années futures
 
 Remarques/commentaires
 ----------------------

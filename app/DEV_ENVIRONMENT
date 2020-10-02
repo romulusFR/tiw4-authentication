@@ -1,8 +1,8 @@
 DB_HOST=localhost
 DB_PORT=5432
-DB_USER=tiw4-auth
-DB_PASS=tiw4-auth
-DB_DATABASE=tiw4-auth
+DB_USER=tiw4_auth
+DB_PASS=tiw4_auth
+DB_DATABASE=tiw4_auth
 
 PORT=3000
 NODE_ENV=development

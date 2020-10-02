@@ -76,6 +76,8 @@ Lancement de l'application Node.js
 cp tiw4-authentication/app/DEV_ENVIRONMENT tiw4-authentication/app/.env
 
 cd ~/tiw4-authentication/app
+# on télécharge les node_modules
+npm install
 # si on veut lancer l'app en mode développement
 npm run dev
 # là on doit pouvoir accéder à la VM sur le port 443 sans erreur et voir une page

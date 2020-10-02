@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en">
+  <%- include('includes/header') -%>
+  <body>
+    <div id="main">
+      <h2>Current list of users</h2>
+      <ul>
+        <% users.forEach(function(user) { %>
+        <li><%= user.username %> : <%= user.email %></li>
+        <% }); %>
+      </ul>
+    </div>
+  </body>
+  <%- include('includes/footer') -%>
+</html>
+

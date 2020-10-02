@@ -55,7 +55,7 @@ app.use(function defaultHandler(err, req, res, _next) {
 
   debug(`rendering error: ${err}`);
 
-  // set status (500 is defualt) and renders the error page
+  // set status (500 is default) and renders the error page
   res.status(res.locals.status);
   res.render('error');
 });

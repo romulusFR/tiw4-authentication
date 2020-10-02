@@ -1,4 +1,4 @@
-// eslint-disable-next-line prettier/prettier
+// prettier-ignore
 const { JWT, JWK : { asKey } } = require('jose');
 const debug = require('debug')('app:authenticate');
 const createError = require('http-errors');
@@ -25,7 +25,7 @@ async function authenticateUser(req, res, next) {
     else {
       // inspiration from https://www.sohamkamani.com/blog/javascript/2019-03-29-node-jwt-authentication/
       const payload = {
-        sub: login
+        sub: login,
         // fields 'iat' and 'exp' are automatically filled from  the expiresIn parameter
       };
 
@@ -34,8 +34,8 @@ async function authenticateUser(req, res, next) {
         issuer: issuerID,
         expiresIn: `${jwtExpirySeconds} s`,
         header: {
-          typ: 'JWT'
-        }
+          typ: 'JWT',
+        },
       };
 
       // Create a new token
@@ -67,7 +67,7 @@ function checkUser(req, _res, next) {
   try {
     const payload = JWT.verify(token, jwtServerKey, {
       algorithms: ['HS256'],
-      issuer: issuerID
+      issuer: issuerID,
     });
 
     if (!payload.sub) next(createError(403, 'User not authorized'));

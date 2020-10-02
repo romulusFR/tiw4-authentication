@@ -9,9 +9,9 @@ const morgan = require('morgan');
 require('dotenv').config();
 
 const app = express();
-// use the https://pugjs.org/  view engine.
+// use the https://ejs.co view engine.
 app.set('views', path.join(__dirname, 'views'));
-app.set('view engine', 'pug');
+app.set('view engine', 'ejs');
 
 // see https://www.npmjs.com/package/morgan
 app.use(morgan('dev'));

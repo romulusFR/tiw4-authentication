@@ -5,7 +5,7 @@ const db = require('../models/queries');
 const router = express.Router();
 
 router.get('/', function signupHandler(_req, res, _next) {
-  res.render('signup', { title: 'TIW4 -- LOGON' });
+  res.render('signup', {});
 });
 
 router.post('/', async function signupHandler(req, res, next) {

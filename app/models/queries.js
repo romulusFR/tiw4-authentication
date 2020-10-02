@@ -2,6 +2,7 @@ const { Pool } = require('pg');
 const debug = require('debug')('app:postgres');
 require('dotenv').config();
 
+// loads configuraiton from environnement variables overrided by '.env' file
 const pool = new Pool({
   user: process.env.DB_USER,
   host: process.env.DB_HOST,

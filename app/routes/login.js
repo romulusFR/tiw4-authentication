@@ -4,7 +4,7 @@ const { authenticateUser } = require('./authenticate');
 const router = express.Router();
 
 router.get('/', function loginHandler(_req, res, _next) {
-  res.render('login', { title: 'TIW4 -- LOGON' });
+  res.render('login', {});
 });
 
 router.post('/', authenticateUser);

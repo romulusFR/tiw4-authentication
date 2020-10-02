@@ -9,15 +9,16 @@ const morgan = require('morgan');
 require('dotenv').config();
 
 const app = express();
+
+// set global title for the whole app
+app.locals.title = 'TIW4 -- LOGON';
+
 // use the https://ejs.co view engine.
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
 
 // see https://www.npmjs.com/package/morgan
 app.use(morgan('dev'));
-
-// see https://expressjs.com/en/api.html#express.json
-// app.use(express.json());
 
 // see https://expressjs.com/en/api.html#express.urlencoded
 // to decode application/x-www-form-urlencoded

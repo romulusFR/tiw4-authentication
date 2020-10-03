@@ -6,7 +6,10 @@ TIW4 2020-2021 "TP authentification" : documentation de déploiement
   - [Installation générale](#installation-générale)
   - [Configuration nginx](#configuration-nginx)
   - [Configuration PostgreSQL](#configuration-postgresql)
-  - [Lancement de l'application Node.js](#lancement-de-lapplication-nodejs)
+  - [Mise en place de l'application Node.js](#mise-en-place-de-lapplication-nodejs)
+    - [Configuration de la BD](#configuration-de-la-bd)
+    - [Lancement en mode développement](#lancement-en-mode-développement)
+    - [Lancement en mode production](#lancement-en-mode-production)
 <!-- markdownlint-enable MD004-->
 
 On donne ici des informations sur le déploiement de l'application _LOGON_ pour ceux qui souhaitent reproduire l'environnement en local.
@@ -14,9 +17,9 @@ On donne ici des informations sur le déploiement de l'application _LOGON_ pour 
 Installation générale
 ---------------------
 
-Pour des versions à jour de Node.js, PostgresSQL et `nginx`, voir le fichier [`configuration/install.sh`](configuration/install.sh).
+Le fichier [`configuration/install.sh`](configuration/install.sh) installe des versions à jour de Node.js, PostgresSQL et `nginx`.
 
-Ensuite, on clone le dépôt avec `git clone https://github.com/romulusFR/tiw4-authentication.git`.
+Ensuite, on clone votre dépôt qui _forke_ le projet de départ <https://github.com/romulusFR/tiw4-authentication>.
 
 Configuration nginx
 -------------------
@@ -35,14 +38,14 @@ sudo mv default default.back
 
 A ce stade on a :
 
-- un certificat auto-signé `snakeoil`;
+- un certificat `snakeoil` pour TLS;
 - le port 80 redirigé vers 443;
 - une 502 sur car l'application Node.js n'est pas lancée.
 
 Configuration PostgreSQL
 ------------------------
 
-Montage du serveur
+Création de l'utilisateur et de la base de données :
 
 ```bash
 sudo -u postgres -s
@@ -54,9 +57,15 @@ psql -d tiw4_auth -c "create extension pgcrypto;"
 exit
 ```
 
-Ensuite, pour se logguer avec `PGPASSWORD=tiw4_auth psql -h localhost -U tiw4_auth -d tiw4_auth`.
+Ensuite, on peut se logguer _depuis localhost_ avec `PGPASSWORD=tiw4_auth psql -h localhost -U tiw4_auth -d tiw4_auth`.
+
+Mise en place de l'application Node.js
+--------------------------------------
+
+### Configuration de la BD
 
 Le script de création de la table et quelques comptes d'exemple est dans [`configuration/init.sql`](configuration/init.sql).
+**Cette étape est déjà réalisée sur la VM fournie**.
 On peut tester ensuite ainsi :
 
 ```sql
@@ -68,8 +77,9 @@ FROM users;
 -- (1 row)
 ```
 
-Lancement de l'application Node.js
-----------------------------------
+### Lancement en mode développement
+
+**C'est la seule chose à faire sur la VM qui vous est fournie.**
 
 ```bash
 # on copie le fichier d'environnement
@@ -80,20 +90,19 @@ cd ~/tiw4-authentication/app
 npm install
 # si on veut lancer l'app en mode développement
 npm run dev
-# là on doit pouvoir accéder à la VM sur le port 443 sans erreur et voir une page
 ```
 
-A partir d'ici, on ici on peut lancer l'app sur le port 3000 par défaut.
-**C'est la seule chose à faire sur la VM qui vous est fournie.**
+A partir d'ici, l'application est lancée sur le port 3000 et on doit pouvoir y accéder sur le port 443.
+
+### Lancement en mode production
+
+On utilise ici le gestionnaire PM2 <https://pm2.keymetrics.io/docs/usage/quick-start/>
 
 ```bash
-cd ~/tiw4-authentication/app
-# si on veut lancer l'app en mode développement
-npm run dev
-
 # installation globale du gestionnaire d'exécution node
 npm install -g pm2@latest
 # en mode production
-pm2 start ./bin/www --name tiw4-auth
+pm2 start ./bin/www --name tiw4_auth
+# pour monitorer l'application
 pm2 monit
 ```

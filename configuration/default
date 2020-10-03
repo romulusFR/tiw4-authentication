@@ -9,9 +9,9 @@ server {
 
     include snippets/snakeoil.conf;
     include snippets/ssl_params.conf;
+    include snippets/proxy_set_header.conf;
 
     location / {
-       include /etc/nginx/snippets/proxy_set_header.conf;
        proxy_pass http://nodejs;
     }
 }
@@ -19,7 +19,6 @@ server {
 server {
     listen 80;
     listen [::]:80;
-    location / {
-         return 308 https://192.168.74.142/$request_uri;
-    }
+    # https://serverfault.com/questions/67316/in-nginx-how-can-i-rewrite-all-http-requests-to-https-while-maintaining-sub-dom
+    return 308 https://$host$request_uri;
 }

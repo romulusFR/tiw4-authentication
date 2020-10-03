@@ -12,24 +12,34 @@ Le TP consiste en la sécurisation du serveur et de l'application _LOGON_, il es
 
 ### Modalités de rendu et d'évaluation
 
-La structure du rapport à suivre est fournie dans le dossier [`rendu/`](rendu/).
 La date limite d'exécution est **le dimanche 18/10/20 à 23h59**.
 A cette date, vous devrez :
 
-* avoir mis l'URL de votre dépôt sur Tomuss :
-  - **Attention** : donnez moi les droits `Reporter`.
-  - **Attention** : il est **absolument interdit** d'utiliser _un dépôt public_.
-* avoir complété les rapports du dossier `rendu` dans votre dépôt;
+* avoir mis l'URL de votre dépôt sur Tomuss;
+* avoir complété le fichier [`RAPPORT.md`](RAPPORT.md);
 * avoir votre serveur **en état de marche** pour les tests automatisés.
 
 **Important** : à échéance, tous les dépôts GitLab seront clonés et l'accès aux VMs supprimé.
 
 L'évaluation portera sur :
 
-* la qualité technique et rédactionnelle du rapport,
-* la valeur ajoutée du rapport (appprofondissenements, idées nouvelles ou complémentaires)
-* les tests automatisés de la configuration système
-* une évaluation manuelle de l'application exécutée sur le serveur
+* la qualité technique et rédactionnelle du rapport;
+* l'exhaustivité des mesures identifiées et éventuellement implantées;
+* la valeur ajoutée du rapport (appprofondissenements, idées nouvelles ou complémentaires);
+* les tests automatisés de la configuration système;
+* une évaluation manuelle de l'application exécutée sur le serveur.
+
+**Attention** : remarques importantes sur le rendu, tout manquement sera sévèrement sanctionné :
+
+* donnez moi les droits `Reporter` sur votre dépôt;
+* il est _absolument interdit_ d'utiliser _un dépôt public_;
+* votre dépôt ne doit _en aucun cas_ contenir des éléments inutiles ou volumineux;
+* il faut pouvoir garantir un accès pour la correction :
+  - _rate limiting_;
+  - révocation des droits _sudoers_ de l'utilisateur _ubuntu_;
+  - suppression de la clef `TIW4-VM-authentif.pem` de `~/.ssh/authorized_keys`.
+
+Certaines mesures sont donc **interdites** à mettre en place, mais vous êtes invités à les tester et à les mettre dans le rapport dans l'état _à faire_.
 
 ### Changelog
 
@@ -41,8 +51,11 @@ Partie A : mise en place
 ------------------------
 
 Un serveur Ubuntu 20.04 est fourni à chaque binôme. Son IP est donnée dans Tomuss. La VM a également un nom DNS de la forme `tiw4-authentication-XX.tiw4.os.univ-lyon1.fr` où `XX` est votre numéro de binôme sur un ou deux chiffres (e.g., 1, 2, ..., 10, 11).
+Les secrets la clef `TIW4-VM-authentif.pem` d'accès à la VM et la _passphrase_ de la CA vous sont communiqués sur le Discord.
 
 Le fichier [`DEPLOY.md`](./DEPLOY.md) donne des informations sur le déploiement de l'application, sauf la toute fin du document, ce sont les étapes qui ont _déjà été faites_ sur la VM qui vous est fournie.
+
+Une VM de référence avec l'application de départ déployée est accessible à <https://tiw4-authentication-gold.tiw4.os.univ-lyon1.fr/> (IP : 192.168.74.142)
 
 ### Travail à faire
 
@@ -51,10 +64,11 @@ Le fichier [`DEPLOY.md`](./DEPLOY.md) donne des informations sur le déploiement
 * Connectez vous sur la VM et lancez l'application.
 * Corrigez le problème de la redirection `nginx` dans la configuration initiale
 
-### Remarques
+### Questions
 
-* les secrets la clef `.pem` d'accès à la VM et la _passphrase_ de la CA vous sont communiqués sur le Discord;
-* une VM de référence avec l'application de départ déployée est accessible à <https://tiw4-authentication-gold.tiw4.os.univ-lyon1.fr/> (IP : 192.168.74.142)
+Les questions de ce document, sont là pour vous guider, vous aider à comprendre le fonctionnement et à identifier des problèmes de sécurité.
+
+
 
 Partie B : sécurisation système
 --------------------------------
@@ -69,6 +83,22 @@ Si la configuration du front `nginx` est au cœur du sujet, plus généralement,
 * paramétrage  du _rate limiter_ dans `nginx` (peut aussi être fait via express);
 * configuration du serveur PostgreSQL et de la base `tiw4_auth`.
 
+
+### Questions
+
+
+- pourquoi dit-on que `tiw4-ca` est une autorité _intermédiaire_ ?
+- quel est le CN de l’émetteur du certificat (_issuer_) dans `tiw4-ca.cert` ?
+- quel est le CN du sujet certifié (_subject_) dans `tiw4-ca.cert`?
+- dans la configuration initiale de la VM fournie, qui sont l’émetteur et le sujet du certificat utilisé ?
+- avec la configuration OpenSSL fournie, peut-on utiliser le certificat que vous allez générer pour en signer d'autres ? Pourquoi ?
+- que se passe-t'il si vous utilisez un autre _organizationName_ pour votre serveur ?
+- pourquoi demander pour le serveur une clef RSA 2048 bits et pas 1024 ou 4096 ?
+- après génération d'un certificat, que contient le fichier `index` ?
+- quelle est la durée maximum que vous pouvez raisonnablement donner au certificat que vous allez générer pour votre VM ?
+
+
+
 Partie C : sécurisation applicative
 -----------------------------------
 
@@ -82,28 +112,26 @@ Identifiez toutes les failles ou mauvaises pratiques de l'application web et pre
 
 **Remarque**, si vous pouvez envoyer des emails via smtp.univ-lyon1.fr:25 avec par exemple [nodemailer](https://nodemailer.com/about/) il est _aussi_ demandé de _simuler_ leur envoi, par exemple en affichant le contenu du mail supposé envoyé dans une page web.
 
-Conseils
---------
+Conseils généraux
+-----------------
 
-* Prenez des notes tout au long de vos interventions et complétez le rapport demandé au fur et à mesure.
-* Pensez à vous mettre en navigation privée pour vos tests, en particulier quand vous modifiez et testez la configuration `nginx`
+* _Prenez des notes_ tout au long de vos interventions et complétez le rapport demandé au fur et à mesure.
 * Votre travail doit être **reproductible** : votre dépôt doit donc _impérativement_ contenir **toutes** les configurations modifiées, les scripts etc.
-* Dans le rapport, renvoyer vers les annexes pour les détails techniques
-* La cryptographie, ça ne pardonne pas : soyez progressifs et rigoureux dans vos tests;
-* Utilisez un multiplexeur de terminal comme [`screen`](https://www.gnu.org/software/screen/screen.html), [`tmux`](https://github.com/tmux/tmux/wiki) ou [`byobu`](https://www.byobu.org/) (le choix de l'auteur) :
-  - permet de détacher les processus qui continueront à s'exécuter après déconnexion
-  - permet de retrouver l'état de ses terminaux après reconnexion
-  - permet de partager le terminal entre plusieurs utilisateurs (tout le monde voit la même chose)
-  - permet d'avoir plusieurs terminaux dans une même fenêtre et une seule connexion SSH
+* Soyez _clairs, concis et rigoureux_ dans vos rapport et votre développement, je veux **de la qualité** :
+  - des sources d'autorité qui justifient les choix;
+  - du code et des scripts _parfaitement clean_ : `prettier`, `eslint`, `markdownlint`;
+  - commentaires _obligatoires_.
+* Pensez à vous mettre en _navigation privée_ pour vos tests, en particulier quand vous modifiez et testez la configuration `nginx`.
+* Utilisez un _multiplexeur de terminal_ comme [`screen`](https://www.gnu.org/software/screen/screen.html), [`tmux`](https://github.com/tmux/tmux/wiki) ou [`byobu`](https://www.byobu.org/) (le choix de l'auteur) :
+  - permet de détacher les processus qui continueront à s'exécuter après déconnexion;
+  - permet de retrouver l'état de ses terminaux après reconnexion;
+  - permet de partager le terminal entre plusieurs utilisateurs (tout le monde voit la même chose);
+  - permet d'avoir plusieurs terminaux dans une même fenêtre et une seule connexion SSH.
 * _Configurez votre environnement de travail_ pour être productifs :
   - l'IDE (VSCode/Codium pour moi);
   - `.ssh/config` et clefs sur votre dépôt GitLab;
   - la config de `psql`, e.g., [voir ici](https://forge.univ-lyon1.fr/bd-pedago/bd-pedago#ligne-de-commande-psql);
-  - scripts bash pour automatiser le déploiement
-* Soyez clairs, concis et rigoureux dans vos rapport et votre développement, je veux **de la qualité** :
-  - des sources d'autorité qui justifient les choix
-  - du code et des scripts _parfaitement clean_ : `prettier`, `eslint`, `markdownlint`
-  - commentaires **obligatoires**
+  - scripts bash pour automatiser le déploiement (optionnel).
 
 Références
 ----------

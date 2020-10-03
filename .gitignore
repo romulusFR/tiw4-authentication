@@ -3,6 +3,7 @@
 *.back
 .private/
 .vscode/
+correction/
 
 # environment file
 .env

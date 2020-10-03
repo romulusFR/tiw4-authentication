@@ -25,21 +25,23 @@ L'évaluation portera sur :
 
 * la qualité technique et rédactionnelle du rapport;
 * l'exhaustivité des mesures identifiées et éventuellement implantées;
-* la valeur ajoutée du rapport (appprofondissenements, idées nouvelles ou complémentaires);
+* la valeur ajoutée du rapport (approfondissements, idées nouvelles ou complémentaires);
 * les tests automatisés de la configuration système;
 * une évaluation manuelle de l'application exécutée sur le serveur.
 
 **Attention** : remarques importantes sur le rendu, tout manquement sera sévèrement sanctionné :
 
-* donnez moi les droits `Reporter` sur votre dépôt;
-* il est _absolument interdit_ d'utiliser _un dépôt public_;
-* votre dépôt ne doit _en aucun cas_ contenir des éléments inutiles ou volumineux;
-* il faut pouvoir garantir un accès pour la correction :
-  - _rate limiting_;
-  - révocation des droits _sudoers_ de l'utilisateur _ubuntu_;
-  - suppression de la clef `TIW4-VM-authentif.pem` de `~/.ssh/authorized_keys`.
+* sur votre dépôt GitLab
+  - donnez moi les droits `Reporter` sur votre dépôt;
+  - il est _absolument interdit_ d'utiliser _un dépôt public_;
+  - votre dépôt ne doit _en aucun cas_ contenir des éléments inutiles ou volumineux;
+* il faut pouvoir garantir un accès pour la correction automatisée :
+  - le _rate limiting_ est interdit;
+  - laissez les droits _sudoers_ de l'utilisateur _ubuntu_;
+  - gardez la clef `TIW4-VM-authentif.pem` dans `~/.ssh/authorized_keys`.
 
-Certaines mesures sont donc **interdites** à mettre en place, mais vous êtes invités à les tester et à les mettre dans le rapport dans l'état _à faire_.
+Certaines mesures qui dans l'absolu devraient être effectuées sont donc **interdites** à mettre en place.
+Mettez-les toutefois dans le rapport dans l'état _à faire_ pour montrer que vous y avez pensé et que vous les avez testées.
 
 ### Changelog
 
@@ -51,7 +53,7 @@ Partie A : mise en place
 ------------------------
 
 Un serveur Ubuntu 20.04 est fourni à chaque binôme. Son IP est donnée dans Tomuss. La VM a également un nom DNS de la forme `tiw4-authentication-XX.tiw4.os.univ-lyon1.fr` où `XX` est votre numéro de binôme sur un ou deux chiffres (e.g., 1, 2, ..., 10, 11).
-Les secrets la clef `TIW4-VM-authentif.pem` d'accès à la VM et la _passphrase_ de la CA vous sont communiqués sur le Discord.
+Les secrets la clef `TIW4-VM-authentif.pem` d'accès à la VM et la _passphrase_ de la clef privée de la CA vous sont communiqués sur le Discord.
 
 Le fichier [`DEPLOY.md`](./DEPLOY.md) donne des informations sur le déploiement de l'application, sauf la toute fin du document, ce sont les étapes qui ont _déjà été faites_ sur la VM qui vous est fournie.
 
@@ -61,7 +63,7 @@ Une VM de référence avec l'application de départ déployée est accessible à
 
 * Lisez l'intégralité du sujet familiarisez vous avec l'environnement et l'application **avant** la séance.
 * Créez un dépôt **privé** sur <https://forge.univ-lyon1.fr> et _forkez_ le projet de départ GitHub [en y ajoutant un nouveau _remote_](https://stackoverflow.com/questions/50973048/forking-git-repository-from-github-to-gitlab).
-* Connectez vous sur la VM, relancez `nginx` et lancez l'application.
+* Connectez vous sur la VM, relancez `nginx` et lancez l'application dans `~/helloworld/` puis celle de votre dépôt cloné.
 * Corrigez le problème de la redirection `nginx` dans la configuration initiale.
 
 ### Questions
@@ -69,7 +71,7 @@ Une VM de référence avec l'application de départ déployée est accessible à
 Ces questions, sont là pour vous guider, vous aider à comprendre le fonctionnement et à identifier des problèmes de sécurité.
 Il n'est pas nécessaire de faire figurer les réponses dans le rapport, mais ce n'est pas interdit.
 
-* quels sont les ports réseaux ouverts ? Attention au point de vu différent selon qu'on scanne depuis localhost, internet, le vpn, le wifi ucbl-portail ou wifi eduroam.
+* quels sont les ports réseaux ouverts ? Attention au point de vu différent selon qu'on scanne depuis `localhost`, internet, le vpn, le wifi ucbl-portail ou wifi eduroam.
 * quelles sont les principales caractéristiques techniques de votre VM ?
 
 Partie B : sécurisation système
@@ -82,6 +84,7 @@ Pour cela, nous fournissons le matériel cryptographique de l'autorité de certi
 
 Générez un certificat TLS signé de l'autorité _tiw4-ca_ puis déployer le.
 Le fichier [`tiw4-ca/README.md`](tiw4-ca/README.md) détaille la marche à suivre.
+Vérifiez que votre certificat fonctionne pour l'IP **et* pour le nom DNS de votre VM.
 
 Si la configuration du front `nginx` est au cœur du sujet, toutes les vulnérabilités niveau système et leurs contre-mesures sont pertinentes, virtuellement tout ce qui ne relève pas du code de l'application _LOGON_ :
 
@@ -96,14 +99,13 @@ Si la configuration du front `nginx` est au cœur du sujet, toutes les vulnérab
 * Pourquoi dit-on que `tiw4-ca` est une autorité _intermédiaire_ ?
 * Dans la configuration initiale de la VM fournie, qui sont l’émetteur et le sujet du certificat utilisé ?
 * Quel certificat utilise PostgreSQL pour ses connections TLS ?
-* Quel est le CN de l’émetteur du certificat (_issuer_) dans `tiw4-ca.cert` ?
-* Quel est le CN du sujet certifié (_subject_) dans `tiw4-ca.cert`?
+* Quels modes d'authentifications sont acceptés par PostgreSQL et depuis quels IPs ?
+* Quel est le CN de l’émetteur du certificat (_issuer_) et celui du sujet certifié (_subject_)  dans `tiw4-ca.cert` ?
 * Avec la configuration OpenSSL fournie, peut-on utiliser le certificat que vous allez générer pour en signer d'autres ? Pourquoi ?
 * Que se passe-t'il si vous utilisez un autre _organizationName_ pour votre serveur ?
 * Pourquoi demander pour le serveur une clef RSA 2048 bits et pas 1024 ou 4096 ?
 * Après génération d'un certificat, que contient le fichier `index` ?
 * Quelle est la durée maximum que vous pouvez raisonnablement donner au certificat que vous allez générer pour votre VM ?
-* Quels sont les droits de l'utilisateur qui exécute l'application _LOGON_ ?
 
 Partie C : sécurisation applicative
 -----------------------------------
@@ -113,22 +115,26 @@ Les aspects systèmes ayant été traités dans le TP précédent, cette partie 
 
 ### Travail à faire
 
- Votre attention sur la sécurité applicative portera en particulier sur :
+ Votre attention sur la sécurité applicative sur :
 
-* le stockage des mots de passes dans PostgreSQL (choix du hash)
-* le processus de création de compte (dureté du mot de passe, vérification de l'email, validité des saisies utilisateurs, mesures anti bots, limitations du nombre de tentatives)
-* le processus de récupération du mot de passe (optionnel, via génération d'un token à validité limitée)
-* la sécurité générale de l'application et les bonnes pratiques de développement NodeJS.
-* la qualité de l'expérience utilisateur au delà de l'esthétique, c'est surtout les enchainements d'écrans et la clarté des retours/erreurs qui compte.
+* Le stockage des mots de passes dans PostgreSQL : il faut modifier la méthode utilisée pour stocker et vérifier les mots de passe
+* Le processus de création de compte (dureté du mot de passe, vérification de l'email, validité des saisies utilisateurs, mesures anti bots, limitations du nombre de tentatives)
+* La sécurité générale de l'application et les bonnes pratiques de développement et de déploiement Node.js.
+* La conception d'un processus de récupération du mot de passe via génération d'un token à validité limitée
 
-**Remarque**, si vous pouvez envoyer des emails via smtp.univ-lyon1.fr:25 avec par exemple [nodemailer](https://nodemailer.com/about/) il est _aussi_ demandé de _simuler_ leur envoi, par exemple en affichant le contenu du mail supposé envoyé dans une page web.
+**Remarque**, si vous pouvez envoyer des emails via `smtp.univ-lyon1.fr:25` avec par exemple [nodemailer](https://nodemailer.com/about/) il est _aussi_ demandé de _simuler_ leur envoi, par exemple en affichant le contenu du mail supposé envoyé dans une page web.
 
 ### Questions
 
-* vérifier le contenu du token généré sur <https://jwt.io>
-* qu'est ce qui change entre les mode _development_ et _production_ dans l'application fournie ?
-* quelles autres chosent _pourraient_ ou _devraient_ changer ?
-* que se passe t'il en cas d'exécution concurrente de l'application pour la génération du JWT en mode _production_ ?
+* L'application est-elle _stateless_ ?
+* Les contraintes d'intégrité SQL de la table `users` vous paraissent-elles satisfaisantes ?
+* Qui a les droits sur le schéma `public` de la base de données ?
+* Quels sont les droits de l'utilisateur qui exécute l'application _LOGON_ ?
+* Qu'est ce qui change entre les mode _development_ et _production_ dans l'application fournie ?
+* Quelles autres chosent _pourraient_ ou _devraient_ changer pour l'exécution en production ?
+* Que se passe t'il en cas d'exécution concurrente de l'application pour la génération du JWT en mode _production_ ?
+* Vérifier le contenu du token généré sur <https://jwt.io>. Quelle est sa durée de validité ?
+* Quelles mesure de sécurité vont vous apporter <https://helmetjs.github.io/>
 
 Conseils généraux
 -----------------

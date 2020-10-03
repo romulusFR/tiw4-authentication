@@ -1,7 +1,7 @@
 TIW4 2020-2021 "TP authentification" : l'autorité de certification (CA) intermédiaire `tiw4-ca`
 ===============================================================================================
 
-Ici on donne le matériel cryptographique d'une autorité de certification intermédiaire appellée `tiw4-ca`.
+Ici on donne le matériel cryptographique d'une autorité de certification intermédiaire appelée `tiw4-ca`.
 Ce matériel sert à générer le certificat TLS de votre serveur.
 Il y a donc un _jeu de rôles_ où vous utiliserez OpenSSL :
 
@@ -17,7 +17,7 @@ Les étapes sont les suivantes :
 - tirage de clef de votre serveur;
 - génération de la CSR;
 - génération du certificat TLS par la CA à partir de la CSR;
-- mise en place du certifcat dans `nginx`.
+- mise en place du certificat dans `nginx`.
 
 Matériel fourni
 ---------------
@@ -44,8 +44,8 @@ export BASE_SAN="email:romuald.thion@univ-lyon1.fr"
 
 Il faudra par contre définir **vous mêmes** les variables suivantes :
 
-- `CLIENT_CN` : le _Common Name_ de votre VM
-- `CLIENT_SAN` : le _Subject Alternative Name_, ici l'IP de votre VM
+- `CLIENT_CN` : le _Common Name_ de votre VM.
+- `CLIENT_SAN` : le _Subject Alternative Name_, ici l'IP de votre VM **et** son nom DNS.
 
 **Remarque** : au final vous n'avez que trois commandes OpenSSL à exécuter pour générer la clef, le CSR et le certificat.
 

@@ -17,8 +17,7 @@ Identification
 Listes des fichiers contenus dans l'archive
 -------------------------------------------
 
-* `PARTIE-A.md` : CR de la partie A
-* `PARTIE-B.md` : CR de la partie B
+* `RAPPORT.md` : le rappot à compléter
 * `README.md`   : informations administratives (ce fichier)
 * les autres fichiers utiles ajoutés
 

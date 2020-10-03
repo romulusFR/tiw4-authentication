@@ -42,21 +42,6 @@ Il faudra par contre définir **vous mêmes** les variables suivantes :
 
 **Remarque** : au final vous n'avez que trois commandes OpenSSL à exécuter pour générer la clef, le CSR et le certificat.
 
-Questions de compréhension
---------------------------
-
-Ces questions sont là pour vous aider. Elles sont assez représentative de ce qu'on peut demander à un examen.
-
-- pourquoi dit-on que `tiw4-ca` est une autorité _intermédiaire_ ?
-- quel est le CN de l’émetteur du certificat (_issuer_) dans `tiw4-ca.cert` ?
-- quel est le CN du sujet certifié (_subject_) dans `tiw4-ca.cert`?
-- dans la configuration initiale de la VM fournie, qui sont l’émetteur et le sujet du certificat utilisé ?
-- avec la configuration OpenSSL fournie, peut-on utiliser le certificat que vous allez générer pour en signer d'autres ? Pourquoi ?
-- que se passe-t'il si vous utilisez un autre _organizationName_ pour votre serveur ?
-- pourquoi demander pour le serveur une clef RSA 2048 bits et pas 1024 ou 4096 ?
-- après génération d'un certificat, que contient le fichier `index` ?
-- quelle est la durée maximum que vous pouvez raisonnablement donner au certificat que vous allez générer pour votre VM ?
-
 Exemples
 --------
 

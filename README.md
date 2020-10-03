@@ -5,67 +5,71 @@ Introduction
 ------------
 
 On donne une [application d'authentification simple Node.js/Express](https://github.com/romulusFR/tiw4-authentication) avec un backend PostgreSQL qui doit gérer des comptes utilisateurs, appelons cette application _LOGON_.
-Le TP consiste en la sécurisation du serveur et de l'application _LOGON_, il est ainsi  composé de deux parties :
+Le TP consiste en la sécurisation du serveur et de l'application _LOGON_, il est ainsi composé de deux parties principales :
 
-* **[partie A](#Partie-A-:-sécurisation-système)** on s'intéresse au niveau système (Linux, serveur _nginx_, serveur PostgreSQL) et surtout la mise en place de TLS;
-* **[partie B](#Partie-B-:-sécurisation-applicative)** on s'intéresse au serveur d'application Node.js, à la base de données hébergée dans PostgreSQL et l'application elle même.
+* **Sécurisation-système** on s'intéresse au niveau système (Linux, serveur `nginx`, serveur PostgreSQL) et la mise en place de TLS;
+* **Sécurisation-applicative** on s'intéresse au serveur d'application Node.js et l'application elle même.
 
-Le fichier [`DEPLOY.md`](./DEPLOY.md) donne des informations utiles sur le déploiement et le développement.
-Un serveur Ubuntu 20.04 vous sera fourni pour vos tests, il devra être _up and running_ pour l'évaluation.
-
-### Important
-
-* Familiarisez vous avec l'environnement et l'application avant la séance.
-
-* Créez un dépôt **privé** sur <https://forge.univ-lyon1.fr> et _forkez_ le projet de départ GitHub [en y ajoutant un nouveau _remote_](https://stackoverflow.com/questions/50973048/forking-git-repository-from-github-to-gitlab).
-
-### Modalités de rendu
+### Modalités de rendu et d'évaluation
 
 La structure du rapport à suivre est fournie dans le dossier [`rendu/`](rendu/).
 La date limite d'exécution est **le dimanche 18/10/20 à 23h59**.
 A cette date, vous devrez :
 
-* avoir mis l'URL de votre dépôt sur Tomuss
-  - **Attention** : donnez moi les droits `Reporter`
-* avoir complété les rapports du dossier `rendu` dans votre dépôt
-* avoir votre serveur **en état de marche**
+* avoir mis l'URL de votre dépôt sur Tomuss :
+  - **Attention** : donnez moi les droits `Reporter`.
+  - **Attention** : il est **absolument interdit** d'utiliser _un dépôt public_.
+* avoir complété les rapports du dossier `rendu` dans votre dépôt;
+* avoir votre serveur **en état de marche** pour les tests automatisés.
 
-A la date donnée, je clonerai tous les dépôts et je bloquerai l'accès aux VMs.
+**Important** : à échéance, tous les dépôts GitLab seront clonés et l'accès aux VMs supprimé.
 
-### Modalités d'évaluation
+L'évaluation portera sur :
 
-Poids indicatifs susceptibles de modification
-
-* [30%] Rapport partie A
-* [30%] Rapport partie B
-* [40%] Tests sur la VM
-
-### Remarques
-
-* l'application _LOGON_ n'est **pas** lancée sur la VM fournie, voir la fin de [`DEPLOY.md`](./DEPLOY.md);
-* l'IP de la VM attribuée à chaque binôme sera dans Tomuss;
-* les secrets (le `.pem` d'accès à la VM et la _passphrase_ de la CA) vous sont communiqués sur le Discord;
-* il est **absolument interdit** de maintenir _un dépôt public_ pour ce TP.
+* la qualité technique et rédactionnelle du rapport,
+* la valeur ajoutée du rapport (appprofondissenements, idées nouvelles ou complémentaires)
+* les tests automatisés de la configuration système
+* une évaluation manuelle de l'application exécutée sur le serveur
 
 ### Changelog
 
+* 2020-10-03 : restructuration sujet et rendu
 * 2020-10-02 : remplacement de <https://pugjs.org> par <https://ejs.co/>
 * 2020-10-01 : mise à jour générale
 
-Partie A : sécurisation système
+Partie A : mise en place
+------------------------
+
+Un serveur Ubuntu 20.04 est fourni à chaque binôme. Son IP est donnée dans Tomuss. La VM a également un nom DNS de la forme `tiw4-authentication-XX.tiw4.os.univ-lyon1.fr` où `XX` est votre numéro de binôme sur un ou deux chiffres (e.g., 1, 2, ..., 10, 11).
+
+Le fichier [`DEPLOY.md`](./DEPLOY.md) donne des informations sur le déploiement de l'application, sauf la toute fin du document, ce sont les étapes qui ont _déjà été faites_ sur la VM qui vous est fournie.
+
+### Travail à faire
+
+* Lisez l'intégralité du sujet familiarisez vous avec l'environnement et l'application **avant** la séance.
+* Créez un dépôt **privé** sur <https://forge.univ-lyon1.fr> et _forkez_ le projet de départ GitHub [en y ajoutant un nouveau _remote_](https://stackoverflow.com/questions/50973048/forking-git-repository-from-github-to-gitlab).
+* Connectez vous sur la VM et lancez l'application.
+* Corrigez le problème de la redirection `nginx` dans la configuration initiale
+
+### Remarques
+
+* les secrets la clef `.pem` d'accès à la VM et la _passphrase_ de la CA vous sont communiqués sur le Discord;
+* une VM de référence avec l'application de départ déployée est accessible à <https://tiw4-authentication-gold.tiw4.os.univ-lyon1.fr/> (IP : 192.168.74.142)
+
+Partie B : sécurisation système
 --------------------------------
 
-Il s'agit de sécuriser le serveur web qui vous est attribué et de mettre en place de HTTPS/TLS sur `nginx`.
-Pour cela, nous fournissons le matériel cryptographique de l'autorité de certification nommée _tiw4-ca_ ainsi que des configurations OpenSSL dans le dossier [./tiw4-ca](./tiw4-ca). Le fichier [`tiw4-ca/README.md`](tiw4-ca/README.md) détaille a marche à suivre (tirage de clef, génération CSR, génération certificat).
+Il s'agit de sécuriser le serveur qui vous est attribué et de mettre en place de HTTPS/TLS sur `nginx`.
+Pour cela, nous fournissons le matériel cryptographique de l'autorité de certification nommée _tiw4-ca_ ainsi que des configurations OpenSSL dans le dossier [./tiw4-ca](./tiw4-ca). Le fichier [`tiw4-ca/README.md`](tiw4-ca/README.md) détaille la marche à suivre (tirage de clef, génération CSR, génération certificat).
 
 Si la configuration du front `nginx` est au cœur du sujet, plus généralement, toutes les vulnérabilités niveau système et leurs contre-mesures sont pertinentes, virtuellement tout ce qui ne relève pas du code de l'application _LOGON_ :
 
 * création d'utilisateurs Linux, leurs droits:
 * firewall, fail2ban;
-* paramétrage  du _rate limiter_ `nginx`;
-* durcissement de la configuration du serveur PostgreSQL.
+* paramétrage  du _rate limiter_ dans `nginx` (peut aussi être fait via express);
+* configuration du serveur PostgreSQL et de la base `tiw4_auth`.
 
-Partie B : sécurisation applicative
+Partie C : sécurisation applicative
 -----------------------------------
 
 Identifiez toutes les failles ou mauvaises pratiques de l'application web et prenez les mesures nécessaires pour sécuriser l'application et les comptes utilisateurs. Les aspects systèmes ayant été traités dans le TP précédent, cette partie est donc consacrée essentiellement à l'application et sa base de données. Votre attention sur la sécurité applicative portera en particulier sur :
@@ -76,31 +80,46 @@ Identifiez toutes les failles ou mauvaises pratiques de l'application web et pre
 * la sécurité générale de l'application et les bonnes pratiques de développement NodeJS.
 * la qualité de l'expérience utilisateur au delà de l'esthétique, c'est surtout les enchainements d'écrans et la clarté des retours/erreurs qui compte.
 
-**Remarque, si vous pouvez envoyer des emails via smtp.univ-lyon1.fr:25 avec par exemple [nodemailer](https://nodemailer.com/about/) il est _aussi_ demandé de _simuler_ leur envoi, par exemple en affichant le contenu du mail supposé envoyé dans une page web**.
+**Remarque**, si vous pouvez envoyer des emails via smtp.univ-lyon1.fr:25 avec par exemple [nodemailer](https://nodemailer.com/about/) il est _aussi_ demandé de _simuler_ leur envoi, par exemple en affichant le contenu du mail supposé envoyé dans une page web.
 
 Conseils
 --------
 
-* Pensez à vous mettre en navigation privée pour vos tests.
+* Prenez des notes tout au long de vos interventions et complétez le rapport demandé au fur et à mesure.
+* Pensez à vous mettre en navigation privée pour vos tests, en particulier quand vous modifiez et testez la configuration `nginx`
 * Votre travail doit être **reproductible** : votre dépôt doit donc _impérativement_ contenir **toutes** les configurations modifiées, les scripts etc.
+* Dans le rapport, renvoyer vers les annexes pour les détails techniques
 * La cryptographie, ça ne pardonne pas : soyez progressifs et rigoureux dans vos tests;
-* Utilisez un multiplexeur de terminal comme [`tmux`](https://github.com/tmux/tmux/wiki) ou [`byobu`](https://www.byobu.org/) (mon choix) pour accéder à la VM;
-* Configurez votre environnement de travail pour être productifs : l'IDE bien sûr (VSCode/Codium pour moi) mais aussi `.ssh/config`, la config de `psql` (e.g., [voir ici](https://forge.univ-lyon1.fr/bd-pedago/bd-pedago#ligne-de-commande-psql))des scripts bash pour automatiser le déploiement, des clefs sur votre dépôt GitLab etc.;
+* Utilisez un multiplexeur de terminal comme [`screen`](https://www.gnu.org/software/screen/screen.html), [`tmux`](https://github.com/tmux/tmux/wiki) ou [`byobu`](https://www.byobu.org/) (le choix de l'auteur) :
+  - permet de détacher les processus qui continueront à s'exécuter après déconnexion
+  - permet de retrouver l'état de ses terminaux après reconnexion
+  - permet de partager le terminal entre plusieurs utilisateurs (tout le monde voit la même chose)
+  - permet d'avoir plusieurs terminaux dans une même fenêtre et une seule connexion SSH
+* _Configurez votre environnement de travail_ pour être productifs :
+  - l'IDE (VSCode/Codium pour moi);
+  - `.ssh/config` et clefs sur votre dépôt GitLab;
+  - la config de `psql`, e.g., [voir ici](https://forge.univ-lyon1.fr/bd-pedago/bd-pedago#ligne-de-commande-psql);
+  - scripts bash pour automatiser le déploiement
 * Soyez clairs, concis et rigoureux dans vos rapport et votre développement, je veux **de la qualité** :
-  - des sources d'autorité
-  - du code _parfaitement clean_ : `prettier`, `eslint` et des commentaires obligatoires
+  - des sources d'autorité qui justifient les choix
+  - du code et des scripts _parfaitement clean_ : `prettier`, `eslint`, `markdownlint`
+  - commentaires **obligatoires**
 
 Références
 ----------
 
 ### Configuration HTTPS/TLS
 
-* La documentation `nginx` <http://nginx.org/en/docs/http/configuring_https_servers.html> <http://nginx.org/en/docs/http/ngx_http_ssl_module.html>
-* Les tutoriels <https://www.linode.com/docs/web-servers/nginx/enable-tls-on-nginx-for-https-connections/> <https://www.linode.com/docs/*eb-servers/nginx/tls-deployment-best-practices-for-nginx/>
-* Cipherli.st Strong Ciphers for Apache, nginx and Lighttpd : <https://syslink.pl/cipherlist/>
-* Les recommandations de l'ANSSI <https://www.ssi.gouv.fr/guide/recommandations-de-securite-relatives-a-tls/>
-* L'outil de référence pour tester votre configuration <https://testssl.sh/>
-* Le tutoriel suivi par l'auteur pour la mise en place de la CA dans ce TP et en M1IF03 <https://jamielinux.com/docs/openssl-certificate-authority/sign-server-and-client-certificates.html>
+* La documentation `nginx` et tutoriels
+  - <http://nginx.org/en/docs/http/configuring_https_servers.html>
+  - <http://nginx.org/en/docs/http/ngx_http_ssl_module.html>
+  - <https://www.linode.com/docs/web-servers/nginx/enable-tls-on-nginx-for-https-connections/>
+  - <https://www.linode.com/docs/*eb-servers/nginx/tls-deployment-best-practices-for-nginx/>
+* Configuration TLS
+  - <https://syslink.pl/cipherlist/> : strong ciphers for Apache, nginx and Lighttpd
+  - <https://www.ssi.gouv.fr/guide/recommandations-de-securite-relatives-a-tls/> : recommandations de l'ANSSI
+  - <https://testssl.sh/> : outil pour tester votre configuration
+* <https://jamielinux.com/docs/openssl-certificate-authority/sign-server-and-client-certificates.html> mise en place de la CA avec OpenSSL (suivi par l'auteur)
 
 ### Sécurité Node.js et bonnes pratiques de production
 

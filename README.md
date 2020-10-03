@@ -17,7 +17,7 @@ A cette date, vous devrez :
 
 * avoir mis l'URL de votre dépôt sur Tomuss;
 * avoir complété le fichier [`RAPPORT.md`](RAPPORT.md);
-* avoir votre serveur **en état de marche** pour les tests automatisés.
+* avoir votre serveur **en état de marche en production** pour les tests automatisés.
 
 **Important** : à échéance, tous les dépôts GitLab seront clonés et l'accès aux VMs supprimé.
 
@@ -61,48 +61,59 @@ Une VM de référence avec l'application de départ déployée est accessible à
 
 * Lisez l'intégralité du sujet familiarisez vous avec l'environnement et l'application **avant** la séance.
 * Créez un dépôt **privé** sur <https://forge.univ-lyon1.fr> et _forkez_ le projet de départ GitHub [en y ajoutant un nouveau _remote_](https://stackoverflow.com/questions/50973048/forking-git-repository-from-github-to-gitlab).
-* Connectez vous sur la VM et lancez l'application.
-* Corrigez le problème de la redirection `nginx` dans la configuration initiale
+* Connectez vous sur la VM, relancez `nginx` et lancez l'application.
+* Corrigez le problème de la redirection `nginx` dans la configuration initiale.
 
 ### Questions
 
-Les questions de ce document, sont là pour vous guider, vous aider à comprendre le fonctionnement et à identifier des problèmes de sécurité.
+Ces questions, sont là pour vous guider, vous aider à comprendre le fonctionnement et à identifier des problèmes de sécurité.
+Il n'est pas nécessaire de faire figurer les réponses dans le rapport, mais ce n'est pas interdit.
 
-
+* quels sont les ports réseaux ouverts ? Attention au point de vu différent selon qu'on scanne depuis localhost, internet, le vpn, le wifi ucbl-portail ou wifi eduroam.
+* quelles sont les principales caractéristiques techniques de votre VM ?
 
 Partie B : sécurisation système
 --------------------------------
 
 Il s'agit de sécuriser le serveur qui vous est attribué et de mettre en place de HTTPS/TLS sur `nginx`.
-Pour cela, nous fournissons le matériel cryptographique de l'autorité de certification nommée _tiw4-ca_ ainsi que des configurations OpenSSL dans le dossier [./tiw4-ca](./tiw4-ca). Le fichier [`tiw4-ca/README.md`](tiw4-ca/README.md) détaille la marche à suivre (tirage de clef, génération CSR, génération certificat).
+Pour cela, nous fournissons le matériel cryptographique de l'autorité de certification nommée _tiw4-ca_ ainsi que des configurations OpenSSL dans le dossier [./tiw4-ca](./tiw4-ca).
 
-Si la configuration du front `nginx` est au cœur du sujet, plus généralement, toutes les vulnérabilités niveau système et leurs contre-mesures sont pertinentes, virtuellement tout ce qui ne relève pas du code de l'application _LOGON_ :
+### Travail à faire
 
-* création d'utilisateurs Linux, leurs droits:
-* firewall, fail2ban;
-* paramétrage  du _rate limiter_ dans `nginx` (peut aussi être fait via express);
+Générez un certificat TLS signé de l'autorité _tiw4-ca_ puis déployer le.
+Le fichier [`tiw4-ca/README.md`](tiw4-ca/README.md) détaille la marche à suivre.
+
+Si la configuration du front `nginx` est au cœur du sujet, toutes les vulnérabilités niveau système et leurs contre-mesures sont pertinentes, virtuellement tout ce qui ne relève pas du code de l'application _LOGON_ :
+
+* création d'utilisateurs Linux et gestion de leurs droits;
+* firewall, fail2ban (peut-être fait dans l'application);
+* paramétrage  du _rate limiting_  (**attention** à ne pas le mettre en production ce qui bloquerait les tests automatisés);
 * configuration du serveur PostgreSQL et de la base `tiw4_auth`.
-
 
 ### Questions
 
-
-- pourquoi dit-on que `tiw4-ca` est une autorité _intermédiaire_ ?
-- quel est le CN de l’émetteur du certificat (_issuer_) dans `tiw4-ca.cert` ?
-- quel est le CN du sujet certifié (_subject_) dans `tiw4-ca.cert`?
-- dans la configuration initiale de la VM fournie, qui sont l’émetteur et le sujet du certificat utilisé ?
-- avec la configuration OpenSSL fournie, peut-on utiliser le certificat que vous allez générer pour en signer d'autres ? Pourquoi ?
-- que se passe-t'il si vous utilisez un autre _organizationName_ pour votre serveur ?
-- pourquoi demander pour le serveur une clef RSA 2048 bits et pas 1024 ou 4096 ?
-- après génération d'un certificat, que contient le fichier `index` ?
-- quelle est la durée maximum que vous pouvez raisonnablement donner au certificat que vous allez générer pour votre VM ?
-
-
+* Node.js peut aussi faire du https, est-ce mieux que de le faire dans `nginx` ? Pourquoi ?
+* Pourquoi dit-on que `tiw4-ca` est une autorité _intermédiaire_ ?
+* Dans la configuration initiale de la VM fournie, qui sont l’émetteur et le sujet du certificat utilisé ?
+* Quel certificat utilise PostgreSQL pour ses connections TLS ?
+* Quel est le CN de l’émetteur du certificat (_issuer_) dans `tiw4-ca.cert` ?
+* Quel est le CN du sujet certifié (_subject_) dans `tiw4-ca.cert`?
+* Avec la configuration OpenSSL fournie, peut-on utiliser le certificat que vous allez générer pour en signer d'autres ? Pourquoi ?
+* Que se passe-t'il si vous utilisez un autre _organizationName_ pour votre serveur ?
+* Pourquoi demander pour le serveur une clef RSA 2048 bits et pas 1024 ou 4096 ?
+* Après génération d'un certificat, que contient le fichier `index` ?
+* Quelle est la durée maximum que vous pouvez raisonnablement donner au certificat que vous allez générer pour votre VM ?
+* Quels sont les droits de l'utilisateur qui exécute l'application _LOGON_ ?
 
 Partie C : sécurisation applicative
 -----------------------------------
 
-Identifiez toutes les failles ou mauvaises pratiques de l'application web et prenez les mesures nécessaires pour sécuriser l'application et les comptes utilisateurs. Les aspects systèmes ayant été traités dans le TP précédent, cette partie est donc consacrée essentiellement à l'application et sa base de données. Votre attention sur la sécurité applicative portera en particulier sur :
+Il s'agit ici d'identifier toutes les failles ou mauvaises pratiques de l'application web puis de prendre les mesures nécessaires pour sécuriser l'applications.
+Les aspects systèmes ayant été traités dans le TP précédent, cette partie est donc consacrée essentiellement à l'application et sa base de données.
+
+### Travail à faire
+
+ Votre attention sur la sécurité applicative portera en particulier sur :
 
 * le stockage des mots de passes dans PostgreSQL (choix du hash)
 * le processus de création de compte (dureté du mot de passe, vérification de l'email, validité des saisies utilisateurs, mesures anti bots, limitations du nombre de tentatives)
@@ -111,6 +122,13 @@ Identifiez toutes les failles ou mauvaises pratiques de l'application web et pre
 * la qualité de l'expérience utilisateur au delà de l'esthétique, c'est surtout les enchainements d'écrans et la clarté des retours/erreurs qui compte.
 
 **Remarque**, si vous pouvez envoyer des emails via smtp.univ-lyon1.fr:25 avec par exemple [nodemailer](https://nodemailer.com/about/) il est _aussi_ demandé de _simuler_ leur envoi, par exemple en affichant le contenu du mail supposé envoyé dans une page web.
+
+### Questions
+
+* vérifier le contenu du token généré sur <https://jwt.io>
+* qu'est ce qui change entre les mode _development_ et _production_ dans l'application fournie ?
+* quelles autres chosent _pourraient_ ou _devraient_ changer ?
+* que se passe t'il en cas d'exécution concurrente de l'application pour la génération du JWT en mode _production_ ?
 
 Conseils généraux
 -----------------
@@ -142,7 +160,7 @@ Références
   - <http://nginx.org/en/docs/http/configuring_https_servers.html>
   - <http://nginx.org/en/docs/http/ngx_http_ssl_module.html>
   - <https://www.linode.com/docs/web-servers/nginx/enable-tls-on-nginx-for-https-connections/>
-  - <https://www.linode.com/docs/*eb-servers/nginx/tls-deployment-best-practices-for-nginx/>
+  - <https://www.linode.com/docs/web-servers/nginx/tls-deployment-best-practices-for-nginx/>
 * Configuration TLS
   - <https://syslink.pl/cipherlist/> : strong ciphers for Apache, nginx and Lighttpd
   - <https://www.ssi.gouv.fr/guide/recommandations-de-securite-relatives-a-tls/> : recommandations de l'ANSSI

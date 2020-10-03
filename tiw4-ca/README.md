@@ -12,6 +12,13 @@ Il faut qu'à la fin du TP _chaque VM ait un certificat signé de l'autorité_.
 Si le certificat de l'autorité est dans la liste du navigateur, alors le site sera reconnu en HTTPS sans erreur : **c'est le but de cette étape**.
 Pour ceux qui ont suivit M1IF03 _Conception d'Application Web_ en M1, ce que vous faites ici est ce que les enseignants font quand ils vous ont fourni vos certificats à déployer dans _nginx_.
 
+Les étapes sont les suivantes :
+
+- tirage de clef de votre serveur;
+- génération de la CSR;
+- génération du certificat TLS par la CA à partir de la CSR;
+- mise en place du certifcat dans `nginx`.
+
 Matériel fourni
 ---------------
 

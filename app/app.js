@@ -8,10 +8,16 @@ const morgan = require('morgan');
 // read environnement variable in the ./.env file
 require('dotenv').config();
 
+// the main express app
 const app = express();
 
-// set global title for the whole app
-app.locals.title = 'TIW4 -- LOGON';
+// set global title and version for the whole app
+app.locals.title = 'TIW4 - LOGON';
+app.locals.version = process.env.npm_package_version;
+app.locals.name = process.env.npm_package_name;
+app.locals.author_name = process.env.npm_package_author_name;
+app.locals.description = process.env.npm_package_description;
+app.locals.homepage = process.env.npm_package_homepage;
 
 // use the https://ejs.co view engine.
 // Embedded JavaScript templating.

@@ -9,7 +9,7 @@ const db = require('../models/queries');
 const jwtServerKey = asKey(
   process.env.NODE_ENV === 'development' ? Buffer.from(process.env.SECRET_KEY || 'secret') : crypto.randomBytes(16)
 );
-// tokenn duration
+// token duration in seconds
 const jwtExpirySeconds = 60;
 const issuerID = 'TIW4-SSI -- LOGON App';
 

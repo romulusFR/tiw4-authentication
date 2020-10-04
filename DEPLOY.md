@@ -102,7 +102,7 @@ On utilise ici le gestionnaire PM2 <https://pm2.keymetrics.io/docs/usage/quick-s
 # installation globale du gestionnaire d'exécution node
 npm install -g pm2@latest
 # en mode production
-pm2 start ./bin/www --name tiw4_auth
+pm2 start npm --name tiw4_auth --watch -- start
 # pour monitorer l'application
 pm2 monit
 ```

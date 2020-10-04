@@ -13,6 +13,7 @@ const app = express();
 
 // set global title and version for the whole app
 app.locals.title = 'TIW4 - LOGON';
+// mind that the following variables are only accessible if rjn with npm
 app.locals.version = process.env.npm_package_version;
 app.locals.name = process.env.npm_package_name;
 app.locals.author_name = process.env.npm_package_author_name;

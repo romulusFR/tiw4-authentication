@@ -99,13 +99,15 @@ Si la configuration du front `nginx` est au cœur du sujet, toutes les vulnérab
 * Pourquoi dit-on que `tiw4-ca` est une autorité _intermédiaire_ ?
 * Dans la configuration initiale de la VM fournie, qui sont l’émetteur et le sujet du certificat utilisé ?
 * Quel certificat utilise PostgreSQL pour ses connections TLS ?
-* Quels modes d'authentifications sont acceptés par PostgreSQL et depuis quels IPs ?
+* Quels modes d'authentifications sont acceptés par PostgreSQL et depuis quelles IPs ?
 * Quel est le CN de l’émetteur du certificat (_issuer_) et celui du sujet certifié (_subject_)  dans `tiw4-ca.cert` ?
 * Avec la configuration OpenSSL fournie, peut-on utiliser le certificat que vous allez générer pour en signer d'autres ? Pourquoi ?
 * Que se passe-t'il si vous utilisez un autre _organizationName_ pour votre serveur ?
-* Pourquoi demander pour le serveur une clef RSA 2048 bits et pas 1024 ou 4096 ?
-* Après génération d'un certificat, que contient le fichier `index` ?
+* Pourquoi demander pour le serveur une clef RSA 2048 bits et pas 1024 ou 4096 ? Pourquoi pas [une clef ECDSA](https://www.ssl.com/article/comparing-ecdsa-vs-rsa/) ?
+* Après génération d'un certificat, que contient le fichier `index` de la CA ?
 * Quelle est la durée maximum que vous pouvez raisonnablement donner au certificat que vous allez générer pour votre VM ?
+* Votre navigateur vérifie-t-il si votre certificat a été révoqué via la CRL ou le répondeur OCSP indiqué dans le certificat de l'autorité ?
+* Quelles sont les recommandation de l'ANSSI que vous indentifiez comme les plus pertinentes pour le projet ?
 
 Partie C : sécurisation applicative
 -----------------------------------
@@ -126,15 +128,16 @@ Les aspects systèmes ayant été traités dans le TP précédent, cette partie 
 
 ### Questions
 
+* Est-ce que eslint et prettier ont bien été utilisés sur la base de code fournie ?
 * L'application est-elle _stateless_ ?
 * Les contraintes d'intégrité SQL de la table `users` vous paraissent-elles satisfaisantes ?
 * Qui a les droits sur le schéma `public` de la base de données ?
 * Quels sont les droits de l'utilisateur qui exécute l'application _LOGON_ ?
 * Qu'est ce qui change entre les mode _development_ et _production_ dans l'application fournie ?
-* Quelles autres chosent _pourraient_ ou _devraient_ changer pour l'exécution en production ?
 * Que se passe t'il en cas d'exécution concurrente de l'application pour la génération du JWT en mode _production_ ?
-* Vérifier le contenu du token généré sur <https://jwt.io>. Quelle est sa durée de validité ?
-* Quelles mesure de sécurité vont vous apporter <https://helmetjs.github.io/>
+* Quel est le contenu du token JWT (utiliser <https://jwt.io>) ? Quelle est sa durée de validité ?
+* Qu'est-ce que HSTS ?
+* Quelles mesures de sécurité vont vous apporter <https://helmetjs.github.io/> ?
 
 Conseils généraux
 -----------------
@@ -168,17 +171,22 @@ Références
   - <https://www.linode.com/docs/web-servers/nginx/enable-tls-on-nginx-for-https-connections/>
   - <https://www.linode.com/docs/web-servers/nginx/tls-deployment-best-practices-for-nginx/>
 * Configuration TLS
+  - <https://www.ssi.gouv.fr/guide/recommandations-de-securite-relatives-a-tls/> **très recommandée**
   - <https://syslink.pl/cipherlist/> : strong ciphers for Apache, nginx and Lighttpd
-  - <https://www.ssi.gouv.fr/guide/recommandations-de-securite-relatives-a-tls/> : recommandations de l'ANSSI
   - <https://testssl.sh/> : outil pour tester votre configuration
-* <https://jamielinux.com/docs/openssl-certificate-authority/sign-server-and-client-certificates.html> mise en place de la CA avec OpenSSL (suivi par l'auteur)
+* Manuels OpenSSL **recommandée**
+  - <https://www.openssl.org/docs/man1.1.1/man1/openssl-ca.html>
+  - <https://www.openssl.org/docs/man1.1.1/man1/x509.html>
+  - <https://www.openssl.org/docs/man1.1.1/man5/x509v3_config.html>
+  - <https://www.openssl.org/docs/man1.1.1/man5/config.html>
+  - <https://www.feistyduck.com/library/openssl-cookbook/online/>
+* <https://jamielinux.com/docs/openssl-certificate-authority/sign-server-and-client-certificates.html> **recommandée**, mise en place de la CA avec OpenSSL (suivi par l'auteur)
 
 ### Sécurité Node.js et bonnes pratiques de production
 
-* <https://cheatsheetseries.owasp.org/> recommandée, notamment les feuilles _Password Storage_ et _Authentication_.
-* <https://github.com/goldbergyoni/nodebestpractices> recommandée, notamment  _6. Security Best Practices_
+* <https://cheatsheetseries.owasp.org/> **très recommandée**, notamment les feuilles _Password Storage_ et _Authentication_.
+* <https://github.com/goldbergyoni/nodebestpractices#6-security-best-practices> **très recommandée**
 * <https://expressjs.com/en/guide/error-handling.html>
-* <https://expressjs.com/en/advanced/best-practice-performance.html>
 * <https://expressjs.com/en/advanced/best-practice-security.html>
 
 ### Développement Node.js
@@ -191,4 +199,3 @@ Références
 * <https://www.npmjs.com/package/morgan>
 * <https://www.npmjs.com/package/http-errors>
 * <https://www.npmjs.com/package/jsonwebtoken>
-* <https://jwt.io/>

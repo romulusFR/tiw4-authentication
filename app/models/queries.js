@@ -11,14 +11,14 @@ const pool = new Pool({
   port: process.env.DB_PORT,
 });
 
-// the list of all users
+// The list of all users
 async function getUsers() {
   debug(`getUsers()`);
   const result = await pool.query('SELECT username, email FROM users;');
   return result.rows;
 }
 
-// the list of all users
+// Inserts a user
 async function addUser(username, email, pwd) {
   debug(`addUser("${username}", "${email}", "${pwd}")`);
   const result = await pool.query('INSERT INTO users(username, email, password) VALUES ($1, $2, $3);', [

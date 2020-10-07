@@ -27,8 +27,17 @@ app.set('view engine', 'ejs');
 
 // see https://www.npmjs.com/package/morgan
 // HTTP request logger middleware for node.js
-if (process.env.NODE_ENV === 'development') app.use(morgan('dev'));
-else app.use(morgan('combined'));
+// header 'x-forwarded-for' is set by nginx with the original requester's address
+morgan.token('x-forwarded-for', function analyze(req, _res) {
+  return req.headers['x-forwarded-for'];
+});
+if (process.env.NODE_ENV === 'development') {
+  // dev = ":method :url :status :response-time ms - :res[content-length]"
+  app.use(morgan('dev'));
+} else {
+  // combined  = ":remote-addr - :remote-user [:date[clf]] ":method :url HTTP/:http-version" :status :res[content-length] ":referrer" ":user-agent""
+  app.use(morgan(`:x-forwarded-for - :remote-user [:date[clf]] ":method :url HTTP/:http-version" :status :res[content-length] ":referrer" ":user-agent"`));
+}
 
 // see https://expressjs.com/en/api.html#express.urlencoded
 // to decode application/x-www-form-urlencoded

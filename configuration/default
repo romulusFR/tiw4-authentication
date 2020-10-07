@@ -1,3 +1,6 @@
+# see http://nginx.org/en/docs/http/ngx_http_ssl_module.html#ssl_password_file
+ssl_password_file global.pass;
+
 upstream nodejs {
     zone nodejs 64k;
     server localhost:3000;

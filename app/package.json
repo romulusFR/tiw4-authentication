@@ -5,11 +5,12 @@
   "description": "TP TIW4 de conception/sécurisation d'une application d'authentification.",
   "author": "Romuald THION <romuald.thion@univ-lyon1.fr>",
   "scripts": {
-    "start": "NODE_ENV=production node server.js",
-    "dev": "NODE_ENV=development DEBUG=app:* nodemon -e js,ejs,json server.js"
+    "start": "cross-env NODE_ENV=production node server.js",
+    "dev": "cross-env NODE_ENV=development DEBUG=app:* nodemon -e js,ejs,json server.js"
   },
   "os": [
-    "linux"
+    "linux",
+    "win32"
   ],
   "keywords": [
     "tiw4",
@@ -46,6 +47,7 @@
     "pg": "^8.3.3"
   },
   "devDependencies": {
+    "cross-env": "^7.0.2",
     "eslint": "^7.10.0",
     "eslint-config-airbnb-base": "^14.2.0",
     "eslint-config-prettier": "^6.12.0",

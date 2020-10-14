@@ -1,4 +1,3 @@
-
 // pour tester DEBUG=* node nodemailer.js "romuald.thion@univ-lyon1.fr"
 
 const nodemailer = require('nodemailer');
@@ -6,11 +5,25 @@ const debug = require('debug')('nodemailer');
 
 // async..await is not allowed in global scope, must use a wrapper
 async function main(destination) {
+
+  // ici la configuration de base lyon1 (un peu capricieuse ?)
   const transporter = nodemailer.createTransport({
     host: 'smtp.univ-lyon1.fr',
     port: 25,
     secure: false, // true for 465, false for other ports
   });
+
+  // pour la configuration avec gmail : https://nodemailer.com/usage/using-gmail/
+  // créer un password pour l'appli https://security.google.com/settings/security/apppasswords
+  // puis configurer ainsi
+
+//   const transporter = nodemailer.createTransport({
+//     service: 'gmail',
+//     auth: {
+//       user: 'youremail@gmail.com',
+//       pass: 'le_mot_de_passe_de_votre_appli',
+//     },
+//   });
 
   // send mail with defined transport object
   const info = await transporter.sendMail({

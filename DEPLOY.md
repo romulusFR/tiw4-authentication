@@ -53,7 +53,7 @@ createuser -D -e -P tiw4_auth
 # pass :  tiw4_auth
 
 createdb tiw4_auth -O tiw4_auth -e
-psql -d tiw4_auth -c "create extension pgcrypto;"
+PGPASSWORD="tiw4_auth" psql -d tiw4_auth -c "create extension pgcrypto;"
 exit
 ```
 
